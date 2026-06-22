@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+mz-tests/node_modules/
+
+# Test output
+mz-tests/test-results/
+mz-tests/playwright-report/
+test-results/
+
+# Не нужно для деплоя
+uploads/
+MOTO-ZÜRICH 2027 (standalone).html
+
+# OS / редакторы
+.DS_Store
+Thumbs.db
+*.log

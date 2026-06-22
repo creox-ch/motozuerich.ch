@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="MOTO-ZÜRICH — FAQ (Gut zu Wissen)" subtitle="Sub-page template: compact hero + accordion" viewport="1440x900" -->
+<html lang="de" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- ===== Tracking & cookie-consent (shared, loaded in <head> of every page) ===== -->
+<script src="mz-head.js"></script>
+<!-- ===== SEO: canonical + social share ===== -->
+<link rel="canonical" href="https://motozuerich.ch/faq" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MOTO-ZÜRICH" />
+<meta property="og:locale" content="de_CH" />
+<meta property="og:url" content="https://motozuerich.ch/faq" />
+<meta property="og:title" content="Gut zu Wissen – MOTO-ZÜRICH 2027 | FAQ, Anreise &amp; Parking" />
+<meta property="og:description" content="Gut zu Wissen: Anreise, Tickets, Einlass, Garderobe, Foodcourt und alle häufigen Fragen zur MOTO-ZÜRICH in Zürich-Oerlikon." />
+<meta property="og:image" content="https://motozuerich.ch/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Gut zu Wissen – MOTO-ZÜRICH 2027 | FAQ, Anreise &amp; Parking" />
+<meta name="twitter:description" content="Gut zu Wissen: Anreise, Tickets, Einlass, Garderobe, Foodcourt und alle häufigen Fragen zur MOTO-ZÜRICH in Zürich-Oerlikon." />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og-image.png" />
+<!-- ===== Favicon ===== -->
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Gut zu Wissen – MOTO-ZÜRICH 2027 | FAQ, Anreise &amp; Parking</title>
+<meta name="description" content="Gut zu Wissen: Anreise, Tickets, Einlass, Garderobe, Foodcourt und alle häufigen Fragen zur MOTO-ZÜRICH in Zürich-Oerlikon." />
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="motozuerich-page.css?v=6" />
+<style>
+  /* ====== DIE LOCATION ====== */
+  .loc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 48px;
+  }
+  .loc-card {
+    background: var(--bg);
+    border: 1px solid #e4e9f0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .loc-card-media { position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--brand-soft); }
+  .loc-card-media image-slot { width: 100%; height: 100%; display: block; }
+  .loc-card-badge {
+    position: absolute; top: 14px; left: 14px; z-index: 2;
+    font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--brand); color: #fff; padding: 6px 12px;
+  }
+  .loc-card-body { padding: 26px 26px 28px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .loc-card-tag {
+    font-family: var(--font-mono); font-weight: 700; font-size: 12px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand);
+  }
+  .loc-card-name { font-family: var(--font-display); font-weight: 700; font-size: 26px; color: var(--ink, #14202e); line-height: 1.1; }
+  .loc-card-addr { font-family: var(--font-body); font-size: 16px; line-height: 1.5; color: #45566a; margin-top: 4px; }
+  .loc-card-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: #5a6b7e; margin-top: 8px; }
+  .loc-card-link {
+    margin-top: auto; padding-top: 18px;
+    font-family: var(--font-mono); font-weight: 700; font-size: 13px;
+    letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
+    color: var(--brand-dark);
+  }
+  .loc-card-link:hover { color: var(--swiss-red); }
+  .loc-card-link::after { content: " →"; }
+
+  /* map + 360 row */
+  .loc-extra { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; margin-top: 28px; }
+  .loc-map { position: relative; border: 1px solid #e4e9f0; min-height: 320px; overflow: hidden; }
+  .loc-map iframe { width: 100%; height: 100%; min-height: 320px; border: 0; display: block; filter: grayscale(0.2); }
+  .loc-tour {
+    position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 28px; color: #fff; text-decoration: none; overflow: hidden;
+    background: linear-gradient(150deg, var(--brand-darker) 0%, var(--brand) 100%);
+  }
+  .loc-tour-360 {
+    font-family: var(--font-display); font-weight: 700; font-size: 64px;
+    line-height: 1; color: rgba(255,255,255,0.18); position: absolute; top: 22px; right: 24px;
+  }
+  .loc-tour-eyebrow { font-family: var(--font-mono); font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand-light); }
+  .loc-tour-title { font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.15; margin-top: 10px; }
+  .loc-tour-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.78); margin-top: 8px; }
+  .loc-tour-cta { font-family: var(--font-mono); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 18px; color: var(--action-yellow); }
+  .loc-tour-cta::after { content: " →"; }
+  .loc-tour:hover .loc-tour-cta { text-decoration: underline; }
+
+  @media (max-width: 860px) {
+    .loc-grid { grid-template-columns: 1fr; }
+    .loc-extra { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-page="faq">
+
+<!-- ====== PAGE HERO ====== -->
+<section class="page-hero" data-ghost="INFO">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">FAQ · Dein Besuch</div>
+    <h1 class="page-hero-title">Gut zu <span class="hl-yellow">Wissen</span></h1>
+    <p class="page-hero-lead">
+      Wir möchten, dass dein Besuch bei uns so angenehm wie möglich wird.
+      Die Antworten auf die häufigsten Fragen findest du direkt hier –
+      von der <b>Anreise</b> über <b>Tickets</b> bis zum <b>Ablauf vor Ort</b>.
+    </p>
+  </div>
+</section>
+
+<!-- ====== INTRO + CONTACT CTA ====== -->
+<section class="block">
+  <div class="intro-lead-row">
+    <p class="section-lead body-fade" style="margin-bottom:0">
+      Findest du keine passende Antwort oder hast du einen Verbesserungsvorschlag?
+      Schreib uns – wir helfen dir gerne weiter und nehmen jede Rückmeldung ernst.
+    </p>
+    <div class="intro-lead-cta body-fade" data-delay="120">
+      <a class="feedback-cta" href="https://pyrus.com/form/2399268" target="_blank" rel="noopener">Fragen stellen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== DIE LOCATION ====== -->
+<section class="block-alt">
+  <div class="inner">
+    <div class="section-label body-fade">Die Location · Zürich-Oerlikon</div>
+    <h2 class="section-title">Zwei Hallen, <span class="hl">ein Areal</span></h2>
+    <p class="section-lead body-fade" data-delay="80">
+      Die MOTO-ZÜRICH findet auf dem ehemaligen <b>ABB-Areal</b> in Zürich-Oerlikon statt –
+      nur wenige Schritte vom <b>Bahnhof Oerlikon</b>. Haupteingang und Markenwelt im
+      <b>StageOne</b>, Garderobe, Foodcourt und Action Zone in der <b>Halle 550</b> gleich
+      gegenüber. Zwischen beiden Gebäuden liegen rund 30 Meter im Aussenbereich.
+    </p>
+
+    <div class="loc-grid">
+      <div class="loc-card body-fade" data-delay="120">
+        <div class="loc-card-media">
+          <span class="loc-card-badge">Haupteingang</span>
+          <image-slot id="loc-stageone" shape="rect" placeholder="Foto StageOne ablegen"></image-slot>
+        </div>
+        <div class="loc-card-body">
+          <div class="loc-card-tag">Erdgeschoss · Markenwelt &amp; Live Arena</div>
+          <div class="loc-card-name">StageOne</div>
+          <div class="loc-card-addr">Elias-Canetti-Strasse 146<br />8050 Zürich-Oerlikon</div>
+          <div class="loc-card-desc">Event &amp; Convention Hall mit Industrie-Charakter – sichtbare Stahlkonstruktion, bis zu 8 Meter hohe Decken. Hier sind Haupteingang, Ticket-Scan und die kuratierte Markenwelt.</div>
+          <a class="loc-card-link" href="https://www.google.com/maps/search/?api=1&amp;query=StageOne+Elias-Canetti-Strasse+146+8050+Z%C3%BCrich" target="_blank" rel="noopener">Auf Google Maps öffnen</a>
+        </div>
+      </div>
+
+      <div class="loc-card body-fade" data-delay="200">
+        <div class="loc-card-media">
+          <span class="loc-card-badge">Garderobe · Food</span>
+          <image-slot id="loc-halle550" shape="rect" placeholder="Foto Halle 550 ablegen"></image-slot>
+        </div>
+        <div class="loc-card-body">
+          <div class="loc-card-tag">Obergeschoss · Action Zone &amp; Foodcourt</div>
+          <div class="loc-card-name">Halle 550</div>
+          <div class="loc-card-addr">Birchstrasse 150<br />8050 Zürich-Oerlikon</div>
+          <div class="loc-card-desc">Gleich gegenüber dem StageOne: Garderobe (Eingang B), grosse Foodcourt- und Grill-Zone sowie die Action Zone mit über 4'000 m² Erlebnisfläche.</div>
+          <a class="loc-card-link" href="https://www.google.com/maps/search/?api=1&amp;query=Halle+550+Birchstrasse+150+8050+Z%C3%BCrich" target="_blank" rel="noopener">Auf Google Maps öffnen</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="loc-extra">
+      <div class="loc-map body-fade" data-delay="120">
+        <iframe
+          title="Karte · StageOne &amp; Halle 550, Zürich-Oerlikon"
+          src="https://www.google.com/maps?q=StageOne+Elias-Canetti-Strasse+146+8050+Z%C3%BCrich&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <a class="loc-tour body-fade" data-delay="200" href="https://my.smartvenue.ch/de/tour/moto-zh-2026" target="_blank" rel="noopener">
+        <div class="loc-tour-360">360°</div>
+        <div class="loc-tour-eyebrow">5D-Scan · Smartvenue</div>
+        <div class="loc-tour-title">Virtueller Rundgang</div>
+        <div class="loc-tour-desc">Geh online durch die Hallen – Hallenplan, Stände und Night-Walk, bevor du anreist.</div>
+        <div class="loc-tour-cta">Rundgang starten</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ: ANREISE ====== -->
+<section class="block-alt">
+  <div class="inner">
+    <div class="section-label body-fade">01 · Anreise</div>
+    <h2 class="section-title">So kommst du <span class="hl">hin</span></h2>
+    <div class="faq-group" style="margin-top:48px">
+      <div class="faq-list">
+
+        <details class="faq-item" open>
+          <summary><span class="faq-q-num">A1</span><span class="faq-q">Mit öffentlichen Verkehrsmitteln · empfohlen</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a">
+            <p>Mit dem Bahnhof Oerlikon in unmittelbarer Nähe ist das <b>StageOne</b> bequem mit dem öffentlichen Verkehr erreichbar.</p>
+            <div class="faq-transit">
+              <div class="faq-transit-block">
+                <div class="faq-transit-stop">Bahnhof Zürich Oerlikon · SBB</div>
+                <p><b>Zug:</b> S2, S3, S6, S7, S8, S9, S14, S15, S16, S19, S21, S24</p>
+                <p>Ausgang: Richtung Gleis 8</p>
+              </div>
+              <div class="faq-transit-block">
+                <div class="faq-transit-stop">Zürich Bahnhof Oerlikon · ZVV</div>
+                <p><b>Tram:</b> 10, 11 · <b>Bus:</b> 61, 62, 94, 768, 781, 787</p>
+                <p>Ausgang: Unterführung Richtung Gleis 8</p>
+              </div>
+              <div class="faq-transit-block">
+                <div class="faq-transit-stop">Oerlikon, Nord · ZVV</div>
+                <p><b>Tram:</b> 64, 80</p>
+              </div>
+              <div class="faq-transit-block">
+                <div class="faq-transit-stop">Entfernungen</div>
+                <p>Bahnhof Oerlikon: 450 m · Zürich HB: 4.7 km · Flughafen Zürich: 7.2 km</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">A2</span><span class="faq-q">Mit dem Auto</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a">
+            <p>Das StageOne verfügt über <b>keine eigenen Parkplätze</b>. Es befinden sich verschiedene öffentliche Parkhäuser in fussläufiger Umgebung.</p>
+            <p>Empfohlen sind <b>Cityport, Center Eleven, Jungholz, Octavo</b> und <b>Accu</b>. Alle Adressen und Links findest du <a href="#parking">weiter unten bei den Parkhäusern</a>.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">A3</span><span class="faq-q">Mit dem Motorrad</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a">
+            <p>Folgende Motorrad-Abstellplätze stehen zur Verfügung:</p>
+            <ul>
+              <li><a href="https://maps.google.com/" target="_blank" rel="noopener">Affolternstrasse 52, 8050 Zürich</a> – direkt beim StageOne</li>
+              <li>Sophie-Taeuber-Strasse, 8050 Zürich</li>
+              <li>Emil-Oprecht-Strasse, 8050 Zürich</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ: TICKETS & EINLASS ====== -->
+<section class="block">
+  <div class="section-label body-fade">02 · Tickets &amp; Einlass</div>
+  <h2 class="section-title">Tickets &amp; <span class="hl">Einlass</span></h2>
+  <div class="faq-group" style="margin-top:48px">
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">01</span><span class="faq-q">Datum tauschen · anderer Tag</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Ein Datumswechsel ist leider <b>nicht möglich</b>. Tickets sind nur am gebuchten Datum gültig.</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">02</span><span class="faq-q">Kann ich ausserhalb meines Zeitslots eintreten?</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">
+          <p>Grundsätzlich ist das Ticket am gebuchten Tag gültig und der <b>Zeitslot ist einzuhalten</b>.</p>
+          <p>Wenn du deutlich früher oder später kommst, kann es – abhängig von der aktuellen Auslastung – zu Wartezeiten kommen, da die maximale Besucherzahl aus Sicherheitsgründen limitiert ist.</p>
+          <div class="faq-note">⚠️ <b>Wichtig:</b> Der Eintritt ist einmalig. Nach dem Verlassen der Halle ist kein erneuter Einlass möglich.</div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">03</span><span class="faq-q">Tickets online vs. Tageskasse</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">
+          <p>Wir empfehlen, Tickets online über unseren <a href="https://motozuerich.shop.bookinea.app/de" target="_blank" rel="noopener">Ticket-Shop</a> zu bestellen, um längere Wartezeiten zu vermeiden.</p>
+          <ul>
+            <li>Aus Sicherheitsgründen und aufgrund behördlicher Vorgaben ist die maximale Besucherzahl klar definiert. In Spitzenzeiten kann es zu Wartezeiten kommen, bis wieder genügend Personen die Hallen verlassen haben.</li>
+            <li>Beachte, dass du zum gebuchten Zeitslot rechtzeitig erscheinst.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">04</span><span class="faq-q">Zahlungsmittel</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Vor Ort kannst du mit <b>Bargeld, Karte</b> oder via <b>TWINT</b> bezahlen. (Je nach Anbieter kann es einzelne Ausnahmen geben.)</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">05</span><span class="faq-q">Ticket verloren</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Kein Problem: Dein Ticket ist in der Regel in deiner E-Mail-Bestätigung enthalten (PDF/QR-Code). Suche die Bestellbestätigung und zeige den QR-Code am Einlass.</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">06</span><span class="faq-q">Wiedereintritt</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p><b>Kein Wiedereintritt möglich:</b> Nach Verlassen der Halle bzw. des Geländes ist kein erneuter Einlass möglich. Wenn du aus einem wichtigen Grund kurz raus musst, melde dich bitte beim Infodesk.</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">07</span><span class="faq-q">Gültigkeit Tickets · Studenten / AHV / IV</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Die Tickets sind nur gültig mit dem entsprechenden Dokument / Ausweis / Bestätigung. Bitte beim Eingang bereithalten.</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">08</span><span class="faq-q">Kinder</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Kinder bis <b>12 Jahre</b> erhalten in Begleitung eines Erwachsenen <b>kostenlosen Eintritt</b>.</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">09</span><span class="faq-q">Kinderwagen erlaubt?</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Grundsätzlich möglich, aber wir können die Auslastung der Hallen nicht exakt vorhersagen. Je nach Andrang kann es eng werden und das Navigieren mit Kinderwagen ist dann nicht ideal. Wir würden es eher nicht empfehlen – am Ende ist es aber deine persönliche Entscheidung.</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">10</span><span class="faq-q">Hunde</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Hunde sind <b>nicht erlaubt</b>. Ausnahme: Assistenzhunde wie Blindenführhunde.</p></div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ: VOR ORT ====== -->
+<section class="block-alt">
+  <div class="inner">
+    <div class="section-label body-fade">03 · Vor Ort</div>
+    <h2 class="section-title">Alles <span class="hl">vor Ort</span></h2>
+    <div class="faq-group" style="margin-top:48px">
+      <div class="faq-list">
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">11</span><span class="faq-q">Garderobe &amp; Einlass</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a">
+            <p>Die Garderobe befindet sich <b>in der Halle 550 (Eingang B)</b>. Der Haupteingang befindet sich <b>beim StageOne</b>. Zwischen Halle 550 und StageOne liegen ca. 30 Meter im Aussenbereich.</p>
+            <ul>
+              <li>Garderobe: <b>CHF 3.00</b> pro Kleidungsstück / Tasche</li>
+              <li>Schliessfächer: <b>CHF 2.00</b> (Münzeinwurf)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">12</span><span class="faq-q">Ablauf</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a">
+            <p><b>Ohne Garderobe:</b> Direkt zum Eingang beim StageOne gehen, Ticket scannen und eintreten.</p>
+            <p><b>Mit Garderobe:</b> Zuerst in der Halle 550 (Eingang B) Jacken und persönliche Gegenstände abgeben, anschliessend zum Eingang beim StageOne, Ticket scannen und eintreten.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">13</span><span class="faq-q">Foodcourt &amp; Grill</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a">
+            <p>In der <b>Halle 550</b> erwartet dich eine grosse Foodcourt- und Grill-Zone mit verschiedenen Angeboten. Der Grill- und Raclette-Stand befindet sich im Innenhof.</p>
+            <p><b>Standorte:</b> Halle 550, Action Zone (AZ13–AZ26)</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">14</span><span class="faq-q">Bars &amp; Becher-System · Depot</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a">
+            <p>Auf dem Gelände stehen dir <b>3 Bars</b> mit Getränkesortimenten zur Verfügung. Für Bierbecher, Gläser etc. wird ein <b>Depot von CHF 2.00</b> erhoben.</p>
+            <ul>
+              <li>Du erhältst dein Getränk im Becher oder Glas inklusive Depot.</li>
+              <li>Zusätzlich bekommst du einen <b>Jeton</b>.</li>
+              <li>Die Rückgabe ist an <b>jeder Bar</b> möglich.</li>
+              <li>Die Rückgabe funktioniert <b>nur zusammen mit dem Jeton</b>.</li>
+            </ul>
+            <div class="faq-note"><b>Tipp:</b> Jeton gut aufbewahren – ohne Jeton ist keine Depot-Rückerstattung möglich.</div>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">15</span><span class="faq-q">Alkohol / Alterskontrolle</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a"><p>Die Abgabe von alkoholischen Getränken erfolgt gemäss den gesetzlichen Bestimmungen. Bitte führe einen gültigen Ausweis (ID oder Pass) für die Alterskontrolle mit.</p></div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">16</span><span class="faq-q">Rauchen</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a"><p>Rauchen ist in den Hallen <b>verboten</b>. Die Raucherzone befindet sich in der <b>Action Zone bei AZ27 und AZ28</b> (Innenhof).</p></div>
+        </details>
+
+        <details class="faq-item">
+          <summary><span class="faq-q-num">17</span><span class="faq-q">Barrierefreiheit</span><span class="faq-toggle">+</span></summary>
+          <div class="faq-a"><p>Alle Bereiche sind <b>rollstuhlgängig</b>. Der Zugang zum Lift befindet sich auf der rechten Seite der Live Arena.</p></div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ: HILFE & SICHERHEIT ====== -->
+<section class="block">
+  <div class="section-label body-fade">04 · Hilfe &amp; Sicherheit</div>
+  <h2 class="section-title">Hilfe &amp; <span class="hl">Sicherheit</span></h2>
+  <div class="faq-group" style="margin-top:48px">
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">18</span><span class="faq-q">Hilfe vor Ort</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">
+          <p>Wenn du Fragen hast oder Hilfe brauchst: Sprich jederzeit unsere <b>Volunteers</b> an. Du erkennst sie sofort an den MOTO-ZÜRICH Westen.</p>
+          <p>Auch die Teamleader der Bereiche helfen dir gerne weiter – sie tragen ebenfalls Westen und ein leuchtendes Armband.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">19</span><span class="faq-q">Medizinische Hilfe</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Der Sanitätsposten befindet sich bei <b>Stand E1 im StageOne</b>.</p></div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">20</span><span class="faq-q">Notfallnummern · CH</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a">
+          <p>Sollte Hilfe benötigt werden, können sich Besuchende jederzeit an das Sicherheitspersonal wenden. Die wichtigsten Notfallnummern:</p>
+          <ul>
+            <li>Sanität / Ambulanz: <b>144</b></li>
+            <li>Polizei: <b>117</b></li>
+            <li>Feuerwehr: <b>118</b></li>
+            <li>Tox-Zentrum: <b>145</b></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary><span class="faq-q-num">21</span><span class="faq-q">Lost &amp; Found</span><span class="faq-toggle">+</span></summary>
+        <div class="faq-a"><p>Etwas verloren oder gefunden? Bitte melde dich beim <b>Infodesk</b>. Fundgegenstände werden dort gesammelt und ausgegeben.</p></div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== PARKHÄUSER ====== -->
+<section class="block-alt" id="parking">
+  <div class="inner">
+    <div class="section-label body-fade">Anreise mit dem Auto</div>
+    <h2 class="section-title">Empfohlene <span class="hl">Parkhäuser</span></h2>
+    <p class="section-lead body-fade" data-delay="80">
+      Das StageOne verfügt über keine eigenen Parkplätze. Diese öffentlichen Parkhäuser
+      liegen in fussläufiger Umgebung in <b>Zürich-Oerlikon</b>.
+    </p>
+    <div class="park-grid">
+      <div class="park-card">
+        <div class="park-card-name">Cityport</div>
+        <div class="park-card-addr">Affolternstrasse 56<br />8050 Zürich</div>
+        <div class="park-card-links"><a href="https://www.pls-zh.ch/parkhaus/cityport.jsp?pid=cityport" target="_blank" rel="noopener">Infos →</a><a href="https://maps.app.goo.gl/m1648udbFHvFPU8n7" target="_blank" rel="noopener">Maps →</a></div>
+      </div>
+      <div class="park-card">
+        <div class="park-card-name">Parkside</div>
+        <div class="park-card-addr">Sophie-Taeuber-Strasse 14<br />8050 Zürich</div>
+        <div class="park-card-links"><a href="https://www.pls-zh.ch/parkhaus/parkside.jsp?pid=parkside" target="_blank" rel="noopener">Infos →</a><a href="https://maps.app.goo.gl/VNndRUMKRp15yGwt8" target="_blank" rel="noopener">Maps →</a></div>
+      </div>
+      <div class="park-card">
+        <div class="park-card-name">Center Eleven</div>
+        <div class="park-card-addr">Sophie-Taeuber-Strasse 4<br />8050 Zürich</div>
+        <div class="park-card-links"><a href="https://www.pls-zh.ch/parkhaus/center_11.jsp?pid=center_11" target="_blank" rel="noopener">Infos →</a><a href="https://maps.app.goo.gl/fTutzmkx3jt56Rw7A" target="_blank" rel="noopener">Maps →</a></div>
+      </div>
+      <div class="park-card">
+        <div class="park-card-name">Jungholz</div>
+        <div class="park-card-addr">Jungholzstrasse 19<br />8050 Zürich</div>
+        <div class="park-card-links"><a href="https://www.pls-zh.ch/parkhaus/jungholz.jsp?pid=jungholz" target="_blank" rel="noopener">Infos →</a><a href="https://maps.app.goo.gl/LpuinHkVpccih9rR7" target="_blank" rel="noopener">Maps →</a></div>
+      </div>
+      <div class="park-card">
+        <div class="park-card-name">Octavo</div>
+        <div class="park-card-addr">Brown-Boveri-Strasse 2<br />8050 Zürich</div>
+        <div class="park-card-links"><a href="https://www.pls-zh.ch/parkhaus/octavo.jsp?pid=octavo" target="_blank" rel="noopener">Infos →</a><a href="https://maps.app.goo.gl/bh3BrSz52Ef2hT6Z6" target="_blank" rel="noopener">Maps →</a></div>
+      </div>
+      <div class="park-card">
+        <div class="park-card-name">Accu</div>
+        <div class="park-card-addr">Otto-Schütz-Weg<br />8050 Zürich</div>
+        <div class="park-card-links"><a href="https://www.pls-zh.ch/parkhaus/accu.jsp?pid=accu" target="_blank" rel="noopener">Infos →</a><a href="https://maps.app.goo.gl/uEgzErneW8togek59" target="_blank" rel="noopener">Maps →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTACT STRIP ====== -->
+<section class="aussteller-strip">
+  <div class="aussteller-strip-inner">
+    <div class="aussteller-strip-text">Noch eine <b>Frage offen</b>?</div>
+    <a href="https://pyrus.com/form/2399268" target="_blank" rel="noopener" class="aussteller-strip-btn">
+      Fragen stellen <span>→</span>
+    </a>
+  </div>
+</section>
+
+<script src="image-slot.js"></script>
+<script src="mz-chrome.js"></script>
+<script src="mz-page.js"></script>
+</body>
+</html>

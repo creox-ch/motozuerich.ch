@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Colors" name="Night & surfaces" subtitle="Dark hero/footer + content backgrounds" viewport="700x200" -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { margin: 0; background: var(--bg); font-family: var(--font-mono); }
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .sw { height: 200px; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px; }
+  .name { font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .hex { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+  .role { font-family: var(--font-body); font-size: 11px; opacity: 0.7; margin-top: 8px; line-height: 1.3; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw" style="background: var(--night); color: #fff;">
+      <div class="name">Night</div><div class="hex">#0A1929</div>
+      <div class="role">Dark hero / footer</div>
+    </div>
+    <div class="sw" style="background: var(--night-soft); color: #fff;">
+      <div class="name">Night Soft</div><div class="hex">#142235</div>
+      <div class="role">Raised on dark</div>
+    </div>
+    <div class="sw" style="background: var(--bg); color: var(--fg); border-right: 1px solid var(--line);">
+      <div class="name">Background</div><div class="hex">#FFFFFF</div>
+      <div class="role">Base surface</div>
+    </div>
+    <div class="sw" style="background: var(--bg-alt); color: var(--fg);">
+      <div class="name">BG Alt</div><div class="hex">#F5F7FA</div>
+      <div class="role">Alternating block</div>
+    </div>
+  </div>
+</body>
+</html>

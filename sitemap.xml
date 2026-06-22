@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://motozuerich.ch/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://motozuerich.ch/programm</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://motozuerich.ch/aussteller-motozuerich-2026</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://motozuerich.ch/party</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://motozuerich.ch/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://motozuerich.ch/mz2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://motozuerich.ch/team</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://motozuerich.ch/warum_motozurich</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://motozuerich.ch/sound</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://motozuerich.ch/medien</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://motozuerich.ch/volunteers</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://motozuerich.ch/creators</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://motozuerich.ch/impressum</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://motozuerich.ch/agb</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://motozuerich.ch/datenschutz</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>

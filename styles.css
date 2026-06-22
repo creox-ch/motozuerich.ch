@@ -1,0 +1,7 @@
+/* ============================================================
+   MOTO-ZÜRICH Design System — root entry point
+   Consumers link this single file; it pulls in the rest.
+   ============================================================ */
+
+@import "colors_and_type.css";
+@import "motozuerich-page.css";

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="MOTO-ZÜRICH — Team" subtitle="Team cards with photo slots + mascot" viewport="1440x900" -->
+<html lang="de" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- ===== Tracking & cookie-consent (shared, loaded in <head> of every page) ===== -->
+<script src="mz-head.js"></script>
+<!-- ===== SEO: canonical + social share ===== -->
+<link rel="canonical" href="https://motozuerich.ch/team" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MOTO-ZÜRICH" />
+<meta property="og:locale" content="de_CH" />
+<meta property="og:url" content="https://motozuerich.ch/team" />
+<meta property="og:title" content="Team – MOTO-ZÜRICH 2027 | Die Macher:innen hinter dem Event" />
+<meta property="og:description" content="Lerne das Team hinter der MOTO-ZÜRICH kennen – die Macher:innen des Saisonstarts der Schweizer Motorradszene." />
+<meta property="og:image" content="https://motozuerich.ch/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Team – MOTO-ZÜRICH 2027 | Die Macher:innen hinter dem Event" />
+<meta name="twitter:description" content="Lerne das Team hinter der MOTO-ZÜRICH kennen – die Macher:innen des Saisonstarts der Schweizer Motorradszene." />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og-image.png" />
+<!-- ===== Favicon ===== -->
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Team – MOTO-ZÜRICH 2027 | Die Macher:innen hinter dem Event</title>
+<meta name="description" content="Lerne das Team hinter der MOTO-ZÜRICH kennen – die Macher:innen des Saisonstarts der Schweizer Motorradszene." />
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="motozuerich-page.css?v=6" />
+<style>
+  /* ====== MASCOT FEATURE (full-figure on grey, text beside) ====== */
+  .mascot-feature {
+    display: grid;
+    grid-template-columns: 0.82fr 1.18fr;
+    margin-top: 48px;
+    border: 1px solid var(--brand);
+    background: var(--brand);
+    color: #fff;
+    overflow: hidden;
+  }
+  .mascot-figure {
+    position: relative;
+    background: linear-gradient(180deg, #d3d6da 0%, #c3c7cb 60%, #b9bdc2 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-height: 540px;
+  }
+  .mascot-figure image-slot {
+    width: 100%;
+    height: 540px;
+    display: block;
+  }
+  .mascot-figure .mascot-stamp {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--brand);
+    color: #fff;
+    padding: 6px 12px;
+  }
+  .mascot-copy {
+    padding: clamp(36px, 4vw, 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  @media (max-width: 860px) {
+    .mascot-feature { grid-template-columns: 1fr; }
+    .mascot-figure { min-height: 420px; }
+    .mascot-figure image-slot { height: 420px; }
+  }
+  /* ====== Larger team photos ====== */
+  .team-card { grid-template-columns: 240px 1fr; gap: 32px; }
+  .team-photo { width: 240px; height: 300px; }
+  .team-card-small { gap: 22px; }
+  .team-card-small .team-photo { width: 108px; height: 108px; }
+  @media (max-width: 860px) {
+    .team-card { grid-template-columns: 1fr; }
+    .team-photo { width: 100%; height: 360px; }
+  }
+</style>
+</head>
+<body data-page="team">
+
+<section class="page-hero" data-ghost="CREW">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Die Macher:innen</div>
+    <h1 class="page-hero-title">Das <span class="hl-yellow">Team</span></h1>
+    <p class="page-hero-lead">
+      Nach dem Aus der SWISS-MOTO und des Moto Festivals ergreifen wir die Initiative, der
+      Motorradbranche wieder einen gemeinsamen Saisonstart zu geben. <b>Kraft, Leidenschaft
+      und Professionalität</b> – und die Branche in Zürich wieder zusammen.
+    </p>
+  </div>
+</section>
+
+<!-- ====== LEADS ====== -->
+<section class="block">
+  <div class="section-label body-fade">Kernteam</div>
+  <h2 class="section-title">Wer dahinter <span class="hl">steht</span></h2>
+  <div class="team-grid">
+    <div class="team-card body-fade">
+      <image-slot id="team-yves" class="team-photo" shape="rounded" radius="4" src="assets/team-yves.png" placeholder="Foto Yves"></image-slot>
+      <div>
+        <div class="team-info-name">Yves Vollenweider</div>
+        <div class="team-role">Geschäftsführer · Gründer</div>
+        <p class="team-bio">Seit seiner Lehre als Motorradmechaniker tief in der Zweiradwelt verankert. Über 13 Jahre war er für die SWISS-MOTO verantwortlich und leitete diese als zentrale Branchenplattform. Mit umfassender Erfahrung in Entwicklung und Führung einer Grossveranstaltung bringt er fundiertes Know-how in Strategie, Marktverständnis und Umsetzung mit. MOTO-ZÜRICH ist für ihn ein logischer nächster Schritt: eine Plattform aus der Branche, für die Branche.</p>
+      </div>
+    </div>
+    <div class="team-card body-fade" data-delay="90">
+      <image-slot id="team-kseniia" class="team-photo" shape="rounded" radius="4" src="assets/team-kseniia.png" placeholder="Foto Kseniia"></image-slot>
+      <div>
+        <div class="team-info-name">Kseniia Chudina</div>
+        <div class="team-role">Marketing · Brand · Digital</div>
+        <p class="team-bio">Sorgt für den visuellen Ausdruck, die klare Botschaft und den verbindenden Ton der MOTO-ZÜRICH. Mit Expertise in Marketing, Social Media und digitalen Lösungen schafft sie die Brücke zwischen Ausstellern und Besuchern – online wie vor Ort. Ihre Erfahrung im Kunst- und Kulturbereich bringt kreative Perspektiven und ein feines Gespür für Ästhetik, Inszenierung und Storytelling.</p>
+      </div>
+    </div>
+  </div>
+  <div class="team-grid-small">
+    <div class="team-card-small body-fade">
+      <image-slot id="team-ivanna" class="team-photo" shape="circle" src="assets/team-ivanna.png" placeholder="Foto"></image-slot>
+      <div>
+        <div class="team-info-name">Ivanna Smolyana</div>
+        <div class="team-role">Technical Marketing &amp; Automation</div>
+      </div>
+    </div>
+    <div class="team-card-small body-fade" data-delay="80">
+      <image-slot id="team-jasmine" class="team-photo" shape="circle" src="assets/team-jasmine.png" placeholder="Foto"></image-slot>
+      <div>
+        <div class="team-info-name">Jasmine Vollenweider</div>
+        <div class="team-role">Event Coordinator</div>
+      </div>
+    </div>
+    <div class="team-card-small body-fade" data-delay="160">
+      <image-slot id="team-hanna" class="team-photo" shape="circle" placeholder="Foto"></image-slot>
+      <div>
+        <div class="team-info-name">Hanna Piasetskaya</div>
+        <div class="team-role">Visual Production</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MASCOT ====== -->
+<section class="block-alt">
+  <div class="inner">
+    <div class="section-label body-fade">Neu in der Crew</div>
+    <h2 class="section-title">Der Züri <span class="hl">Leu Biker</span></h2>
+    <div class="mascot-feature">
+      <div class="mascot-figure">
+        <div class="mascot-stamp">Saisonstart 2027</div>
+        <image-slot id="mascot-photo" fit="contain" position="50% 100%" src="assets/mascot-leu-biker.png" placeholder="Bild Maskottchen"></image-slot>
+      </div>
+      <div class="mascot-body mascot-copy">
+        <div class="mascot-kicker">Unser Maskottchen</div>
+        <div class="mascot-title">Power, Stil &amp; Zusammenhalt</div>
+        <p>Er steht für Power, Stil und Zusammenhalt – und wird euch durch den Saisonstart begleiten. Und ja: Er ist unser kreativer Kopf, ein tanzender Weltenbummler und natürlich selbst Motorradfahrer.</p>
+        <p>Und jetzt seid ihr dran: Wie nennt ihn die Community wirklich? <a class="inline-link" href="https://www.instagram.com/p/DT8IhFNjaHQ/" target="_blank" rel="noopener">Schreibt euren Namen-Vorschlag in die Kommentare.</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== OTHER TEAMS ====== -->
+<section class="block">
+  <div class="section-label body-fade">Weitere Crews</div>
+  <h2 class="section-title">Mehr <span class="hl">Team</span></h2>
+  <div class="park-grid" style="margin-top:48px; grid-template-columns:repeat(2,1fr);">
+    <a class="park-card" href="Volunteers.html" style="text-decoration:none;display:block;">
+      <div class="park-card-name">Volunteers</div>
+      <div class="park-card-addr">Werde Teil der Crew – Bar, Einlass, Infodesk und Event-Team. Zertifikat, Tageseintritte und Einblicke hinter die Kulissen.</div>
+      <div class="park-card-links"><span style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;color:var(--brand);">Zur Seite →</span></div>
+    </a>
+    <a class="park-card" href="Creators.html" style="text-decoration:none;display:block;">
+      <div class="park-card-name">Creators</div>
+      <div class="park-card-addr">Kollaborationen, Content und Motorradkultur. Creator-Alley, Live-Interviews und spontane Collabs.</div>
+      <div class="park-card-links"><span style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;color:var(--brand);">Zur Seite →</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- ====== CONTACT ====== -->
+<section class="block-alt">
+  <div class="inner" style="max-width:760px;">
+    <div class="section-label body-fade">Kontakt</div>
+    <h2 class="section-title">Noch <span class="hl">Fragen</span>?</h2>
+    <p class="section-lead body-fade" data-delay="60">
+      Hast du Fragen zu MOTO-ZÜRICH, deinem Besuch, Tickets, Volunteer-Einsatz oder zur
+      Teilnahme als Aussteller:in? Unser Team hilft dir gerne weiter. Wirf vorab gerne einen
+      Blick auf unsere <a href="FAQ.html" style="color:var(--brand);font-weight:700;text-decoration:underline;text-underline-offset:3px;">FAQ-Seite</a> – dort findest du bereits
+      Antworten auf die häufigsten Fragen.
+    </p>
+    <div style="margin-top:32px">
+      <a class="feedback-cta body-fade" data-delay="120" href="https://pyrus.com/form/2399268" target="_blank" rel="noopener">Fragen stellen</a>
+    </div>
+  </div>
+</section>
+
+<script src="image-slot.js"></script>
+<script src="mz-chrome.js"></script>
+<script src="mz-page.js"></script>
+</body>
+</html>

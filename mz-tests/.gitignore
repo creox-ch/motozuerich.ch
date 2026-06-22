@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+package-lock.json.bak
+
+# Test outputs
+test-results/
+playwright-report/
+playwright/.cache/
+blob-report/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Playwright auth state (if used later)
+auth.json
+.auth/

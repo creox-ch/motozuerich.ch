@@ -1,0 +1,135 @@
+/* ============================================================
+   MOTO-ZÜRICH — Colors & Type foundations
+   Annual motorcycle exhibition · Zürich-Oerlikon
+   Import this file (or copy the :root block) into any artifact.
+
+   Fonts load from Google Fonts (exact matches — no substitution):
+   IBM Plex Sans · IBM Plex Mono · Nunito Sans
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  /* ---- Brand blues ---- */
+  --brand:        #2F65A0;   /* primary brand blue */
+  --brand-dark:   #1f4571;   /* hover / emphasis text on light */
+  --brand-darker: #0e2a4a;   /* deep gradient stop */
+  --brand-light:  #549EF0;   /* Live Arena signifier · eyebrows on dark */
+  --brand-soft:   #e8eff7;   /* tinted fills, highlight plates */
+
+  /* ---- Night (dark hero / footer) ---- */
+  --night:        #0a1929;
+  --night-soft:   #142235;
+
+  /* ---- Surfaces ---- */
+  --bg:           #ffffff;   /* base content background */
+  --bg-alt:       #f5f7fa;   /* alternating block background */
+
+  /* ---- Ink ---- */
+  --fg:           #282424;   /* body text (warm near-black) */
+  --muted:        #6b7280;   /* labels, captions, meta */
+
+  /* ---- Hairlines ---- */
+  --line:         rgba(47, 101, 160, 0.15);  /* default borders / grid lines */
+  --line-strong:  rgba(47, 101, 160, 0.30);  /* card borders */
+
+  /* ---- Accents ---- */
+  --swiss-red:      #C10D0D;  /* CTA buttons · Swiss accent */
+  --swiss-red-dark: #960909;  /* CTA hover */
+  --action-yellow:  #FAF143;  /* Action Zone signifier · highlight */
+
+  /* ============ TYPE ROLES ============ */
+  --font-display: 'IBM Plex Sans', system-ui, sans-serif;  /* headlines, wordmarks, stats */
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace; /* labels, CTAs, eyebrows, meta */
+  --font-body:    'Nunito Sans', system-ui, sans-serif;     /* paragraphs, leads */
+
+  /* Fluid display sizes (clamp: min, vw, max) */
+  --fs-hero:      clamp(64px, 12vw, 180px); /* @kind font */ /* hero wordmark */
+  --fs-claim:     clamp(64px, 11vw, 168px); /* @kind font */ /* full-bleed claim */
+  --fs-h1:        clamp(44px, 6.5vw, 92px); /* @kind font */ /* section titles */
+  --fs-h2:        clamp(32px, 4.5vw, 52px); /* @kind font */ /* sub-headlines */
+  --fs-h3:        34px;                       /* card titles */
+  --fs-stat:      clamp(56px, 6.5vw, 84px); /* @kind font */ /* counter numbers */
+  --fs-lead:      clamp(17px, 1.6vw, 21px); /* @kind font */ /* intro lead paragraphs */
+  --fs-body:      16px;                       /* body copy */
+  --fs-label:     14px;                       /* section labels (mono) */
+  --fs-meta:      11px;                       /* eyebrows, tags (mono) */
+
+  --tracking-label: 0.22em;   /* mono section labels */
+  --tracking-cta:   0.12em;   /* mono CTA buttons */
+  --tracking-tag:   0.18em;   /* mono tags */
+  --tracking-tight: -0.02em;  /* large display headlines */
+}
+
+/* ============ SEMANTIC TYPE CLASSES ============ */
+/* Drop these onto elements, or use as a reference for component CSS. */
+
+.mz-hero-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-hero);
+  line-height: 0.88;
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+}
+
+.mz-h1 {                       /* SECTION TITLE */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h1);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.mz-h3 {                       /* CARD TITLE */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.mz-stat {                     /* COUNTER NUMBER */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-stat);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--brand);
+}
+
+.mz-label {                    /* SECTION LABEL — mono, with leading rule */
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--brand);
+}
+
+.mz-tag {                      /* card eyebrow / pill label */
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--fs-meta);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tag);
+  color: var(--brand);
+}
+
+.mz-lead {                     /* intro lead paragraph */
+  font-family: var(--font-body);
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--fg);
+}
+
+.mz-body {                     /* body copy */
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--fg);
+}
+.mz-body b { color: var(--brand-dark); font-weight: 700; }

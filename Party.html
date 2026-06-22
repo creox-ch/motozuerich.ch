@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="MOTO-ZÜRICH — Saisonstart Party" subtitle="Rückblick 2026, photo hero, DJ feature, timeline" viewport="1440x900" -->
+<html lang="de" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- ===== Tracking & cookie-consent (shared, loaded in <head> of every page) ===== -->
+<script src="mz-head.js"></script>
+<!-- ===== SEO: canonical + social share ===== -->
+<link rel="canonical" href="https://motozuerich.ch/party" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MOTO-ZÜRICH" />
+<meta property="og:locale" content="de_CH" />
+<meta property="og:url" content="https://motozuerich.ch/party" />
+<meta property="og:title" content="Saisonstart Party – MOTO-ZÜRICH | Rückblick 2026" />
+<meta property="og:description" content="Rückblick auf die Saisonstart Party 2026 der MOTO-ZÜRICH: Discokugel, LED-Wall, ein Bike auf der Bühne und DJane INAMAR. Die Messlatte für 2027 steht." />
+<meta property="og:image" content="https://motozuerich.ch/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Saisonstart Party – MOTO-ZÜRICH | Rückblick 2026" />
+<meta name="twitter:description" content="Rückblick auf die Saisonstart Party 2026 der MOTO-ZÜRICH: Discokugel, LED-Wall, ein Bike auf der Bühne und DJane INAMAR. Die Messlatte für 2027 steht." />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og-image.png" />
+<!-- ===== Favicon ===== -->
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Saisonstart Party – MOTO-ZÜRICH | Rückblick 2026</title>
+<meta name="description" content="Rückblick auf die Saisonstart Party 2026 der MOTO-ZÜRICH: Discokugel, LED-Wall, ein Bike auf der Bühne und DJane INAMAR. Die Messlatte für 2027 steht." />
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="motozuerich-page.css?v=6" />
+<style>
+  /* ---- Party hero: full-bleed 2026 photo ---- */
+  .party-hero { background: var(--brand-darker); }
+  .party-hero .party-hero-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 42%; z-index: 0;
+  }
+  .party-hero .party-hero-scrim {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(8,20,38,0.40) 0%, rgba(8,20,38,0.20) 38%, rgba(8,20,38,0.86) 100%),
+      linear-gradient(90deg, rgba(8,20,38,0.72) 0%, rgba(8,20,38,0.34) 46%, rgba(8,20,38,0.10) 100%);
+  }
+  .party-hero::before { z-index: 1; color: rgba(255,255,255,0.10); }
+  .party-hero .page-hero-inner { z-index: 3; }
+  .party-hero .page-hero-eyebrow { color: var(--action-yellow); }
+  .party-hero .page-hero-eyebrow::before { background: var(--action-yellow); }
+  .party-hero .page-hero-lead { max-width: 660px; text-shadow: 0 1px 24px rgba(0,0,0,0.45); }
+  .party-hero-credit {
+    position: absolute; right: 18px; bottom: 14px; z-index: 4;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  }
+  /* lower the hero photo a touch on tall screens so faces stay visible */
+  @media (max-width: 760px) {
+    .party-hero .party-hero-bg { object-position: center 50%; }
+  }
+
+  /* ---- closing "2027" call-forward band ---- */
+  .next-band {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand) 70%, var(--brand-dark) 100%);
+    color: #fff; padding: clamp(72px, 12vh, 132px) 0;
+  }
+  .next-band::before {
+    content: "2027"; position: absolute; right: -1vw; bottom: -7vw; z-index: 0;
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(160px, 30vw, 420px);
+    color: rgba(255,255,255,0.06); line-height: 0.8; letter-spacing: -0.04em; pointer-events: none;
+  }
+  .next-band-inner { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 0 32px; }
+  .next-band-label {
+    font-family: var(--font-mono); font-size: 14px; text-transform: uppercase;
+    letter-spacing: 0.22em; color: var(--action-yellow); font-weight: 700;
+    margin-bottom: 22px; display: flex; align-items: center; gap: 16px;
+  }
+  .next-band-label::before { content: ""; width: 40px; height: 1px; background: var(--action-yellow); }
+  .next-band-title {
+    font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(38px, 6vw, 88px); line-height: 0.94; letter-spacing: -0.02em;
+    color: #fff; max-width: 16ch;
+  }
+  .next-band-lead {
+    margin-top: 26px; max-width: 640px; font-family: var(--font-body);
+    font-size: clamp(16px, 1.5vw, 20px); line-height: 1.6; color: rgba(255,255,255,0.86);
+  }
+  .next-band-lead b { color: #fff; font-weight: 700; }
+  .next-band-cta {
+    margin-top: 40px; display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; text-decoration: none;
+    color: #141414; background: var(--action-yellow);
+    padding: 18px 30px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .next-band-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,0.3); }
+  .next-band-cta span { transition: transform 0.2s; }
+  .next-band-cta:hover span { transform: translateX(4px); }
+
+  /* ---- DARK THEME · Saisonstart Party = die Nacht ---- */
+  body[data-page="party"] { background: var(--night); color: rgba(255,255,255,0.86); }
+  body[data-page="party"] section.block { color: rgba(255,255,255,0.86); }
+  body[data-page="party"] .section-title { color: #fff; }
+  body[data-page="party"] .section-lead { color: rgba(255,255,255,0.78); }
+  body[data-page="party"] .section-lead b,
+  body[data-page="party"] .body-fade b { color: var(--action-yellow); }
+  body[data-page="party"] .section-label { color: var(--brand-light); }
+  body[data-page="party"] .section-label::before { background: var(--brand-light); }
+  /* pillar grid on dark */
+  body[data-page="party"] .what-grid { border-color: rgba(255,255,255,0.14); }
+  body[data-page="party"] .what-card { background: var(--night-soft); border-color: rgba(255,255,255,0.14); }
+  body[data-page="party"] .what-card-tag { color: var(--brand-light); }
+  body[data-page="party"] .what-card h3 { color: #fff; }
+  body[data-page="party"] .what-card p { color: rgba(255,255,255,0.74); }
+  body[data-page="party"] .what-card p b { color: var(--action-yellow); }
+  body[data-page="party"] .what-card-num { color: rgba(255,255,255,0.08); }
+  /* hover states (brand / yellow fills) already carry their own text colours */
+</style>
+</head>
+<body data-page="party">
+
+<section class="page-hero party-hero" data-ghost="2026">
+  <img class="party-hero-bg" src="assets/party-2026-opt.jpg" fetchpriority="high" decoding="async" alt="Saisonstart Party 2026 – Discokugel, Lichtshow und volle Tanzfläche vor der Bühne" />
+  <div class="party-hero-scrim"></div>
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Rückblick · Saisonstart Party 2026</div>
+    <h1 class="page-hero-title">Als die Halle<br /><span class="hl-yellow">tanzte</span></h1>
+    <p class="page-hero-lead">
+      Als die Stände schlossen, kippte die erste MOTO-ZÜRICH in den Clubmodus:
+      <b>Discokugel, LED-Wall, ein Bike auf der Bühne</b> und ein DJ-Set bis tief in die Nacht.
+      Genau dieses Gefühl nehmen wir mit ins nächste Jahr.
+    </p>
+  </div>
+  <div class="party-hero-credit">Foto · motozuerich.ch</div>
+</section>
+
+<!-- ====== SO WAR DIE NACHT 2026 ====== -->
+<section class="block">
+  <div class="section-label body-fade">So war die Nacht 2026</div>
+  <h2 class="section-title">Eine Halle, <span class="hl">eine Crew</span></h2>
+  <p class="section-lead body-fade" data-delay="60">
+    Drei Tage Messe, ein gemeinsamer Abend: Am Samstag wurde aus der Eventfläche eine Tanzfläche.
+    Wer dabei war, weiss, warum sich der <b>Saisonstart der Schweizer Motorradszene</b> wie ein
+    Heimspiel angefühlt hat — nahbar, laut und ohne Berührungsängste.
+  </p>
+  <div class="what-grid">
+    <div class="what-card">
+      <div class="what-card-num">01</div>
+      <div class="what-card-tag">Atmosphäre</div>
+      <h3>Discokugel &amp; Lichtshow</h3>
+      <p>Spiegelkugel über dem Floor, bewegte Beams und eine raumhohe LED-Wall — die Industriehalle wurde zum Club, ganz ohne die Industrie-Ästhetik zu verstecken.</p>
+    </div>
+    <div class="what-card livearena">
+      <div class="what-card-num">02</div>
+      <div class="what-card-tag">Line-up</div>
+      <h3>DJane INAMAR</h3>
+      <p>Melodic Techno und Progressive House aus Zürich. Ein fokussiertes Night-Set mit klarer Struktur, fliessenden Übergängen und konstantem Drive an den Decks.</p>
+    </div>
+    <div class="what-card yellow">
+      <div class="what-card-num">03</div>
+      <div class="what-card-tag">Bühne</div>
+      <h3>Bike im Rampenlicht</h3>
+      <p>Mittendrin auf der Bühne: eine Maschine im Scheinwerferlicht statt im Showroom. Genau dafür sind wir hier — Motorräder gehören in die erste Reihe.</p>
+    </div>
+    <div class="what-card">
+      <div class="what-card-num">04</div>
+      <div class="what-card-tag">Community</div>
+      <h3>Drinks &amp; Szene</h3>
+      <p>Bar, Tänzerinnen und eine Szene, die zusammenkommt: Aussteller, Fahrer:innen und Crew feiern den Saisonstart gemeinsam — auf Augenhöhe statt nach Programmplan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CALL FORWARD 2027 ====== -->
+<section class="next-band">
+  <div class="next-band-inner">
+    <div class="next-band-label">Und 2027?</div>
+    <h2 class="next-band-title">Die Messlatte<br />steht. Hoch.</h2>
+    <p class="next-band-lead">
+      2026 hat gezeigt, wie ein Saisonstart klingen kann. Für die nächste Ausgabe gilt nur eine Regel:
+      <b>die Show wird mindestens so laut</b> — neues Line-up, gleiche Energie. Wer 2026 dabei war,
+      sollte 2027 nicht verpassen.
+    </p>
+    <a href="https://motozuerich.shop.bookinea.app/a/moto-zurich-saisonstart-party-6903" target="_blank" rel="noopener" class="next-band-cta">
+      Beim nächsten Mal dabei sein <span>→</span>
+    </a>
+  </div>
+</section>
+
+<script src="image-slot.js"></script>
+<script src="mz-chrome.js"></script>
+<script src="mz-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Pillar cards" subtitle="Hover-fills with signifier color" viewport="700x210" -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { margin: 0; background: var(--bg); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
+  .card { padding: 30px 28px; border-right: 1px solid var(--line); position: relative; overflow: hidden; transition: all 0.35s cubic-bezier(0.16,1,0.3,1); min-height: 150px; }
+  .card:last-child { border-right: none; }
+  .num { position: absolute; top: 18px; right: 22px; font-family: var(--font-display); font-weight: 700; font-size: 64px; line-height: 0.85; color: rgba(48,102,161,0.10); transition: color 0.3s; }
+  .tag { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--brand); font-weight: 700; margin-bottom: 12px; transition: color 0.3s; position: relative; z-index: 1; }
+  h3 { font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 1.05; text-transform: uppercase; margin: 0 0 12px; color: var(--fg); transition: color 0.3s; position: relative; z-index: 1; }
+  p { font-family: var(--font-body); font-size: 14px; line-height: 1.55; margin: 0; color: var(--fg); transition: color 0.3s; position: relative; z-index: 1; }
+  p b { color: var(--brand-dark); font-weight: 700; }
+  /* hover-fill (live: brand) */
+  .card.live:hover { background: var(--brand); }
+  .card.live:hover .tag { color: var(--brand-light); }
+  .card.live:hover h3, .card.live:hover p { color: #fff; }
+  .card.live:hover .num { color: rgba(255,255,255,0.18); }
+  /* hover-fill (action: yellow) */
+  .card.act:hover { background: var(--action-yellow); }
+  .card.act:hover .tag, .card.act:hover h3, .card.act:hover p { color: #282424; }
+  .card.act:hover p b { color: var(--brand-dark); }
+  .card.act:hover .num { color: rgba(40,36,36,0.18); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="card live">
+      <div class="num">02</div>
+      <div class="tag">Bühne · StageOne</div>
+      <h3>Live Arena</h3>
+      <p>Talks, Interviews und Stories — kurze Formate, <b>keine endlosen Monologe.</b> (hover →)</p>
+    </div>
+    <div class="card act">
+      <div class="num">03</div>
+      <div class="tag">OG · Halle 550</div>
+      <h3>Action Zone</h3>
+      <p><b>Über 4'000 m²</b> für Action, Show und Motorsport. (hover →)</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+name: E2E Tests
+
+# Запускается:
+#  - на каждый PR (тестим против preview/staging)
+#  - на push в main (тестим продакшен)
+#  - по cron (мониторинг продакшена)
+#  - вручную через workflow_dispatch (можно указать BASE_URL)
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    # Каждый день в 06:00 UTC (07:00 в Цюрихе зимой / 08:00 летом) — production health check
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Target site URL'
+        required: true
+        default: 'https://motozuerich.ch'
+        type: string
+      test_filter:
+        description: 'Test file or pattern to run (optional)'
+        required: false
+        type: string
+
+jobs:
+  test:
+    name: Playwright (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - desktop-chrome
+          - desktop-firefox
+          - mobile-chrome
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps ${{ matrix.project == 'mobile-safari' && 'webkit' || matrix.project == 'desktop-firefox' && 'firefox' || 'chromium' }}
+
+      - name: Install system deps (always, even on cache hit)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
+
+      - name: Determine BASE_URL
+        id: base
+        run: |
+          if [ -n "${{ inputs.base_url }}" ]; then
+            echo "url=${{ inputs.base_url }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Для PR можно указать staging URL в secrets
+            echo "url=${{ secrets.STAGING_URL || 'https://motozuerich.ch' }}" >> $GITHUB_OUTPUT
+          else
+            echo "url=https://motozuerich.ch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Playwright tests
+        env:
+          BASE_URL: ${{ steps.base.outputs.url }}
+          CI: 'true'
+        run: |
+          npx playwright test \
+            --project=${{ matrix.project }} \
+            ${{ inputs.test_filter || '' }}
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.project }}
+          path: test-results/
+          retention-days: 7
+
+  summarize:
+    name: Test summary
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+    steps:
+      - name: Download all reports
+        uses: actions/download-artifact@v4
+        with:
+          path: reports
+
+      - name: Print summary
+        run: |
+          echo "## E2E Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          for dir in reports/*/; do
+            name=$(basename "$dir")
+            echo "- 📊 [$name report]($dir)" >> $GITHUB_STEP_SUMMARY
+          done

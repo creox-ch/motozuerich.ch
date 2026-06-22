@@ -1,0 +1,29 @@
+{
+  "name": "motozuerich-e2e-tests",
+  "version": "1.0.0",
+  "description": "End-to-end tests for motozuerich.ch — verifies feature parity between SendPulse and new platform.",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:smoke": "playwright test tests/01-smoke.spec.ts",
+    "test:seo": "playwright test tests/20-seo.spec.ts",
+    "test:tracking": "playwright test tests/21-tracking.spec.ts",
+    "test:a11y": "playwright test tests/23-a11y.spec.ts",
+    "test:mobile": "playwright test --project=mobile-chrome",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "install:browsers": "playwright install --with-deps chromium webkit firefox",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@axe-core/playwright": "^4.10.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

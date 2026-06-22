@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Spacing" name="Hairline grid & corners" subtitle="1px borders, radius 0, no shadow" viewport="700x210" -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { margin: 0; background: var(--bg); padding: 26px 32px; font-family: var(--font-mono); }
+  .wrap { display: flex; gap: 40px; align-items: center; }
+  .demo { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); flex: 1; }
+  .cell { padding: 22px 18px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .cell:nth-child(2n) { border-right: none; }
+  .cell:nth-last-child(-n+2) { border-bottom: none; }
+  .t { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); }
+  .h { font-family: var(--font-display); font-weight: 700; font-size: 18px; text-transform: uppercase; color: var(--fg); margin-top: 6px; }
+  .notes { width: 200px; font-size: 11px; color: var(--muted); line-height: 1.6; letter-spacing: 0.03em; }
+  .notes b { color: var(--fg); display: block; font-size: 12px; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .swatch { display:inline-block; width:10px; height:10px; background: var(--line-strong); margin-right:6px; vertical-align: middle;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="demo">
+      <div class="cell"><div class="t">Hairline</div><div class="h">Grid</div></div>
+      <div class="cell"><div class="t">Shared</div><div class="h">Borders</div></div>
+      <div class="cell"><div class="t">Radius 0</div><div class="h">Sharp</div></div>
+      <div class="cell"><div class="t">No shadow</div><div class="h">Flat</div></div>
+    </div>
+    <div class="notes">
+      <b>FOUNDATIONS</b>
+      <span class="swatch"></span>--line &nbsp;rgba(47,101,160,.15)<br>
+      <span class="swatch" style="background:var(--line-strong)"></span>--line-strong &nbsp;.30<br>
+      border-radius: <b style="display:inline;color:var(--fg)">0</b> everywhere<br>
+      depth via color blocks, not shadow
+    </div>
+  </div>
+</body>
+</html>

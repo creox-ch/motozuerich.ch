@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MOTO-ZÜRICH 2027 — Test Report</title>
+<style>
+  :root{
+    --blue:#2F65A0; --night:#07182e; --red:#C10D0D; --yellow:#FAF143;
+    --ink:#11202f; --muted:#5b6b7a; --line:#d8dee5; --bg:#f4f6f8; --card:#fff;
+    --pass:#1f8a4c; --warn:#b8860b; --fail:#C10D0D;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --sans:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;
+    --body:'Nunito Sans',-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.55}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px 80px}
+  header.top{background:radial-gradient(125% 120% at 50% 30%,#16406c,#0e2a4a 56%,#07182e);color:#fff;padding:48px 0 40px;margin-bottom:0}
+  header.top .wrap{display:flex;flex-direction:column;gap:6px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow)}
+  h1{font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:.01em;font-size:clamp(28px,5vw,44px);margin:4px 0 2px}
+  .sub{color:#c7d6e6;font-size:15px}
+  .meta{font-family:var(--mono);font-size:12px;color:#9fb6cd;margin-top:10px}
+  .scorebar{display:flex;gap:0;margin:34px 0 8px;border:1px solid var(--line)}
+  .score{flex:1;background:var(--card);padding:18px 16px;border-right:1px solid var(--line)}
+  .score:last-child{border-right:0}
+  .score .n{font-family:var(--sans);font-weight:700;font-size:34px;line-height:1}
+  .score .l{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:6px}
+  .score.pass .n{color:var(--pass)} .score.warn .n{color:var(--warn)} .score.fail .n{color:var(--fail)} .score.total .n{color:var(--blue)}
+  h2{font-family:var(--sans);font-weight:700;text-transform:uppercase;font-size:20px;letter-spacing:.02em;margin:42px 0 6px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+  h3{font-family:var(--sans);font-weight:700;font-size:15px;margin:22px 0 4px;text-transform:uppercase;letter-spacing:.03em}
+  p{margin:8px 0}
+  .note{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);padding:14px 16px;margin:16px 0;font-size:14.5px}
+  .note.warn{border-left-color:var(--yellow)}
+  .note.fail{border-left-color:var(--red)}
+  .card{background:var(--card);border:1px solid var(--line);padding:18px 20px;margin:14px 0}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 8px;text-transform:uppercase;letter-spacing:.08em;color:#fff}
+  .badge.fail{background:var(--fail)} .badge.warn{background:var(--warn)} .badge.pass{background:var(--pass)} .badge.na{background:#6a7888}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:#fafbfc}
+  td.fn{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+  td.st{white-space:nowrap}
+  .pill{font-family:var(--mono);font-size:11px;font-weight:700;padding:2px 7px}
+  .pill.fail{color:var(--fail);background:#fbe9e9} .pill.warn{color:var(--warn);background:#fcf3da} .pill.na{color:#54606e;background:#eef1f4}
+  ul{margin:8px 0 8px 0;padding-left:22px} li{margin:5px 0}
+  code{font-family:var(--mono);font-size:.9em;background:#eef1f4;padding:1px 5px}
+  .foot{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);font-family:var(--mono)}
+  .legendrow{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">QA · Migrations-Test</div>
+    <h1>MOTO-ZÜRICH 2027 — Test Report</h1>
+    <div class="sub">Neue Website (statischer HTML-Build) geprüft gegen die Funktions-Spezifikation des bestehenden Sites.</div>
+    <div class="meta">15 Seiten · 444 automatisierte Checks · DOM-basierter Paritäts-Audit (JS ausgeführt) · 18.06.2026</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="scorebar">
+    <div class="score pass"><div class="n">362</div><div class="l">Pass</div></div>
+    <div class="score warn"><div class="n">58</div><div class="l">Warnung</div></div>
+    <div class="score fail"><div class="n">24</div><div class="l">Fehler</div></div>
+    <div class="score total"><div class="n">82%</div><div class="l">Pass-Rate</div></div>
+  </div>
+  <div class="legendrow">
+    <span><b>Pass</b> = Verhalten entspricht der Spezifikation</span>
+    <span><b>Warnung</b> = funktioniert, aber Lücke ggü. Best Practice / altem Site</span>
+    <span><b>Fehler</b> = fehlende Funktion / Regression</span>
+  </div>
+
+  <h2>Kurzfassung</h2>
+  <p>Die Grundstruktur des neuen Sites ist solide: alle 15 Seiten laden, haben korrekte Titel,
+  Meta-Descriptions, <code>lang="de"</code>, sauberes Swiss-German (kein „ß"), funktionierende interne Links
+  und keine kaputten Asset-Referenzen. Header/Navigation/Footer werden auf allen Unterseiten korrekt
+  per <code>mz-chrome.js</code> injiziert.</p>
+  <p>Es gibt jedoch <b>drei wichtige Lücken</b>, die vor dem Go-Live geschlossen werden sollten — die
+  grösste ist das <b>komplett fehlende Tracking</b> (GA4 / Google Tag Manager / Meta Pixel) auf allen Seiten.
+  Ausserdem ist die <b>Startseite</b> von der gemeinsamen Chrome abgewichen (eigener statischer Header/Footer)
+  und hat dadurch ein paar Footer-Links und das H1 verloren.</p>
+
+  <div class="note fail"><b>Wichtigster Befund:</b> Auf keiner der 15 Seiten ist Analytics/Tracking eingebaut.
+  Der alte Site nutzt GA4 (Property 506151147), Google Ads und Meta Pixel. Ohne Re-Implementierung
+  brechen ab Go-Live alle Reportings, Conversion-Messung und Ad-Audiences ab.</div>
+
+  <h2>Fehler (24)</h2>
+
+  <h3><span class="badge fail">Kritisch</span> Tracking fehlt komplett — 15 Seiten</h3>
+  <p>Kein <code>gtag.js</code>, kein Google Tag Manager, kein <code>dataLayer</code> auf irgendeiner Seite gefunden.
+  Der String „Google Analytics" taucht nur im Datenschutz-Text auf (Rechtstext), nicht als aktives Script.
+  → GA4 + GTM (und idealerweise Meta Pixel, siehe Warnungen) müssen vor dem Cutover global eingebunden werden,
+  am besten zentral in <code>mz-chrome.js</code>, damit jede Seite abgedeckt ist.</p>
+
+  <h3><span class="badge fail">Startseite</span> Abweichungen ggü. der gemeinsamen Chrome</h3>
+  <p>Die Startseite (<code>MOTO-ZÜRICH 2027.html</code>) lädt <code>mz-chrome.js</code> nicht, sondern hat einen
+  eigenen statischen Header/Footer. Dadurch ist sie von den Unterseiten abgedriftet:</p>
+  <table>
+    <tr><th>FN</th><th>Check</th><th>Status</th><th>Detail</th></tr>
+    <tr><td class="fn">FN-121</td><td>Social-Link WhatsApp im Footer</td><td class="st"><span class="pill fail">FAIL</span></td><td>Startseiten-Footer hat nur 4 von 6 Socials</td></tr>
+    <tr><td class="fn">FN-121</td><td>Social-Link TikTok im Footer</td><td class="st"><span class="pill fail">FAIL</span></td><td>fehlt (Unterseiten haben beide)</td></tr>
+    <tr><td class="fn">FN-122</td><td>Legal-Links Impressum/AGB/Datenschutz im Footer</td><td class="st"><span class="pill fail">FAIL</span></td><td>auf Startseite nicht vorhanden</td></tr>
+    <tr><td class="fn">FN-2101</td><td>Genau ein H1</td><td class="st"><span class="pill fail">FAIL</span></td><td>Startseite hat 0× H1 (nur H2). SEO/A11y-Relevanz</td></tr>
+  </table>
+  <p class="note">Empfehlung: Startseite auf dieselbe <code>mz-chrome.js</code>-Chrome umstellen (oder Footer/Heading
+  angleichen). Das löst alle vier Startseiten-Fehler auf einmal.</p>
+
+  <h3><span class="badge fail">Infrastruktur</span> Fehlende Standard-Dateien — Site-weit</h3>
+  <table>
+    <tr><th>FN</th><th>Datei</th><th>Status</th></tr>
+    <tr><td class="fn">FN-1701</td><td><code>robots.txt</code></td><td class="st"><span class="pill fail">FAIL</span></td></tr>
+    <tr><td class="fn">FN-1702</td><td><code>sitemap.xml</code></td><td class="st"><span class="pill fail">FAIL</span></td></tr>
+    <tr><td class="fn">FN-1703</td><td><code>favicon.ico</code></td><td class="st"><span class="pill fail">FAIL</span></td></tr>
+  </table>
+  <p>Diese werden typischerweise erst beim Deployment erzeugt — falls so geplant, sind das keine echten Bugs,
+  sollten aber vor Go-Live vorhanden sein (SEO + Crawling + Browser-Tab-Icon).</p>
+
+  <h2>Warnungen (58)</h2>
+  <table>
+    <tr><th>FN</th><th>Check</th><th>Umfang</th><th>Bedeutung</th></tr>
+    <tr><td class="fn">FN-1802</td><td>Meta Pixel (fbq)</td><td>15 Seiten</td><td>Fehlt überall. Für Facebook/Instagram-Ads-Retargeting nötig — gehört zum Tracking-Paket oben.</td></tr>
+    <tr><td class="fn">FN-142</td><td>Open-Graph-Tags (og:title/description/image)</td><td>15 Seiten</td><td>Fehlen. Geteilte Links (WhatsApp, FB, LinkedIn) zeigen keine Vorschaukarte → wichtig für einen Event-Site.</td></tr>
+    <tr><td class="fn">FN-143</td><td>Canonical-Link</td><td>15 Seiten</td><td>Fehlt. Empfohlen gegen Duplicate-Content, v.a. bei <code>.html</code> + Clean-URL parallel.</td></tr>
+    <tr><td class="fn">FN-2102</td><td>Überschriften-Hierarchie ohne Sprünge</td><td>13 Seiten</td><td>Ebenen werden teils übersprungen (z.B. H2→H4). Kleinere A11y-Politur.</td></tr>
+  </table>
+
+  <h2>Was sauber durchläuft (Auszug aus 362 Pass)</h2>
+  <ul>
+    <li>Alle 15 Seiten laden, haben <code>&lt;title&gt;</code> mit „MOTO-ZÜRICH" und gültigen <code>&lt;body&gt;</code>.</li>
+    <li>Header, Navigation (inkl. Dropdowns), mobiler Menü-Toggle, Partner-Strip und Footer auf allen Unterseiten vorhanden.</li>
+    <li>Alle 6 Social-Links, Legal-Links und Copyright im injizierten Footer der Unterseiten.</li>
+    <li>Meta-Description und <code>lang="de"</code> auf jeder Seite; Viewport-Tag gesetzt.</li>
+    <li>Swiss-German-Orthografie: kein „ß" auf irgendeiner Seite.</li>
+    <li>Externe Integrationen verlinkt: Bookinea (Tickets), Pyrus (Formulare), smartvenue 3D-Tour, Swiss Volunteers.</li>
+    <li>Keine kaputten internen Asset-Referenzen, alle internen Seitenlinks lösen auf.</li>
+    <li>Tickets-CTA → Bookinea vorhanden; Event-Eckdaten (19.–21. Februar 2027, Oerlikon) auf der Startseite.</li>
+  </ul>
+
+  <h2>Nicht in dieser Umgebung testbar</h2>
+  <p>Dieser Lauf ist ein DOM-/Struktur-Audit (mit ausgeführtem JS). Vier der angeforderten Testarten brauchen
+  einen echten Browser, der in dieser Sandbox nicht installiert werden konnte (Playwright-Browser-Download durch
+  Netzwerk-Allowlist blockiert, kein System-Chromium/Root). Offen bleiben:</p>
+  <table>
+    <tr><th>Bereich</th><th>Status</th><th>Wie nachholen</th></tr>
+    <tr><td>Visuelles Design / Pixel-Fidelity</td><td class="st"><span class="pill na">OFFEN</span></td><td>Screenshots + Vergleich, oder ich mache es via „Claude in Chrome" auf deinem Rechner</td></tr>
+    <tr><td>Responsive-Layout (Mobil/Tablet/Desktop)</td><td class="st"><span class="pill na">OFFEN</span></td><td>Playwright-Projekt <code>mobile-chrome</code> lokal, oder Browser-Walkthrough</td></tr>
+    <tr><td>Performance (LCP / CLS / Ladezeit)</td><td class="st"><span class="pill na">OFFEN</span></td><td><code>tests/25-performance.spec.ts</code> mit echtem Browser</td></tr>
+    <tr><td>Runtime-A11y (axe-core), echte Interaktionen (Accordion, Menü-Öffnen, Animationen)</td><td class="st"><span class="pill na">OFFEN</span></td><td><code>tests/23-a11y.spec.ts</code> lokal ausführen</td></tr>
+    <tr><td>Design-System-Compliance (Tokens/Komponenten)</td><td class="st"><span class="pill na">TEILWEISE</span></td><td>Statisch geprüft (Chrome/Partner/Marke vorhanden); visuell offen</td></tr>
+  </table>
+  <p class="note">Die fertige Playwright-Suite (<code>mz-tests/</code>) ist vollständig und bereit. Auf einem Rechner mit
+  Browser-Zugang genügt: <code>cd mz-tests &amp;&amp; npm install &amp;&amp; npm run install:browsers</code>, dann
+  <code>BASE_URL=&lt;deine-URL&gt; npm test</code>. Hinweis: Die Suite erwartet Clean-URLs (<code>/faq</code>),
+  der Build nutzt Datei-URLs (<code>FAQ.html</code>) — beim echten Deployment Routing entsprechend einrichten.</p>
+
+  <div class="foot">
+    Methode: jsdom-DOM-Audit mit ausgeführtem Seiten-JS (mz-chrome.js / mz-page.js inline). 15 Routen,
+    444 Checks abgeleitet aus mz-tests/FUNCTIONALITY_INVENTORY.md. Rohdaten: audit-results.json. Generiert 18.06.2026.
+  </div>
+</div>
+</body>
+</html>
