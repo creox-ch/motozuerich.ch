@@ -6,6 +6,39 @@
    (The home hero video/parallax lives inline on that page.)
    ============================================================ */
 (function () {
+  /* ---- force external / form / ticket links to open in a NEW tab ----
+     So clicking a form or ticket link never replaces the site. Any link to
+     another origin (pyrus, bookinea, smartvenue, drive, social, the *_form
+     pages, …) gets target=_blank; internal page links (FAQ.html, #anchors,
+     mailto:, tel:) are left to navigate normally. Runs once on load and via
+     event delegation so dynamically added links are covered too. */
+  function isNewTabLink(a) {
+    var href = a.getAttribute('href');
+    if (!href) return false;
+    if (/^(#|mailto:|tel:|javascript:)/i.test(href)) return false;
+    if (/_form(\b|\/|$)/i.test(href)) return true;            // creators_form, media_form, blogger_form
+    try {
+      var url = new URL(href, location.href);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') return false;
+      return url.origin !== location.origin;                  // any other domain → new tab
+    } catch (e) { return false; }
+  }
+  function markLink(a) {
+    if (!a || a.dataset.extMarked) return;
+    if (!isNewTabLink(a)) return;
+    a.target = '_blank';
+    var rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+    if (rel.indexOf('noopener') === -1) rel.push('noopener');
+    if (rel.indexOf('noreferrer') === -1) rel.push('noreferrer');
+    a.setAttribute('rel', rel.join(' '));
+    a.dataset.extMarked = '1';
+  }
+  document.querySelectorAll('a[href]').forEach(markLink);
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (a) markLink(a);
+  }, true);
+
   /* ---- mobile nav: close on link click ---- */
   document.querySelectorAll('#mainNav a').forEach(function (a) {
     a.addEventListener('click', function () {
@@ -65,8 +98,9 @@
           var ch = text[i];
           var span = document.createElement('span');
           span.className = 'char';
-          if (ch === ' ') span.innerHTML = '&nbsp;';
-          else span.textContent = ch;
+          // a regular space (not &nbsp;) keeps the soft-wrap opportunity so
+          // long heading lines can break instead of overflowing on phones
+          span.textContent = ch;
           frag.appendChild(span);
         }
         node.parentNode.replaceChild(frag, node);

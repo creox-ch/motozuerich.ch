@@ -1,0 +1,113 @@
+/* MOTO-ZÜRICH — plan-shared.css
+   Единая система интерактивных карт (Halle 550 + StageOne).
+   Один источник правды для: хотспотов, колец выделения, поповера,
+   легенды, аккордеона и таблицы стендов, мобильного bottom-sheet.
+   Правило системы: подсветка НИКОГДА не выходит за границы стенда —
+   стенды стоят вплотную, поэтому все кольца строго внутренние (inset).
+   Жёлтая палитра карт (единая для обеих локаций):
+   #FAF143 (--action-yellow) = зоны Action/FMX/Show и чипы стендов,
+   #e8a400 = все рамки/обводки жёлтых зон, #f8ba00 = только Food Court. */
+
+/* ---- hotspots ---- */
+.plan-hot{position:absolute;cursor:pointer;border-radius:0;box-sizing:border-box;
+  transition:box-shadow .15s,background .15s;background:rgba(47,101,160,0);
+  box-shadow:inset 0 0 0 1.5px rgba(47,101,160,.45)}
+.plan-hot:hover{background:rgba(47,101,160,.16);
+  box-shadow:inset 0 0 0 2px rgba(47,101,160,.85)}
+.plan-hot.sel{background:rgba(47,101,160,.18);
+  box-shadow:inset 0 0 0 2.5px var(--brand)}
+@property --pa{syntax:'<angle>';initial-value:0deg;inherits:false}
+/* бегущее кольцо выделения — внутри контура, не задевает соседей */
+.plan-hot.sel::after{content:"";position:absolute;inset:0;border-radius:0;padding:3px;
+  background:conic-gradient(from var(--pa),transparent 0deg 285deg,#8fc4f4 320deg,#dcefff 340deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:planSpin 1.8s linear infinite;pointer-events:none}
+@keyframes planSpin{to{--pa:360deg}}
+/* жёлтая зона (FMX / Action / Food) — единая палитра: #e8a400 + фирменный жёлтый */
+.plan-hot.dzone{box-shadow:inset 0 0 0 1.5px rgba(232,164,0,.6)}
+.plan-hot.dzone:hover{background:rgba(250,241,67,.28);
+  box-shadow:inset 0 0 0 2px #e8a400}
+.plan-hot.dzone.sel{background:rgba(250,241,67,.28);
+  box-shadow:inset 0 0 0 2.5px #e8a400}
+.plan-hot.dzone.sel::after{background:conic-gradient(from var(--pa),transparent 0deg 285deg,#FAF143 320deg,#fffbe0 340deg,transparent 360deg)}
+/* внутренние площади (только Halle 550) */
+.plan-hot.intern{background:rgba(107,114,128,.06);box-shadow:inset 0 0 0 1px rgba(107,114,128,.3)}
+.plan-hot.intern:hover{background:rgba(107,114,128,.15);box-shadow:inset 0 0 0 2px rgba(107,114,128,.75)}
+.plan-hot.intern.sel{background:rgba(107,114,128,.2);box-shadow:inset 0 0 0 2.5px var(--muted)}
+.plan-hot.intern.sel::after{display:none}
+
+/* ---- popover ---- */
+.plan-pop{position:absolute;z-index:40;width:280px;background:var(--bg);border:1px solid var(--line-strong);box-shadow:0 12px 40px rgba(15,35,60,.18);padding:20px;display:none}
+.plan-pop.open{display:block}
+.plan-pop::after{content:"";position:absolute;top:-7px;left:var(--arrow-x,24px);width:12px;height:12px;background:var(--bg);border-left:1px solid var(--line-strong);border-top:1px solid var(--line-strong);transform:rotate(45deg)}
+.plan-pop.below::after{top:auto;bottom:-7px;border:0;border-right:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.plan-pop-close{position:absolute;top:8px;right:8px;width:32px;height:32px;border:0;background:none;cursor:pointer;font-size:18px;line-height:1;color:var(--muted);font-family:var(--font-body)}
+.plan-pop-close:hover{color:var(--fg)}
+.plan-pop h3{font-family:var(--font-display);font-weight:700;font-size:30px;margin:0 0 6px;color:var(--brand-dark)}
+/* логотип — единая рамка-плашка: во всю ширину, фиксированная высота, тонкая линия,
+   логотип по центру; картинка проявляется ТОЛЬКО после загрузки нового файла —
+   прежний логотип никогда не мелькает при переключении стендов */
+.plan-logobox{width:100%;aspect-ratio:1000/680;height:auto;box-sizing:border-box;padding:10px 14px;border:1px solid var(--line);background:#fff;margin:4px 0 14px}
+.plan-logobox img{display:block;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .18s}
+.plan-logobox img.ld{opacity:1}
+.plan-st{display:inline-block;font-family:var(--font-mono);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;margin-bottom:12px;color:#fff}
+.plan-st.free{background:var(--brand)}
+.plan-st.taken{background:var(--brand-dark)}
+.plan-st.intern{background:var(--muted)}
+.plan-st.zone{background:#e8a400}
+.plan-name{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--fg);margin:0}
+.plan-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-family:var(--font-body);font-size:14px}
+.plan-row .k{color:var(--muted)}
+.plan-row .v{font-weight:700}
+.plan-price{font-family:var(--font-display);font-weight:700;font-size:26px;color:var(--brand-dark);margin-top:10px}
+.plan-price small{font-family:var(--font-body);font-size:12px;color:var(--muted);font-weight:400}
+.plan-hint{color:var(--muted);font-family:var(--font-body);font-size:14px;line-height:1.6;margin:8px 0 0}
+.plan-cta{margin-top:14px}
+.plan-cta a{display:block;text-align:center;font-family:var(--font-mono);font-weight:700;font-size:13px;background:var(--swiss-red);color:#fff;text-decoration:none;padding:12px 16px}
+.plan-cta a:hover{background:var(--swiss-red-dark);color:#fff}
+
+/* ---- layout, legend ---- */
+.plan-bleed{width:100vw;margin-left:calc(50% - 50vw);padding:0 clamp(16px,3vw,48px);box-sizing:border-box;margin-top:36px}
+/* на широких экранах карта не тянется во всю ширину, а встаёт в ту же
+   сетку 1440px (поля 32px), что и остальной контент сайта */
+@media(min-width:1441px){
+  .plan-bleed{width:auto;max-width:1440px;margin-left:auto;margin-right:auto;padding:0 32px}
+}
+.plan-box{background:var(--bg);border:1px solid var(--line-strong);padding:clamp(8px,1.5vw,20px);position:relative}
+.plan-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:22px;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+.plan-legend span{display:inline-flex;align-items:center;gap:7px}
+.plan-sw{width:14px;height:14px;border:2px solid}
+.plan-sheet-scrim{display:none}
+
+/* ---- accordion + table ---- */
+.plan-acc{margin-top:28px}
+.plan-acc-btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;box-sizing:border-box;padding:20px 24px;background:var(--bg);border:1px solid var(--line-strong);cursor:pointer;font-family:var(--font-mono);font-weight:700;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--brand-dark);transition:background .15s}
+.plan-acc-btn:hover{background:rgba(47,101,160,.06)}
+.plan-acc-caret{font-size:24px;line-height:1;transition:transform .3s;font-weight:400}
+.plan-acc-caret::before{content:"+"}
+.plan-acc.open .plan-acc-caret{transform:rotate(45deg)}
+.plan-acc-body{border:1px solid var(--line-strong);border-top:0;padding:8px 24px 24px;background:var(--bg)}
+.plan-table-wrap{margin-top:12px;overflow-x:auto}
+.plan-table{width:100%;border-collapse:collapse;font-family:var(--font-body);font-size:16px}
+.plan-table th{font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:12px 16px;border-bottom:2px solid var(--line-strong)}
+.plan-table td{padding:12px 16px;border-bottom:1px solid var(--line)}
+.plan-table tbody tr{cursor:pointer;transition:background .12s}
+.plan-table tbody tr:hover{background:rgba(47,101,160,.07)}
+.plan-table .pt-id{font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--brand-dark)}
+.plan-table .pt-price{font-weight:700}
+.plan-table tr.pt-intern{color:var(--muted);cursor:default}
+.plan-table tr.pt-intern:hover{background:none}
+.pt-pill{display:inline-block;font-family:var(--font-mono);font-weight:700;font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;color:#fff;background:var(--brand)}
+.pt-pill.intern{background:var(--muted)}
+.pt-pill.taken{background:var(--brand-dark)}
+
+/* ---- mobile bottom-sheet ---- */
+@media(max-width:760px){
+  .plan-pop{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;z-index:1300;padding:24px 20px calc(24px + env(safe-area-inset-bottom));border:0;border-top:2px solid var(--brand);box-shadow:0 -12px 40px rgba(15,35,60,.25);transform:translateY(100%);transition:transform .25s ease;display:block;visibility:hidden}
+  .plan-pop.open{transform:translateY(0);visibility:visible}
+  .plan-pop::after{display:none}
+  .plan-sheet-scrim.open{display:block;position:fixed;inset:0;z-index:1290;background:rgba(15,25,40,.4)}
+  .plan-bleed{padding:0}
+  .plan-box{border-left:0;border-right:0}
+}

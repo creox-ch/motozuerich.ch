@@ -226,3 +226,143 @@
     boot();
   }
 })();
+
+/* ============================================================
+   MOTO-ZÜRICH — persistent music mini-player.
+   One <audio> for the whole site; playback state is stored in
+   localStorage and resumed on the next page, so a track keeps
+   going while the visitor navigates. A small floating player
+   (play/pause · progress · close ✕) appears whenever a track
+   is active. Public API: window.MZMusic.{play,toggle,stop,seek,get}.
+   ============================================================ */
+(function () {
+  if (window.MZMusic) return;
+  var KEY = 'mzMusicState';
+  var CSS =
+    '.mzmp{position:fixed;left:20px;bottom:20px;z-index:1200;display:flex;align-items:center;gap:14px;' +
+    'background:var(--brand,#0a1929);color:#fff;padding:12px 14px;border-radius:14px;' +
+    'box-shadow:0 16px 44px rgba(10,25,41,.42);font-family:var(--font-mono,ui-monospace,monospace);' +
+    'width:332px;max-width:calc(100vw - 40px);animation:mzmpIn .32s cubic-bezier(.16,1,.3,1);transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .5s}' +
+    '.mzmp.mzmp-out{animation:mzmpOut .5s cubic-bezier(.5,0,.2,1) forwards;pointer-events:none}' +
+    '@keyframes mzmpIn{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}' +
+    '@keyframes mzmpOut{from{transform:none;opacity:1}to{transform:translateX(-130%);opacity:0}}' +
+    '.mzmp[hidden]{display:none}' +
+    '.mzmp-toggle{flex:0 0 auto;width:42px;height:42px;border-radius:50%;border:none;' +
+    'background:var(--action-yellow,#f5c518);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:transform .2s}' +
+    '.mzmp-toggle:hover{transform:scale(1.06)}' +
+    '.mzmp-toggle::before{content:"";border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent #141414;margin-left:3px}' +
+    '.mzmp[data-state="playing"] .mzmp-toggle::before{border-width:0;border-left:4px solid #141414;border-right:4px solid #141414;border-radius:1px;width:5px;height:14px;margin-left:0}' +
+    '.mzmp-main{min-width:0;flex:1;display:flex;flex-direction:column;gap:7px}' +
+    '.mzmp-name{font-size:12px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}' +
+    '.mzmp-name:hover{text-decoration:underline}' +
+    '.mzmp-row{display:flex;align-items:center;gap:9px}' +
+    '.mzmp-bar{position:relative;flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.24);cursor:pointer;overflow:hidden}' +
+    '.mzmp-bar span{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--action-yellow,#f5c518);border-radius:2px}' +
+    '.mzmp-time{font-size:11px;color:rgba(255,255,255,.7);min-width:34px;text-align:right;letter-spacing:.04em}' +
+    '.mzmp-close{flex:0 0 auto;width:27px;height:27px;border-radius:50%;border:none;background:rgba(255,255,255,.12);' +
+    'color:#fff;font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}' +
+    '.mzmp-close:hover{background:rgba(255,255,255,.26)}' +
+    '@media(max-width:560px){.mzmp{left:12px;right:12px;bottom:12px;width:auto}}';
+
+  var audio = null, ui = null, els = {}, saveT = 0, gestureHook = null;
+  var curSrc = '', curName = '';
+
+  function read() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
+  function write(s) { try { if (s) localStorage.setItem(KEY, JSON.stringify(s)); else localStorage.removeItem(KEY); } catch (e) {} }
+  function fmt(t) { if (!isFinite(t) || t < 0) return '0:00'; var m = Math.floor(t / 60), s = Math.floor(t % 60); return m + ':' + (s < 10 ? '0' : '') + s; }
+  function snapshot() { return { src: audio ? (audio.currentSrc || audio.src) : null, name: curName, playing: !!(audio && !audio.paused), time: audio ? audio.currentTime : 0, duration: audio ? audio.duration : 0 }; }
+  function emit() { try { window.dispatchEvent(new CustomEvent('mz-music-change', { detail: snapshot() })); } catch (e) {} }
+  function persist() { if (!audio || !curSrc) return; write({ src: curSrc, name: curName, time: audio.currentTime || 0, playing: !audio.paused }); }
+
+  function buildUI() {
+    if (ui) return;
+    if (!document.getElementById('mz-music-style')) {
+      var st = document.createElement('style'); st.id = 'mz-music-style'; st.textContent = CSS; document.head.appendChild(st);
+    }
+    ui = document.createElement('div'); ui.className = 'mzmp'; ui.setAttribute('hidden', '');
+    ui.innerHTML =
+      '<button class="mzmp-toggle" type="button" aria-label="Wiedergabe umschalten"></button>' +
+      '<div class="mzmp-main"><div class="mzmp-name"></div>' +
+      '<div class="mzmp-row"><div class="mzmp-bar" role="slider" aria-label="Wiedergabeposition"><span></span></div><div class="mzmp-time">0:00</div></div></div>' +
+      '<button class="mzmp-close" type="button" aria-label="Musik schliessen">\u00d7</button>';
+    document.body.appendChild(ui);
+    els.toggle = ui.querySelector('.mzmp-toggle');
+    els.name = ui.querySelector('.mzmp-name');
+    els.bar = ui.querySelector('.mzmp-bar');
+    els.fill = ui.querySelector('.mzmp-bar span');
+    els.time = ui.querySelector('.mzmp-time');
+    els.close = ui.querySelector('.mzmp-close');
+    els.toggle.addEventListener('click', toggle);
+    els.close.addEventListener('click', stop);
+    els.bar.addEventListener('click', function (e) { var r = els.bar.getBoundingClientRect(); seek((e.clientX - r.left) / r.width); });
+    /* clicking the player (except play / close / seek-bar) opens the Sound page */
+    ui.addEventListener('click', function (e) {
+      if (e.target.closest('.mzmp-toggle, .mzmp-close, .mzmp-bar')) return;
+      window.location.href = 'Sound.html';
+    });
+  }
+  function showUI() { buildUI(); if (ui) ui.classList.remove('mzmp-out'); ui.hidden = false; }
+  function syncUI() {
+    if (!ui) return;
+    ui.setAttribute('data-state', audio && !audio.paused ? 'playing' : 'paused');
+    els.name.textContent = curName || 'Track';
+    els.fill.style.width = (audio && audio.duration ? (audio.currentTime / audio.duration * 100) : 0) + '%';
+    els.time.textContent = fmt(audio ? audio.currentTime : 0);
+  }
+
+  function ensureAudio() {
+    if (audio) return audio;
+    audio = new Audio(); audio.preload = 'metadata';
+    audio.addEventListener('timeupdate', function () { syncUI(); emit(); var n = Date.now(); if (n - saveT > 1000) { saveT = n; persist(); } });
+    audio.addEventListener('play', function () { syncUI(); emit(); persist(); });
+    audio.addEventListener('pause', function () { syncUI(); emit(); persist(); });
+    audio.addEventListener('loadedmetadata', function () { syncUI(); emit(); });
+    audio.addEventListener('ended', function () { slideOut(); });
+    return audio;
+  }
+
+  function play(src, name) {
+    ensureAudio(); showUI();
+    if (curSrc !== src) { curSrc = src; curName = name || 'Track'; audio.src = src; audio.currentTime = 0; }
+    else if (name) { curName = name; }
+    var p = audio.play(); if (p && p.catch) p.catch(function () { syncUI(); });
+    syncUI();
+  }
+  function toggle() { if (!audio || !curSrc) return; if (audio.paused) { var p = audio.play(); if (p && p.catch) p.catch(function () {}); } else { audio.pause(); } }
+  function seek(ratio) { if (!audio || !audio.duration) return; audio.currentTime = Math.max(0, Math.min(1, ratio)) * audio.duration; syncUI(); emit(); }
+  function stop() {
+    if (audio) { audio.pause(); try { audio.removeAttribute('src'); audio.load(); } catch (e) {} }
+    if (ui) ui.hidden = true;
+    curSrc = ''; curName = ''; write(null); emit();
+  }
+  /* track finished on its own — glide the player off-screen to the left, then clear */
+  function slideOut() {
+    if (!ui || ui.hidden) { stop(); return; }
+    ui.classList.add('mzmp-out');
+    setTimeout(function () { ui.classList.remove('mzmp-out'); stop(); }, 520);
+  }
+
+  function restore() {
+    var s = read(); if (!s || !s.src) return;
+    ensureAudio(); curSrc = s.src; curName = s.name || 'Track'; audio.src = s.src; showUI(); syncUI();
+    var applyTime = function () { try { if (s.time) audio.currentTime = s.time; } catch (e) {} audio.removeEventListener('loadedmetadata', applyTime); syncUI(); };
+    audio.addEventListener('loadedmetadata', applyTime);
+    if (s.playing) {
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () {
+        /* autoplay blocked on fresh load — show the player paused.
+           Do NOT hook the next click: starting music on an unrelated
+           tap anywhere feels uncontrolled. User presses ▶ to resume. */
+        if (audio) audio.pause();
+        syncUI();
+      });
+    }
+  }
+
+  window.addEventListener('pagehide', persist);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) persist(); });
+  window.MZMusic = { play: play, toggle: toggle, stop: stop, seek: seek, get: snapshot };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', restore);
+  else restore();
+})();

@@ -1,0 +1,211 @@
+/* ============================================================
+   MOTO-ZÜRICH — enhancements (home page, rollout pending)
+   Countdown · Add-to-calendar · Scroll progress · Card tilt
+   Dark theme · DE/EN toggle · Sticky ticket bar · Header controls
+   Loaded after motozuerich-page.css so it can layer overrides.
+   ============================================================ */
+
+/* ============ SCROLL PROGRESS ============ */
+.mz-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--brand), var(--action-yellow));
+  z-index: 2200; pointer-events: none;
+  transition: width 0.08s linear;
+}
+
+/* ============ HEADER CONTROLS (lang + theme) ============ */
+.mz-ctrl { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.mz-lang {
+  display: inline-flex; height: 34px; box-sizing: border-box;
+  border: 1px solid var(--line-strong); overflow: hidden;
+  font-family: var(--font-mono); font-weight: 700; font-size: 12px;
+}
+.mz-lang button {
+  border: none; background: transparent; color: var(--muted);
+  display: inline-flex; align-items: center; padding: 0 11px;
+  cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase;
+  transition: background 0.2s, color 0.2s; line-height: 1;
+}
+.mz-lang button.is-active { background: var(--brand); color: #fff; }
+.mz-lang button:not(.is-active):hover { color: var(--brand); }
+.mz-theme {
+  width: 38px; height: 34px; border: 1px solid var(--line-strong); background: transparent;
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  color: var(--fg); transition: background 0.2s, color 0.2s, border-color 0.2s; padding: 0;
+}
+.mz-theme:hover { border-color: var(--brand); color: var(--brand); }
+.mz-theme svg { width: 17px; height: 17px; display: block; }
+.mz-theme .icon-sun { display: none; }
+html[data-theme="dark"] .mz-theme .icon-sun { display: block; }
+html[data-theme="dark"] .mz-theme .icon-moon { display: none; }
+
+/* desktop: Aussteller CTA sits to the right of the lang + theme controls.
+   Hidden by default (mobile); the in-nav original stays in the dropdown. */
+.mz-cta-desktop { display: none !important; }
+@media (min-width: 981px) {
+  /* the relocated CTA replaces the in-nav one on desktop */
+  nav ul li:has(> .nav-cta) { display: none; }
+  .mz-cta-desktop {
+    display: inline-flex !important; align-items: center; height: 34px; min-height: 34px !important; box-sizing: border-box;
+    padding: 0 16px !important; white-space: nowrap; line-height: 1; font-size: 12px !important; letter-spacing: .04em;
+  }
+}
+
+/* ============ HERO COUNTDOWN + CALENDAR ============ */
+.mz-countdown { margin: 26px 0 4px; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+.mz-cd-info { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+@media (min-width: 900px) {
+  .mz-countdown { flex-direction: row-reverse; align-items: flex-end; justify-content: space-between; gap: 56px; flex-wrap: wrap; width: 100%; }
+  .mz-cd-info { align-items: flex-end; }
+  .mz-cd-label { text-align: right; }
+}
+.mz-cd-label {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--action-yellow);
+}
+.mz-cd-units { display: flex; gap: 10px; }
+.mz-cd-unit {
+  min-width: 72px; padding: 12px 10px 9px; text-align: center;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.mz-cd-num {
+  font-family: var(--font-display); font-weight: 700; font-size: 38px; line-height: 1;
+  color: #fff; letter-spacing: -0.01em; font-variant-numeric: tabular-nums;
+}
+.mz-cd-u {
+  display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 10px;
+  font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6);
+}
+.mz-cd-done { font-family: var(--font-display); font-weight: 700; font-size: 30px; color: var(--action-yellow); text-transform: uppercase; }
+
+.mz-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.mz-btn {
+  font-family: var(--font-mono); font-weight: 700; font-size: 13px; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 13px 20px; cursor: pointer; border: none;
+  display: inline-flex; align-items: center; gap: 9px; text-decoration: none;
+  transition: transform 0.2s, background 0.2s, color 0.2s;
+}
+.mz-btn-primary { background: var(--swiss-red); color: #fff; }
+.mz-btn-primary:hover { background: var(--swiss-red-dark); transform: translateY(-2px); }
+.mz-btn-ghost { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.28); }
+.mz-btn-ghost:hover { background: #fff; color: var(--night); transform: translateY(-2px); }
+
+/* calendar dropdown */
+.mz-cal { position: relative; }
+.mz-cal-menu {
+  position: absolute; top: calc(100% + 8px); left: 0; min-width: 220px; z-index: 50;
+  background: #fff; border: 1px solid var(--line-strong); box-shadow: 0 16px 40px rgba(10,25,41,0.28);
+  display: none; flex-direction: column;
+}
+.mz-cal.open .mz-cal-menu { display: flex; }
+.mz-cal-menu a {
+  font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--fg); text-decoration: none; padding: 13px 16px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 10px; transition: background 0.18s, color 0.18s;
+}
+.mz-cal-menu a:last-child { border-bottom: none; }
+.mz-cal-menu a:hover { background: var(--bg-alt); color: var(--brand); }
+
+/* ============ STICKY TICKET BAR ============ */
+.mz-sticky {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100;
+  background: linear-gradient(100deg, #0a1929 0%, #0e2a4a 48%, #14386a 100%); color: #fff;
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  padding: 12px 20px; box-shadow: 0 -8px 30px rgba(10,25,41,0.34);
+  transform: translateY(110%); transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  overflow: hidden;
+}
+/* gradient shine sweeping across the bar */
+.mz-sticky::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 45%;
+  background: linear-gradient(100deg, transparent 0%, rgba(120,175,255,0.20) 38%, rgba(190,220,255,0.55) 50%, rgba(120,175,255,0.20) 62%, transparent 100%);
+  transform: skewX(-18deg); pointer-events: none;
+  animation: mzShine 5s cubic-bezier(0.4,0,0.2,1) infinite;
+}
+@keyframes mzShine { 0% { left: -60%; } 55%, 100% { left: 130%; } }
+@media (prefers-reduced-motion: reduce) { .mz-sticky::before { display: none; } }
+.mz-sticky > * { position: relative; z-index: 1; }
+.mz-sticky.show { transform: translateY(0); }
+.mz-sticky-text { font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.mz-sticky-text b { color: #fff; font-weight: 700; letter-spacing: 0.08em; }
+.mz-sticky-btn {
+  font-family: var(--font-mono); font-weight: 700; font-size: 13px; letter-spacing: 0.1em;
+  text-transform: uppercase; background: var(--swiss-red); color: #fff;
+  padding: 11px 20px; text-decoration: none; transition: transform 0.2s, background 0.2s; white-space: nowrap;
+}
+.mz-sticky-btn:hover { transform: translateY(-2px); background: var(--swiss-red-dark); }
+.mz-sticky-close {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; border: none; background: rgba(255,255,255,0.12); color: #fff;
+  cursor: pointer; font-size: 16px; line-height: 1; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.mz-sticky-close:hover { background: rgba(255,255,255,0.26); }
+/* lift the music mini-player above the sticky bar when both are present */
+body.mz-sticky-on .mzmp { bottom: 78px; }
+@media (max-width: 640px) {
+  .mz-sticky { flex-wrap: wrap; gap: 10px 14px; padding: 12px 44px 12px 16px; justify-content: space-between; }
+  .mz-sticky-text { font-size: 11px; }
+}
+
+/* ============ DARK THEME ============ */
+html[data-theme="dark"] {
+  --bg:          #0c1722;
+  --bg-alt:      #091320;
+  --fg:          #eef2f7;
+  --muted:       #97a4b3;
+  --line:        rgba(255,255,255,0.10);
+  --line-strong: rgba(255,255,255,0.20);
+  --brand-soft:  rgba(84,158,240,0.14);
+  color-scheme: dark;
+}
+/* surfaces that were hard-coded white */
+html[data-theme="dark"] .header { background: rgba(10,19,30,0.92); border-bottom-color: var(--line); }
+html[data-theme="dark"] .submenu { background: #11202f; border-color: var(--line); }
+html[data-theme="dark"] .what-card,
+html[data-theme="dark"] .num,
+html[data-theme="dark"] .programm-acc,
+html[data-theme="dark"] .press-card,
+html[data-theme="dark"] .park-card,
+html[data-theme="dark"] .fact-cell,
+html[data-theme="dark"] .faq-item,
+html[data-theme="dark"] .track-card,
+html[data-theme="dark"] .loc-card,
+html[data-theme="dark"] .medien-link,
+html[data-theme="dark"] .creator-chip,
+html[data-theme="dark"] .team-card,
+html[data-theme="dark"] .team-card-small,
+html[data-theme="dark"] .exhibitor-card,
+html[data-theme="dark"] .prog-card { background: #121f2d; }
+html[data-theme="dark"] .num:hover { background: var(--brand-soft); }
+html[data-theme="dark"] .pill { background: #121f2d; color: var(--fg); }
+html[data-theme="dark"] .mz-cal-menu { background: #11202f; }
+html[data-theme="dark"] .partner-logo-text { color: var(--fg); }
+/* partner logos / wordmark read better inverted on dark */
+html[data-theme="dark"] .partners-strip-logos img { filter: brightness(0) invert(1); opacity: 0.72; }
+html[data-theme="dark"] .intro-split-logo img { filter: brightness(0) invert(1); opacity: 0.9; }
+html[data-theme="dark"] .logo-svg { filter: brightness(0) invert(1); }
+
+/* ---- brighten blue accents to light blue so they read on the dark background ---- */
+html[data-theme="dark"] .section-label,
+html[data-theme="dark"] .num-big,
+html[data-theme="dark"] .what-card-tag,
+html[data-theme="dark"] .what-card-num,
+html[data-theme="dark"] .programm-name,
+html[data-theme="dark"] .press-card-source,
+html[data-theme="dark"] .press-card-arrow,
+html[data-theme="dark"] .partners-strip-label { color: var(--brand-light); }
+/* soft highlight plates: light-blue text on a subtle blue plate */
+html[data-theme="dark"] .hl-soft { color: var(--brand-light); }
+html[data-theme="dark"] .hl-soft::before { background: rgba(84,158,240,0.16); }
+/* main highlight plates: white text on the brand-blue plate in dark mode */
+html[data-theme="dark"] .hl { color: #fff; }
+.nowrapq { white-space: nowrap; }
+/* stat grid rules + body bold accents */
+html[data-theme="dark"] .nums-grid { border-top-color: var(--brand-light); border-bottom-color: var(--brand-light); }
+html[data-theme="dark"] .mz-body b,
+html[data-theme="dark"] .section-lead b,
+html[data-theme="dark"] .intro-split-text b { color: var(--brand-light); }
+/* dark theme is opt-in; never auto-animate the toggle on print */
+@media print { .mz-progress, .mz-sticky, .mz-ctrl { display: none !important; } }
