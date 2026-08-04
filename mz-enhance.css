@@ -209,3 +209,17 @@ html[data-theme="dark"] .section-lead b,
 html[data-theme="dark"] .intro-split-text b { color: var(--brand-light); }
 /* dark theme is opt-in; never auto-animate the toggle on print */
 @media print { .mz-progress, .mz-sticky, .mz-ctrl { display: none !important; } }
+
+/* mobile tap targets */
+@media (max-width: 600px) {
+  .mz-lang { height: 44px; }
+  .mz-lang button { padding: 0 14px; min-height: 44px; }
+  .mz-theme { width: 44px; height: 44px; }
+  footer .footer-col a, footer .footer-links a { display: inline-block; padding: 6px 0; }
+}
+
+/* mobile: keep MOTO-ZÜRICH on one line */
+@media (max-width: 600px) {
+  .intro-split-text .section-title { font-size: clamp(28px, 9.8vw, 40px) !important; }
+  .intro-split-text .section-title .hl { white-space: nowrap; }
+}

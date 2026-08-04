@@ -15,8 +15,7 @@
     { label: 'Besucher', en: 'Visitors', fr: 'Visiteurs', children: [
       { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: 'FAQ.html' },
       { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: 'FAQ.html#parking' },
-      { id: 'gesamtplan', label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: 'Gesamtplan.html' },
-      { id: 'party', label: 'Saisonstart Party', en: 'Season-Opening Party', fr: "Soirée d'ouverture", href: 'Party.html' }
+      { label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: 'Programm.html#hallenplan' }
     ]},
     { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: 'Programm.html', children: [
       { label: 'Programm 2027', en: 'Programme 2027', fr: 'Programme 2027', href: 'Programm.html' },
@@ -33,7 +32,6 @@
       { id: 'team',  label: 'Team',                  href: 'Team.html' },
       { id: 'warum', label: 'Warum die MOTO-ZÜRICH', en: 'Why MOTO-ZÜRICH', fr: 'Pourquoi MOTO-ZÜRICH', href: 'Warum.html' },
       { id: 'volunteers', label: 'Volunteers',        href: 'Volunteers.html' },
-      { id: 'creators',   label: 'Creators',          href: 'Creators.html' },
       { id: 'sound', label: 'Sounds der MOTO-ZÜRICH', en: 'Sounds of MOTO-ZÜRICH', fr: 'Les sons de MOTO-ZÜRICH', href: 'Sound.html' },
       { label: 'Kontaktiere uns', en: 'Contact Us', fr: 'Contactez-nous', href: 'https://pyrus.com/form/2399268', ext: true }
     ]},
@@ -85,18 +83,28 @@
     '</div></header>';
 
   var partners =
-    '<section class="partners-strip"><div class="partners-strip-inner">' +
-      '<div class="partners-strip-label" data-en="Partners &amp; Media Partners 2026" data-fr="Partenaires &amp; partenaires médias 2026">Partner &amp; Medienpartner 2026</div>' +
-      '<div class="partners-strip-logos">' +
-        '<img src="assets/partners/Allianz.svg" alt="Allianz" title="Presenting Partner · Allianz" />' +
-        '<img src="assets/partners/blick-logo.svg" alt="Blick" title="Medienpartner · Blick" />' +
-        '<span class="partner-logo-text" title="Moto.ch"><b>Moto</b><small>.ch</small></span>' +
-        '<span class="partner-logo-text" title="1000PS"><b>1000PS</b><small>.ch</small></span>' +
-        '<img src="assets/partners/MotoScout24.svg" alt="MotoScout24" />' +
-        '<img src="assets/partners/Radio-Zurisee.svg" alt="Radio Zürisee" />' +
-        '<img src="assets/partners/Radio-Switzerland-Virgin.svg" alt="Radio Switzerland" />' +
-        '<img src="assets/partners/Radio-Argovva.svg" alt="Radio Argovia" />' +
-        '<span class="partner-logo-text" title="moto-lifestyle.ch"><b>moto-lifestyle</b><small>.ch</small></span>' +
+    '<section class="partners-strip partners-cat"><div class="partners-cat-inner">' +
+      '<div class="partner-group partner-group-lead">' +
+        '<div class="partner-group-h" data-en="Presenting Partner" data-fr="Partenaire présentateur">Presenting Partner</div>' +
+        '<div class="partner-group-logos"><img src="assets/partners/Allianz.svg" alt="Allianz" /></div>' +
+      '</div>' +
+      '<div class="partner-group partner-group-lead">' +
+        '<div class="partner-group-h" data-en="Co-Sponsor" data-fr="Co-sponsor">Co-Sponsor</div>' +
+        '<div class="partner-group-logos"><img src="assets/partners/MotoScout24.svg" alt="MotoScout24" /></div>' +
+      '</div>' +
+      '<div class="partner-group partner-group-media">' +
+        '<div class="partner-group-h" data-en="Media Partners" data-fr="Partenaires médias">Medienpartner</div>' +
+        '<div class="partner-group-logos">' +
+          '<span class="pk-cell"><img src="assets/partners/blick-logo.svg" alt="Blick" /></span>' +
+          '<span class="pk-cell"><span class="partner-logo-text" title="1000PS.ch"><b>1000PS</b><small>.ch</small></span></span>' +
+          '<span class="pk-cell"><span class="partner-logo-text" title="Moto.ch"><b>Moto</b><small>.ch</small></span></span>' +
+          '<span class="pk-cell"><img src="assets/partners/Radio-Argovva.svg" alt="Radio Argovia" /></span>' +
+          '<span class="pk-cell"><img src="assets/partners/Radio-Zurisee.svg" alt="Radio Zürisee" /></span>' +
+          '<span class="pk-cell"><span class="partner-logo-text" title="Radio 1"><b>RADIO 1</b><small>FM 93.6</small></span></span>' +
+          '<span class="pk-cell"><img src="assets/partners/Radio-Switzerland-Virgin.svg" alt="Virgin Radio Switzerland" /></span>' +
+          '<span class="pk-cell"><span class="partner-logo-text" title="moto-lifestyle.ch"><b>moto-lifestyle</b><small>.ch</small></span></span>' +
+          '<span class="pk-cell"><span class="partner-logo-text" title="Swiss Volunteers"><b>SWISS VOLUNTEERS</b><small>gaz energie</small></span></span>' +
+        '</div>' +
       '</div>' +
     '</div></section>';
 
@@ -117,7 +125,6 @@
       '<div class="footer-col"><h4 data-en="Visit" data-fr="Visite">Besuch</h4><ul>' +
         '<li><a href="Programm.html" data-en="Programme" data-fr="Programme">Programm</a></li>' +
         '<li><a href="Aussteller.html" data-en="Exhibitors" data-fr="Exposants">Aussteller</a></li>' +
-        '<li><a href="Party.html" data-en="Season-Opening Party" data-fr="Soirée d&#39;ouverture">Saisonstart-Party</a></li>' +
         '<li><a href="FAQ.html" data-en="Good to Know" data-fr="Bon à savoir">Gut zu Wissen</a></li>' +
         '<li><a href="' + TICKETS + '" target="_blank" rel="noopener" data-en="Tickets" data-fr="Billets">Tickets</a></li>' +
       '</ul></div>' +
@@ -132,9 +139,7 @@
       '<div class="footer-col"><h4 data-en="Contact" data-fr="Contact">Kontakt</h4><ul>' +
         '<li><a href="mailto:team@motozuerich.ch">team@motozuerich.ch</a></li>' +
         '<li><a href="mailto:help@motozuerich.ch">help@motozuerich.ch</a></li>' +
-        '<li><a href="tel:+41772871634">+41 77 287 16 34</a></li>' +
         '<li><a href="Volunteers.html">Volunteers</a></li>' +
-        '<li><a href="Creators.html">Creators</a></li>' +
       '</ul></div>' +
     '</div>' +
     '<div class="footer-bottom">' +

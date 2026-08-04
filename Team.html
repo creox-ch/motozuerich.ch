@@ -15,13 +15,16 @@
 <meta property="og:url" content="https://motozuerich.ch/team" />
 <meta property="og:title" content="Team – MOTO-ZÜRICH 2027 | Die Macher:innen hinter dem Event" />
 <meta property="og:description" content="Lerne das Team hinter der MOTO-ZÜRICH kennen – die Macher:innen des Saisonstarts der Schweizer Motorradszene." />
-<meta property="og:image" content="https://motozuerich.ch/assets/og-image.png" />
+<meta property="og:image" content="https://motozuerich.ch/assets/og/team.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:alt" content="Das Team hinter der MOTO-ZÜRICH" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Team – MOTO-ZÜRICH 2027 | Die Macher:innen hinter dem Event" />
 <meta name="twitter:description" content="Lerne das Team hinter der MOTO-ZÜRICH kennen – die Macher:innen des Saisonstarts der Schweizer Motorradszene." />
-<meta name="twitter:image" content="https://motozuerich.ch/assets/og-image.png" />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og/team.png" />
+<meta name="twitter:image:alt" content="Das Team hinter der MOTO-ZÜRICH" />
 <!-- ===== Favicon ===== -->
 <link rel="icon" href="favicon.ico" sizes="any" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -90,6 +93,32 @@
     .team-card { grid-template-columns: 1fr; }
     .team-photo { width: 100%; height: 360px; }
   }
+  /* ====== FLIP LEAD CARDS ====== */
+  .team-leads { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; align-items: stretch; }
+  .flip-card { display: flex; perspective: 1500px; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+  .flip-inner { position: relative; flex: 1; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.2,.72,.2,1); }
+  .flip-card:hover .flip-inner,
+  .flip-card:focus-visible .flip-inner,
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; overflow: hidden; border: 1px solid var(--brand); }
+  .flip-sizer { visibility: hidden; pointer-events: none; padding: clamp(26px, 3vw, 40px); }
+  .flip-sizer .flip-back-name, .flip-sizer .flip-back-role, .flip-sizer .flip-bio { visibility: hidden; }
+  .flip-front { background: var(--night); }
+  .flip-photo { width: 100%; height: 100%; display: block; }
+  .flip-caption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 26px 24px 22px; background: linear-gradient(180deg, rgba(10,25,41,0) 0%, rgba(10,25,41,.55) 42%, rgba(10,25,41,.9) 100%); }
+  .flip-name { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1.05; color: #fff; }
+  .flip-role { margin-top: 8px; font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--action-yellow); }
+  .flip-hint { position: absolute; top: 16px; right: 16px; z-index: 3; width: 36px; height: 36px; display: grid; place-items: center; background: var(--brand); color: #fff; font-size: 17px; line-height: 1; box-shadow: 0 4px 14px rgba(10,25,41,.28); transition: transform .3s; }
+  .flip-card:hover .flip-hint { transform: rotate(180deg); }
+  .flip-back { transform: rotateY(180deg); background: var(--brand); color: #fff; padding: clamp(26px, 3vw, 40px); display: flex; flex-direction: column; }
+  .flip-back::before { content: ""; position: absolute; top: 0; left: 0; width: 56px; height: 6px; background: var(--action-yellow); }
+  .flip-back-name { font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.08; color: #fff; }
+  .flip-back-role { margin-top: 7px; font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--action-yellow); }
+  .flip-bio { margin-top: 18px; font-family: var(--font-body); font-size: 15px; line-height: 1.62; color: rgba(255,255,255,.9); }
+  .flip-bio b { color: var(--action-yellow); font-weight: 700; }
+  @media (max-width: 860px) {
+    .team-leads { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body data-page="team">
@@ -110,21 +139,47 @@
 <section class="block">
   <div class="section-label body-fade">Kernteam</div>
   <h2 class="section-title">Wer dahinter <span class="hl">steht</span></h2>
-  <div class="team-grid">
-    <div class="team-card body-fade">
-      <image-slot id="team-yves" class="team-photo" shape="rounded" radius="4" src="assets/team-yves.png" placeholder="Foto Yves"></image-slot>
-      <div>
-        <div class="team-info-name">Yves Vollenweider</div>
-        <div class="team-role">Geschäftsführer · Gründer</div>
-        <p class="team-bio">Seit seiner Lehre als Motorradmechaniker tief in der Zweiradwelt verankert. Über 13 Jahre war er für die SWISS-MOTO verantwortlich und leitete diese als zentrale Branchenplattform. Mit umfassender Erfahrung in Entwicklung und Führung einer Grossveranstaltung bringt er fundiertes Know-how in Strategie, Marktverständnis und Umsetzung mit. MOTO-ZÜRICH ist für ihn ein logischer nächster Schritt: eine Plattform aus der Branche, für die Branche.</p>
+  <div class="team-leads">
+    <div class="flip-card body-fade" tabindex="0" role="button" aria-label="Yves Vollenweider – Karte umdrehen für Beschreibung">
+      <div class="flip-inner">
+        <div class="flip-sizer" aria-hidden="true">
+          <div class="flip-back-name">Yves Vollenweider</div>
+          <div class="flip-back-role">Mitinhaber · Geschäftsführer · Gründer</div>
+          <p class="flip-bio">Seit seiner Lehre als Motorradmechaniker tief in der Zweiradwelt verankert. Über 13 Jahre war er für die SWISS-MOTO verantwortlich und leitete diese als zentrale Branchenplattform. Mit umfassender Erfahrung in Entwicklung und Führung einer Grossveranstaltung bringt er fundiertes Know-how in Strategie, Marktverständnis und Umsetzung mit. MOTO-ZÜRICH ist für ihn ein logischer nächster Schritt: eine Plattform aus der Branche, für die Branche.</p>
+        </div>
+        <div class="flip-face flip-front">
+          <image-slot id="team-yves" class="flip-photo" fit="contain" position="50% 40%" src="assets/team-yves.png" placeholder="Foto Yves"></image-slot>
+          <div class="flip-caption">
+            <div class="flip-name">Yves Vollenweider</div>
+            <div class="flip-role" data-en="Co-owner · Managing Director · Founder" data-fr="Copropriétaire · Directeur · Fondateur">Mitinhaber · Geschäftsführer · Gründer</div>
+          </div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-back-name">Yves Vollenweider</div>
+          <div class="flip-back-role" data-en="Co-owner · Managing Director · Founder" data-fr="Copropriétaire · Directeur · Fondateur">Mitinhaber · Geschäftsführer · Gründer</div>
+          <p class="flip-bio">Seit seiner Lehre als Motorradmechaniker <b>tief in der Zweiradwelt verankert</b>. Über <b>13 Jahre</b> war er für die SWISS-MOTO verantwortlich und leitete diese als zentrale Branchenplattform. Mit umfassender Erfahrung in Entwicklung und Führung einer Grossveranstaltung bringt er fundiertes Know-how in <b>Strategie, Marktverständnis und Umsetzung</b> mit. MOTO-ZÜRICH ist für ihn ein logischer nächster Schritt: <b>eine Plattform aus der Branche, für die Branche.</b></p>
+        </div>
       </div>
     </div>
-    <div class="team-card body-fade" data-delay="90">
-      <image-slot id="team-kseniia" class="team-photo" shape="rounded" radius="4" src="assets/team-kseniia.png" placeholder="Foto Kseniia"></image-slot>
-      <div>
-        <div class="team-info-name">Kseniia Chudina</div>
-        <div class="team-role">Marketing · Brand · Digital</div>
-        <p class="team-bio">Sorgt für den visuellen Ausdruck, die klare Botschaft und den verbindenden Ton der MOTO-ZÜRICH. Mit Expertise in Marketing, Social Media und digitalen Lösungen schafft sie die Brücke zwischen Ausstellern und Besuchern – online wie vor Ort. Ihre Erfahrung im Kunst- und Kulturbereich bringt kreative Perspektiven und ein feines Gespür für Ästhetik, Inszenierung und Storytelling.</p>
+    <div class="flip-card body-fade" data-delay="90" tabindex="0" role="button" aria-label="Kseniia Chudina – Karte umdrehen für Beschreibung">
+      <div class="flip-inner">
+        <div class="flip-sizer" aria-hidden="true">
+          <div class="flip-back-name">Kseniia Chudina</div>
+          <div class="flip-back-role">Mitinhaberin · Marketing · Brand · Digital</div>
+          <p class="flip-bio">Sorgt für den visuellen Ausdruck, die klare Botschaft und den verbindenden Ton der MOTO-ZÜRICH. Mit Expertise in Marketing, Social Media und digitalen Lösungen schafft sie die Brücke zwischen Ausstellern und Besuchern – online wie vor Ort. Ihre Erfahrung im Kunst- und Kulturbereich bringt kreative Perspektiven und ein feines Gespür für Ästhetik, Inszenierung und Storytelling.</p>
+        </div>
+        <div class="flip-face flip-front">
+          <image-slot id="team-kseniia" class="flip-photo" fit="contain" position="50% 40%" src="assets/team-kseniia.png" placeholder="Foto Kseniia"></image-slot>
+          <div class="flip-caption">
+            <div class="flip-name">Kseniia Chudina</div>
+            <div class="flip-role" data-en="Co-owner · Marketing · Brand · Digital" data-fr="Copropriétaire · Marketing · Brand · Digital">Mitinhaberin · Marketing · Brand · Digital</div>
+          </div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-back-name">Kseniia Chudina</div>
+          <div class="flip-back-role" data-en="Co-owner · Marketing · Brand · Digital" data-fr="Copropriétaire · Marketing · Brand · Digital">Mitinhaberin · Marketing · Brand · Digital</div>
+          <p class="flip-bio">Sorgt für den <b>visuellen Ausdruck</b>, die klare Botschaft und den verbindenden Ton der MOTO-ZÜRICH. Mit Expertise in <b>Marketing, Social Media und digitalen Lösungen</b> schafft sie die Brücke zwischen Ausstellern und Besuchern – online wie vor Ort. Ihre Erfahrung im <b>Kunst- und Kulturbereich</b> bringt kreative Perspektiven und ein feines Gespür für <b>Ästhetik, Inszenierung und Storytelling</b>.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -137,7 +192,7 @@
       </div>
     </div>
     <div class="team-card-small body-fade" data-delay="80">
-      <image-slot id="team-jasmine" class="team-photo" shape="circle" src="assets/team-jasmine.png" placeholder="Foto"></image-slot>
+      <image-slot id="team-jasmine" class="team-photo" shape="circle" position="70% 50%" src="assets/team-jasmine.png" placeholder="Foto"></image-slot>
       <div>
         <div class="team-info-name">Jasmine Vollenweider</div>
         <div class="team-role">Event Coordinator</div>
@@ -183,17 +238,12 @@
       <div class="park-card-addr">Werde Teil der Crew – Bar, Einlass, Infodesk und Event-Team. Zertifikat, Tageseintritte und Einblicke hinter die Kulissen.</div>
       <div class="park-card-links"><span style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;color:var(--brand);">Zur Seite →</span></div>
     </a>
-    <a class="park-card" href="Creators.html" style="text-decoration:none;display:block;">
-      <div class="park-card-name">Creators</div>
-      <div class="park-card-addr">Kollaborationen, Content und Motorradkultur. Creator-Alley, Live-Interviews und spontane Collabs.</div>
-      <div class="park-card-links"><span style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;color:var(--brand);">Zur Seite →</span></div>
-    </a>
   </div>
 </section>
 
 <!-- ====== CONTACT ====== -->
 <section class="block-alt">
-  <div class="inner">
+  <div class="inner" style="max-width:760px;">
     <div class="section-label body-fade">Kontakt</div>
     <h2 class="section-title">Noch <span class="hl">Fragen</span>?</h2>
     <p class="section-lead body-fade" data-delay="60">
@@ -209,6 +259,19 @@
 </section>
 
 <script src="image-slot.js"></script>
+<script>
+(function(){
+  document.querySelectorAll('.flip-card').forEach(function(card){
+    card.addEventListener('click',function(e){
+      if(e.target.closest('a')||e.target.closest('image-slot'))return;
+      card.classList.toggle('flipped');
+    });
+    card.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();card.classList.toggle('flipped');}
+    });
+  });
+})();
+</script>
 <script src="mz-chrome.js"></script>
 <script src="i18n/dict-team.js"></script>
 <script src="mz-i18n.js"></script>

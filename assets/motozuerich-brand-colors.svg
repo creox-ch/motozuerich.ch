@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="990" viewBox="0 0 1280 990">
+<rect width="1280" height="990" fill="#ffffff"></rect>
+<rect x="0" y="0" width="1280" height="10" fill="#2F65A0"></rect>
+<text x="40" y="78" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="44" letter-spacing="-0.5" fill="#0a1929">MOTO-ZÜRICH</text>
+<text x="40" y="112" font-family="IBM Plex Mono, monospace" font-weight="700" font-size="18" letter-spacing="3" fill="#6b7280">FIRMENFARBEN · BRAND COLORS</text>
+<g>
+  <rect x="40" y="190" width="276" height="166" fill="#2F65A0"></rect>
+  <text x="62" y="310" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Brand</text>
+  <text x="62" y="336" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#2F65A0</text>
+  <text x="62" y="358" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--brand</text>
+  </g>
+<g>
+  <rect x="340" y="190" width="276" height="166" fill="#1f4571"></rect>
+  <text x="362" y="310" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Brand Dark</text>
+  <text x="362" y="336" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#1F4571</text>
+  <text x="362" y="358" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--brand-dark</text>
+  </g>
+<g>
+  <rect x="640" y="190" width="276" height="166" fill="#0e2a4a"></rect>
+  <text x="662" y="310" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Brand Darker</text>
+  <text x="662" y="336" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#0E2A4A</text>
+  <text x="662" y="358" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--brand-darker</text>
+  </g>
+<g>
+  <rect x="940" y="190" width="276" height="166" fill="#549EF0"></rect>
+  <text x="962" y="310" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Brand Light</text>
+  <text x="962" y="336" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#549EF0</text>
+  <text x="962" y="358" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--brand-light</text>
+  </g>
+<g>
+  <rect x="40" y="380" width="276" height="166" fill="#e8eff7"></rect>
+  <text x="62" y="500" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#282424">Brand Soft</text>
+  <text x="62" y="526" font-family="IBM Plex Mono, monospace" font-size="18" fill="#282424">#E8EFF7</text>
+  <text x="62" y="548" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(40,36,36,.55)">--brand-soft</text>
+  </g>
+<g>
+  <rect x="340" y="380" width="276" height="166" fill="#0a1929"></rect>
+  <text x="362" y="500" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Night</text>
+  <text x="362" y="526" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#0A1929</text>
+  <text x="362" y="548" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--night</text>
+  </g>
+<g>
+  <rect x="640" y="380" width="276" height="166" fill="#142235"></rect>
+  <text x="662" y="500" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Night Soft</text>
+  <text x="662" y="526" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#142235</text>
+  <text x="662" y="548" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--night-soft</text>
+  </g>
+<g>
+  <rect x="940" y="380" width="276" height="166" fill="#C10D0D"></rect>
+  <text x="962" y="500" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Swiss Red</text>
+  <text x="962" y="526" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#C10D0D</text>
+  <text x="962" y="548" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--swiss-red</text>
+  </g>
+<g>
+  <rect x="40" y="570" width="276" height="166" fill="#960909"></rect>
+  <text x="62" y="690" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Swiss Red Dark</text>
+  <text x="62" y="716" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#960909</text>
+  <text x="62" y="738" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--swiss-red-dark</text>
+  </g>
+<g>
+  <rect x="340" y="570" width="276" height="166" fill="#FAF143"></rect>
+  <text x="362" y="690" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#282424">Action Yellow</text>
+  <text x="362" y="716" font-family="IBM Plex Mono, monospace" font-size="18" fill="#282424">#FAF143</text>
+  <text x="362" y="738" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(40,36,36,.55)">--action-yellow</text>
+  </g>
+<g>
+  <rect x="640" y="570" width="276" height="166" fill="#282424"></rect>
+  <text x="662" y="690" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Ink</text>
+  <text x="662" y="716" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#282424</text>
+  <text x="662" y="738" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--fg</text>
+  </g>
+<g>
+  <rect x="940" y="570" width="276" height="166" fill="#6b7280"></rect>
+  <text x="962" y="690" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Muted</text>
+  <text x="962" y="716" font-family="IBM Plex Mono, monospace" font-size="18" fill="#ffffff">#6B7280</text>
+  <text x="962" y="738" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(255,255,255,.65)">--muted</text>
+  </g>
+<g>
+  <rect x="40" y="760" width="276" height="166" fill="#f5f7fa"></rect>
+  <text x="62" y="880" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#282424">BG Alt</text>
+  <text x="62" y="906" font-family="IBM Plex Mono, monospace" font-size="18" fill="#282424">#F5F7FA</text>
+  <text x="62" y="928" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(40,36,36,.55)">--bg-alt</text>
+  </g>
+<g>
+  <rect x="340" y="760" width="276" height="166" fill="#ffffff" stroke="#e0e4ea" stroke-width="1.5"></rect>
+  <text x="362" y="880" font-family="IBM Plex Sans, sans-serif" font-weight="700" font-size="22" fill="#282424">BG White</text>
+  <text x="362" y="906" font-family="IBM Plex Mono, monospace" font-size="18" fill="#282424">#FFFFFF</text>
+  <text x="362" y="928" font-family="IBM Plex Mono, monospace" font-size="13" fill="rgba(40,36,36,.55)">--bg</text>
+  </g>
+</svg>

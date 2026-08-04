@@ -81,7 +81,7 @@
      (.hl/.hl-soft/.hl-yellow) the plate's background slides in first, then its
      characters type on top. */
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var PLATE = '.hl, .hl-soft, .hl-yellow';
+  var PLATE = '.hl, .hl-soft, .hl-yellow, .hl-green';
 
   function splitChars(element) {
     var childNodes = Array.prototype.slice.call(element.childNodes);
