@@ -15,6 +15,48 @@
   var FB_ID = '1525171172005763';
   var STORE = 'mz-consent-v1';
 
+  /* ---- schema.org (Organization + Event) — Rich Results, auf jeder Seite ---- */
+  try {
+    var _ld = {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Organization',
+          '@id': 'https://motozuerich.ch/#org',
+          name: 'MOTO-ZÜRICH',
+          url: 'https://motozuerich.ch/',
+          logo: 'https://motozuerich.ch/assets/logo-moto-zuerich.svg'
+        },
+        {
+          '@type': 'Event',
+          name: 'MOTO-ZÜRICH 2027',
+          startDate: '2027-02-19',
+          endDate: '2027-02-21',
+          eventStatus: 'https://schema.org/EventScheduled',
+          eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+          url: 'https://motozuerich.ch/',
+          image: 'https://motozuerich.ch/assets/og/home.png',
+          description: 'Der unabhängige Saisonauftakt der Schweizer Motorradszene – urban, kuratiert und nahbar.',
+          location: {
+            '@type': 'Place',
+            name: 'StageOne & Halle 550',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: 'Zürich-Oerlikon',
+              addressRegion: 'ZH',
+              addressCountry: 'CH'
+            }
+          },
+          organizer: { '@id': 'https://motozuerich.ch/#org' }
+        }
+      ]
+    };
+    var _lds = document.createElement('script');
+    _lds.type = 'application/ld+json';
+    _lds.text = JSON.stringify(_ld);
+    document.head.appendChild(_lds);
+  } catch (e) {}
+
   /* ---- Consent Mode v2: define gtag + default everything denied ---- */
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
