@@ -37,6 +37,8 @@
   --swiss-red:      #C10D0D;  /* CTA buttons · Swiss accent */
   --swiss-red-dark: #960909;  /* CTA hover */
   --action-yellow:  #FAF143;  /* Action Zone signifier · highlight */
+  --adventure-green: #2E7D4F; /* Adventure Camp signifier */
+  --adventure-green-dark: #1F5B39;
 
   /* ============ TYPE ROLES ============ */
   --font-display: 'IBM Plex Sans', system-ui, sans-serif;  /* headlines, wordmarks, stats */
@@ -44,7 +46,7 @@
   --font-body:    'Nunito Sans', system-ui, sans-serif;     /* paragraphs, leads */
 
   /* Fluid display sizes (clamp: min, vw, max) */
-  --fs-hero:      clamp(64px, 12vw, 180px); /* @kind font */ /* hero wordmark */
+  --fs-hero:      clamp(40px, 11.5vw, 180px); /* @kind font */ /* hero wordmark */
   --fs-claim:     clamp(64px, 11vw, 168px); /* @kind font */ /* full-bleed claim */
   --fs-h1:        clamp(44px, 6.5vw, 92px); /* @kind font */ /* section titles */
   --fs-h2:        clamp(32px, 4.5vw, 52px); /* @kind font */ /* sub-headlines */

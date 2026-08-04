@@ -57,7 +57,7 @@
 <link rel="stylesheet" href="colors_and_type.css" />
 <link rel="stylesheet" href="motozuerich-page.css?v=7" />
 <link rel="stylesheet" href="mz-enhance.css" />
-<link rel="stylesheet" href="plan-shared.css?v=10" />
+<link rel="stylesheet" href="plan-shared.css?v=11" />
 <style>
 .plan-inner{position:relative;width:100%;aspect-ratio:2020/1685}
 .plan-marklabel{position:absolute;transform:translate(-50%,-50%);z-index:5;font-family:var(--font-body);font-weight:700;font-size:9px;letter-spacing:0;color:#243b53;pointer-events:auto;white-space:nowrap}
@@ -79,14 +79,7 @@
 .ps-results .ps-empty:hover{background:none}
 .plan-hot.flash{animation:psflash 1.1s ease}
 @keyframes psflash{0%,100%{box-shadow:inset 0 0 0 2px var(--swiss-red)}50%{box-shadow:inset 0 0 0 5px var(--swiss-red);background:rgba(193,13,13,.2)}}
-.plan-zoom{display:none}
-@media(max-width:760px){
-  .plan-box{position:relative;overflow:hidden;touch-action:none}
-  #plan{transform-origin:0 0;will-change:transform}
-  .plan-zoom{display:flex;flex-direction:column;gap:8px;position:absolute;right:12px;bottom:12px;z-index:30}
-  .plan-zoom button{width:44px;height:44px;border:1px solid var(--line-strong);background:var(--bg);color:var(--brand-dark);font-family:var(--font-display);font-weight:700;font-size:22px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 10px rgba(15,35,60,.2)}
-  .plan-zoom button:active{background:var(--brand);color:#fff}
-}
+
 .plan-hot.foodzone{box-shadow:inset 0 0 0 2px #e8a400}
 .plan-hot.foodzone:hover{background:rgba(232,164,0,.14);box-shadow:inset 0 0 0 2.5px #e8a400}
 .plan-hot.foodzone.sel{background:rgba(232,164,0,.18);box-shadow:inset 0 0 0 3px #e8a400}
@@ -106,13 +99,62 @@
 @media(max-width:760px){.plan-detail{display:none}}
 </style>
 
-<style id="mz-mobile-plan">
+<!-- mobile plan styles: siehe #mz-mobile-map -->
+<style id="mz-mobile-map-css">
+.plan-ov,.plan-zoom,.plan-tip,.plan-mtabs,.plan-mlist,#c-show{display:none}
 @media(max-width:760px){
-  .plan-box{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .plan-inner{min-width:900px}
-  .plan-hot{box-shadow:inset 0 0 0 1px rgba(47,101,160,.45)}
-  .plan-hot:hover{box-shadow:inset 0 0 0 1.5px rgba(47,101,160,.85)}
-  .plan-hot.sel{box-shadow:inset 0 0 0 1.5px var(--brand)}
+  .plan-bleed{padding:0;margin-top:20px}
+  .plan-search{max-width:none;margin:0 14px 12px}
+  #ps-input{font-size:16px;padding:14px 12px}
+  #ps-clear{padding:0 16px;min-width:48px}
+  .ps-results{left:14px;right:14px;max-height:48vh;-webkit-overflow-scrolling:touch}
+  .ps-results li{padding:14px 16px;font-size:15px;min-height:48px;box-sizing:border-box}
+  .plan-mtabs{display:grid;grid-template-columns:1fr 1fr;margin:0 14px 12px;border:1px solid var(--line-strong)}
+  .plan-mtabs button{appearance:none;-webkit-appearance:none;border:0;background:var(--bg);color:var(--muted);min-height:48px;padding:0 8px;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .plan-mtabs button+button{border-left:1px solid var(--line-strong)}
+  .plan-mtabs button.on{background:var(--brand-dark);color:#fff}
+  .plan-flex{display:block}
+  .plan-box{position:relative;overflow:hidden;padding:0;border-left:0;border-right:0;background:#f6f7f9;width:100%;box-sizing:border-box;aspect-ratio:2020/1685;touch-action:pan-y}
+  #plan{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+  .plan-box.full{position:fixed;inset:0;z-index:1200;height:auto!important;aspect-ratio:auto;border:0}
+  #zreset{display:none}
+  body.mz-mapfull{overflow:hidden}
+  body.mz-sheet{overflow:hidden}
+  .plan-ov{display:flex;gap:6px;align-items:center;position:absolute;left:8px;right:8px;top:8px;z-index:30;pointer-events:none}
+  .plan-ov>*{pointer-events:auto}
+  .plan-zrow{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .plan-zrow::-webkit-scrollbar{display:none}
+  .plan-zbtn{appearance:none;-webkit-appearance:none;flex:none;border:1px solid var(--line-strong);background:rgba(255,255,255,.94);color:var(--brand-dark);min-height:38px;padding:0 11px;font-family:var(--font-mono);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;cursor:pointer;box-shadow:0 2px 8px rgba(15,35,60,.14)}
+  .plan-zbtn:active{background:var(--brand);border-color:var(--brand);color:#fff}
+  .plan-fs{width:38px;padding:0;font-size:15px;line-height:1}
+  .plan-zoom{display:flex;flex-direction:column;gap:8px;position:absolute;right:10px;bottom:10px;z-index:30}
+  .plan-zoom button{width:44px;height:44px;border:1px solid var(--line-strong);background:rgba(255,255,255,.94);color:var(--brand-dark);font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 10px rgba(15,35,60,.18)}
+  .plan-zoom button:active{background:var(--brand);color:#fff}
+  .plan-tip{display:block;position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:29;background:rgba(15,35,60,.86);color:#fff;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;white-space:nowrap;pointer-events:none;transition:opacity .45s}
+  .plan-tip.gone{opacity:0}
+  .plan-legend{display:grid;grid-template-columns:1fr;gap:9px;padding:0 14px;font-size:11.5px;line-height:1.45;margin-top:16px}
+  .plan-legend span{align-items:flex-start}
+  .plan-sw{flex:none;margin-top:1px}
+  .plan-acc{display:none}
+  .plan-mlist{padding:0 14px}
+  #planroot.list-mode .plan-flex,#planroot.list-mode .plan-legend{display:none}
+  #planroot.list-mode .plan-mlist{display:block}
+  .ml-h{font-family:var(--font-mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:22px 0 8px;border-bottom:2px solid var(--line-strong)}
+  .ml-row{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-align:left;background:var(--bg);border:0;border-bottom:1px solid var(--line);padding:11px 2px;min-height:60px;cursor:pointer;font-family:var(--font-body)}
+  .ml-row:active{background:var(--brand-soft)}
+  .ml-id{flex:none;min-width:46px;text-align:center;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.04em;color:#fff;background:var(--brand);padding:6px 6px}
+  .ml-row.is-intern .ml-id{background:var(--muted)}
+  .ml-row.is-zone .ml-id{background:#e8a400;color:var(--brand-dark)}
+  .ml-row.is-taken .ml-id{background:var(--brand-dark)}
+  .ml-tx{flex:1;min-width:0}
+  .ml-t{display:block;font-weight:700;font-size:15px;line-height:1.25;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ml-s{display:block;font-size:12.5px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ml-p{flex:none;font-family:var(--font-mono);font-weight:700;font-size:12px;color:var(--brand-dark);text-align:right}
+  #c-show{display:block;width:100%;box-sizing:border-box;margin-top:14px;min-height:48px;border:1px solid var(--brand-dark);background:var(--bg);color:var(--brand-dark);font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  #c-show:active{background:var(--brand-dark);color:#fff}
+}
+@media(max-width:760px) and (orientation:landscape){
+  .plan-box{aspect-ratio:auto;height:84vh!important}
 }
 </style>
 </head>
@@ -134,7 +176,8 @@
 <section class="block">
   <div class="section-label body-fade">Interaktiver Plan · Stand Juli 2026</div>
   <h2 class="section-title">Gesamtplan<br /><span class="hl">Alle Aussteller &amp; Stände</span></h2>
-  <div class="plan-bleed body-fade" data-delay="140">
+  <div class="plan-bleed body-fade" id="planroot" data-delay="140">
+    <div class="plan-mtabs" id="mtabs"><button type="button" class="on" data-mtab="map" data-en="Map" data-fr="Carte">Karte</button><button type="button" data-mtab="list" data-en="List" data-fr="Liste">Liste</button></div>
     <div class="plan-search" id="plan-search">
       <svg class="ps-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2"/></svg>
       <input type="text" id="ps-input" autocomplete="off" placeholder="Stand oder Aussteller suchen …" data-en="Search booth or exhibitor …" data-fr="Rechercher stand ou exposant …" />
@@ -144,7 +187,9 @@
     <div class="plan-flex">
       <div class="plan-box">
         <div class="plan-inner" id="plan"><img src="assets/gesamtplan.svg?v=1" alt="Gesamtplan MOTO-ZÜRICH: Halle 550 und StageOne" /><span class="plan-marklabel" style="left:22%;top:10.5%">Lager</span></div>
-        <div class="plan-zoom" id="zoomui" hidden><button type="button" id="zin" aria-label="Vergrössern">+</button><button type="button" id="zout" aria-label="Verkleinern">−</button><button type="button" id="zreset" aria-label="Zurücksetzen">↺</button></div>
+        <div class="plan-ov" id="planov"><div class="plan-zrow"><button type="button" class="plan-zbtn" data-zone="all" data-en="All" data-fr="Tout">Alle</button><button type="button" class="plan-zbtn" data-zone="halle">Halle 550</button><button type="button" class="plan-zbtn" data-zone="stage">StageOne</button></div><button type="button" class="plan-zbtn plan-fs" id="mfull" aria-label="Vollbild">⤢</button></div>
+        <div class="plan-zoom" id="zoomui"><button type="button" id="zin" aria-label="Vergrössern">+</button><button type="button" id="zout" aria-label="Verkleinern">−</button><button type="button" id="zreset" aria-label="Zurücksetzen">↺</button></div>
+        <div class="plan-tip" id="plantip" data-en="Drag · pinch to zoom" data-fr="Glisser · pincer pour zoomer">Ziehen · kneifen zum Zoomen</div>
         <div class="plan-pop" id="pop">
           <button class="plan-pop-close" id="pop-close" aria-label="Schliessen">✕</button>
           <span class="pd-eyebrow">MOTO-ZÜRICH</span>
@@ -154,6 +199,7 @@
           <div class="pd-loc" id="c-loc"></div>
           <p class="plan-hint" id="c-hint"></p>
           <div id="c-extra"></div>
+          <button type="button" id="c-show" data-en="Show on the map" data-fr="Afficher sur le plan" hidden>Auf der Karte zeigen</button>
           <div class="plan-cta" id="c-cta" style="display:none"><a id="c-mail" href="#">Diesen Stand anfragen →</a></div>
         </div>
       </div>
@@ -171,6 +217,7 @@
         </div>
       </aside>
     </div>
+    <div class="plan-mlist" id="mlist"></div>
     <div class="plan-legend body-fade" data-delay="160" style="margin-top:18px">
       <span><i class="plan-sw" style="background:rgba(47,101,160,.18);border-color:var(--brand)"></i>Halle 550 · verfügbar</span>
       <span><i class="plan-sw" style="background:rgba(250,241,67,.58);border-color:#e8a400"></i>Hall D / FMX</span>
@@ -296,6 +343,10 @@
     document.getElementById('d-links').innerHTML=m.links?linksHtml(m.links):'';
     var cta=document.getElementById('d-cta');cta.style.display=m.mail?'block':'none';
     if(m.mail)document.getElementById('d-mail').href=mailHref(id);
+    if(window.matchMedia('(max-width:980px)').matches){
+      var r=det.getBoundingClientRect();
+      if(r.top>window.innerHeight-140)window.scrollTo({top:Math.max(0,window.pageYOffset+r.top-90),behavior:'smooth'});
+    }
   }
   /* Bottom-Sheet (Mobile-Klick) */
   function fillSheet(id){
@@ -308,6 +359,9 @@
     document.getElementById('c-extra').innerHTML=m.rows+m.priceHtml+(lh?'<div class="pd-links" style="margin-top:14px">'+lh+'</div>':'');
     var cta=document.getElementById('c-cta');cta.style.display=m.mail?'block':'none';
     if(m.mail)document.getElementById('c-mail').href=mailHref(id);
+    var sh=document.getElementById('c-show');if(sh){sh.hidden=false;sh.setAttribute('data-id',id);}
+    pop.scrollTop=0;
+    if(window.MZ_MAP)window.MZ_MAP.centerStand(id);
   }
   function place(el){
     if(isMobile())return;
@@ -368,7 +422,10 @@
     function goTo(id){
       var el=hotEls[id];if(!el)return;
       results.hidden=true;
-      document.querySelector('.plan-box').scrollIntoView({behavior:'smooth',block:'center'});
+      if(isMobile()){input.blur();if(window.MZ_TABS)window.MZ_TABS('map');}
+      var r=box.getBoundingClientRect();
+      window.scrollTo({top:Math.max(0,window.pageYOffset+r.top-72),behavior:'smooth'});
+      if(isMobile()&&window.MZ_MAP)window.MZ_MAP.zoomToStand(id);
       select(id,el);
       el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');
       setTimeout(function(){el.classList.remove('flash');},1200);
@@ -390,66 +447,111 @@
     document.addEventListener('click',function(ev){if(!document.getElementById('plan-search').contains(ev.target))results.hidden=true;});
   })();
 
-  /* ---- Mobile Pinch-Zoom & Pan ---- */
-  (function(){
-    if(!('ontouchstart' in window))return;
-    var vp=box,ui=document.getElementById('zoomui');
-    var scale=1,tx=0,ty=0,MIN=1,MAX=4;
+  /* ---- Karten-Viewport (Mobile): Pan, Pinch-Zoom, Doppeltipp, Zonen ---- */
+  var MAP=(function(){
+    var scale=1,tx=0,ty=0,fit=1,MAX=6;
+    function on(){return window.matchMedia('(max-width:760px)').matches;}
+    function dm(){return {vw:box.clientWidth,vh:box.clientHeight,pw:plan.offsetWidth,ph:plan.offsetHeight};}
+    function calcFit(){var m=dm();fit=(m.ph&&m.vh)?Math.min(1,m.vh/m.ph):1;return fit;}
     function clamp(){
-      var w=vp.clientWidth,h=vp.clientHeight;
-      var maxx=0,minx=w-w*scale,maxy=0,miny=h-h*scale;
-      if(scale<=1){tx=0;ty=0;return;}
-      tx=Math.min(maxx,Math.max(minx,tx));ty=Math.min(maxy,Math.max(miny,ty));
+      var m=dm(),w=m.pw*scale,h=m.ph*scale;
+      tx=w<=m.vw?(m.vw-w)/2:Math.min(0,Math.max(m.vw-w,tx));
+      ty=h<=m.vh?(m.vh-h)/2:Math.min(0,Math.max(m.vh-h,ty));
     }
-    function apply(){clamp();plan.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';}
-    function zoomAt(cx,cy,ns){
-      ns=Math.min(MAX,Math.max(MIN,ns));
-      var k=ns/scale;
-      tx=cx-(cx-tx)*k;ty=cy-(cy-ty)*k;scale=ns;apply();
+    function sizeBox(){
+      if(box.classList.contains('full')){box.style.height='';box.style.aspectRatio='';return;}
+      var pw=box.clientWidth;if(!pw)return;
+      var ph=pw/1.19881;
+      var base=Math.round(ph+28),tall=Math.round(Math.min(window.innerHeight*.62,ph*2));
+      box.style.aspectRatio='auto';
+      box.style.height=((scale>fit*1.04)?Math.max(base,tall):base)+'px';
     }
-    if(ui&&window.matchMedia('(max-width:760px)').matches){
-      ui.hidden=false;
-      document.getElementById('zin').addEventListener('click',function(){var r=vp.getBoundingClientRect();zoomAt(r.width/2,r.height/2,scale*1.5);});
-      document.getElementById('zout').addEventListener('click',function(){var r=vp.getBoundingClientRect();zoomAt(r.width/2,r.height/2,scale/1.5);});
-      document.getElementById('zreset').addEventListener('click',function(){scale=1;tx=0;ty=0;apply();});
+    function apply(){
+      if(!on()){plan.style.transform='';plan.style.transition='';box.style.touchAction='';box.style.height='';box.style.aspectRatio='';return;}
+      sizeBox();clamp();
+      plan.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';
+      var m=dm();
+      box.style.touchAction=(m.ph*scale>m.vh+1)?'none':'pan-y';
     }
-    var pts={},startDist=0,startScale=1,startMid=null,startT=null,moved=false;
-    function rel(t){var r=vp.getBoundingClientRect();return{x:t.clientX-r.left,y:t.clientY-r.top};}
-    vp.addEventListener('touchstart',function(e){
-      moved=false;
+    function smooth(v){plan.style.transition=v?'transform .28s cubic-bezier(.22,.61,.36,1)':'none';}
+    function glide(fn){smooth(true);fn();setTimeout(function(){smooth(false);},320);}
+    function zoomAt(cx,cy,ns,anim){
+      ns=Math.min(MAX,Math.max(fit,ns));
+      var run=function(){var k=ns/scale;tx=cx-(cx-tx)*k;ty=cy-(cy-ty)*k;scale=ns;apply();};
+      anim?glide(run):run();
+    }
+    function center(px,py,ns){var m=dm();scale=Math.min(MAX,Math.max(fit,ns));tx=m.vw/2-m.pw*px/100*scale;ty=m.vh/2-m.ph*py/100*scale;apply();}
+    function toRect(r){
+      if(!on())return;var m=dm();if(!m.vw)return;
+      var rw=m.pw*r.w/100*1.08,rh=m.ph*r.h/100*1.08;
+      glide(function(){center(r.l+r.w/2,r.t+r.h/2,Math.min(m.vw/rw,m.vh/rh));});
+    }
+    function reset(){if(!on())return;glide(function(){calcFit();scale=fit;apply();});}
+    function refit(){if(!on()){box.style.height='';box.style.aspectRatio='';plan.style.transform='';return;}var m=dm();if(!m.vw)return;sizeBox();calcFit();if(scale<fit)scale=fit;apply();}
+    function zoomToStand(id){
+      if(!on())return;var p=window.GP_HOT&&window.GP_HOT[id];if(!p)return;
+      glide(function(){center(p.l+p.w/2,p.t+p.h/2,Math.max(2.4,scale));});
+    }
+    function centerStand(id){
+      if(!on())return;var p=window.GP_HOT&&window.GP_HOT[id];if(!p)return;
+      glide(function(){center(p.l+p.w/2,p.t+p.h/2,scale);});
+    }
+    /* Touch */
+    var pts={},sd=0,ss=1,smid=null,st=null,moved=false,lastTap=0,ltx=0,lty=0;
+    function rel(t){var r=box.getBoundingClientRect();return{x:t.clientX-r.left,y:t.clientY-r.top};}
+    box.addEventListener('touchstart',function(e){
+      if(!on())return;
+      moved=false;smooth(false);
       for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];pts[t.identifier]=rel(t);}
       var ids=Object.keys(pts);
-      if(ids.length===2){
-        var a=pts[ids[0]],b=pts[ids[1]];
-        startDist=Math.hypot(a.x-b.x,a.y-b.y);startScale=scale;
-        startMid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};startT={tx:tx,ty:ty};
-      }else if(ids.length===1&&scale>1){startT={tx:tx,ty:ty,x:pts[ids[0]].x,y:pts[ids[0]].y};}
+      if(ids.length===2){var a=pts[ids[0]],b2=pts[ids[1]];sd=Math.hypot(a.x-b2.x,a.y-b2.y)||1;ss=scale;smid={x:(a.x+b2.x)/2,y:(a.y+b2.y)/2};st={tx:tx,ty:ty};}
+      else if(ids.length===1){st={tx:tx,ty:ty,x:pts[ids[0]].x,y:pts[ids[0]].y};}
     },{passive:false});
-    vp.addEventListener('touchmove',function(e){
+    box.addEventListener('touchmove',function(e){
+      if(!on())return;
       for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];if(pts[t.identifier])pts[t.identifier]=rel(t);}
-      var ids=Object.keys(pts);
-      if(ids.length===2&&startDist){
+      var ids=Object.keys(pts),m=dm();
+      if(ids.length===2&&sd){
         e.preventDefault();moved=true;
-        var a=pts[ids[0]],b=pts[ids[1]];
-        var d=Math.hypot(a.x-b.x,a.y-b.y);
-        var ns=Math.min(MAX,Math.max(MIN,startScale*(d/startDist)));
-        var k=ns/scale;
-        tx=startMid.x-(startMid.x-startT.tx)*(ns/startScale);
-        ty=startMid.y-(startMid.y-startT.ty)*(ns/startScale);
-        scale=ns;apply();
-      }else if(ids.length===1&&scale>1&&startT){
+        var a=pts[ids[0]],b2=pts[ids[1]];
+        var ns=Math.min(MAX,Math.max(fit,ss*(Math.hypot(a.x-b2.x,a.y-b2.y)/sd)));
+        tx=smid.x-(smid.x-st.tx)*(ns/ss);ty=smid.y-(smid.y-st.ty)*(ns/ss);scale=ns;apply();
+      }else if(ids.length===1&&st){
+        var p=pts[ids[0]],dx=p.x-st.x,dy=p.y-st.y;
+        var canX=m.pw*scale>m.vw+1,canY=m.ph*scale>m.vh+1;
+        if(!canX&&!canY)return;
+        if(Math.abs(dx)<5&&Math.abs(dy)<5)return;
+        if(!canY&&Math.abs(dy)>Math.abs(dx)*1.2)return;
         e.preventDefault();moved=true;
-        var p=pts[ids[0]];tx=startT.tx+(p.x-startT.x);ty=startT.ty+(p.y-startT.y);apply();
+        if(canX)tx=st.tx+dx;
+        if(canY)ty=st.ty+dy;
+        apply();
       }
     },{passive:false});
-    vp.addEventListener('touchend',function(e){
+    box.addEventListener('touchend',function(e){
+      var was=moved;
       for(var i=0;i<e.changedTouches.length;i++)delete pts[e.changedTouches[i].identifier];
-      if(Object.keys(pts).length<2)startDist=0;
-      if(!Object.keys(pts).length)startT=null;
+      var n=Object.keys(pts).length;
+      if(n<2)sd=0;
+      if(!n)st=null;
+      if(!on())return;
+      if(!was&&!n&&e.changedTouches.length===1){
+        var now=Date.now(),p=rel(e.changedTouches[0]);
+        if(now-lastTap<330&&Math.hypot(p.x-ltx,p.y-lty)<32){zoomAt(p.x,p.y,scale<fit*1.7?fit*2.8:fit,true);lastTap=0;}
+        else{lastTap=now;ltx=p.x;lty=p.y;}
+      }
     });
-    /* тап по стенду не должен срабатывать после жеста pan/zoom */
     plan.addEventListener('click',function(e){if(moved){e.stopPropagation();e.preventDefault();moved=false;}},true);
+    var rt;
+    window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(refit,150);});
+    window.addEventListener('orientationchange',function(){setTimeout(function(){reset();},350);});
+    if(document.readyState==='complete')refit();else window.addEventListener('load',refit);
+    setTimeout(refit,400);
+    return {toRect:toRect,reset:reset,refit:refit,zoomAt:zoomAt,zoomToStand:zoomToStand,centerStand:centerStand,
+      get scale(){return scale;},get fit(){return fit;}};
   })();
+  window.MZ_MAP=MAP;
+  window.MZ_PLAN={select:select,meta:meta,hotEls:hotEls,close:close,isMobile:isMobile};
 })();
 </script>
 <script src="plan-colors.js?v=2"></script>
@@ -493,6 +595,110 @@ function wireAcc(){var btn=document.getElementById("acc-btn"),body=document.getE
 btn.addEventListener("click",function(){var exp=btn.getAttribute("aria-expanded")==="true";btn.setAttribute("aria-expanded",String(!exp));var acc=btn.closest(".plan-acc");if(acc)acc.classList.toggle("open",!exp);if(exp){body.setAttribute("hidden","");}else{body.removeAttribute("hidden");}});}
 function go(){build();wireAcc();}
 if(document.readyState==="complete"){go();}else{window.addEventListener("load",go);}setTimeout(go,700);
+})();
+</script>
+<script id="mz-mobile-map">
+(function(){
+  var mq=window.matchMedia('(max-width:760px)');
+  var root=document.getElementById('planroot'),box=document.querySelector('.plan-box');
+  var tabs=document.getElementById('mtabs'),list=document.getElementById('mlist'),pop=document.getElementById('pop');
+  function t(de,en,fr){var l=localStorage.getItem('mz-lang')||'de';return l==='en'?en:l==='fr'?fr:de;}
+  function setTab(mode){
+    if(!tabs||!root)return;
+    root.classList.toggle('list-mode',mode==='list');
+    var bs=tabs.querySelectorAll('button');
+    for(var i=0;i<bs.length;i++)bs[i].classList.toggle('on',bs[i].getAttribute('data-mtab')===mode);
+    if(mode==='map'&&window.MZ_MAP)setTimeout(function(){window.MZ_MAP.refit();},30);
+  }
+  window.MZ_TABS=setTab;
+  if(tabs)tabs.addEventListener('click',function(e){var b=e.target.closest('button[data-mtab]');if(b)setTab(b.getAttribute('data-mtab'));});
+  var tip=document.getElementById('plantip');
+  function hideTip(){if(tip)tip.classList.add('gone');}
+  if(tip&&box){box.addEventListener('touchstart',hideTip,{passive:true});setTimeout(hideTip,7000);}
+  var ZONES={halle:{l:5,t:2,w:81,h:55},stage:{l:18,t:58,w:80,h:40}};
+  var ov=document.getElementById('planov');
+  if(ov)ov.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-zone]');if(!b||!window.MZ_MAP)return;
+    var z=ZONES[b.getAttribute('data-zone')];
+    if(z)window.MZ_MAP.toRect(z);else window.MZ_MAP.reset();
+    hideTip();
+  });
+  var fs=document.getElementById('mfull');
+  function toggleFull(v){
+    if(!box)return;
+    box.classList.toggle('full',v);document.body.classList.toggle('mz-mapfull',v);
+    if(fs){fs.textContent=v?'✕':'⤢';fs.setAttribute('aria-label',v?t('Vollbild beenden','Exit fullscreen','Quitter le plein écran'):t('Vollbild','Fullscreen','Plein écran'));}
+    if(window.MZ_MAP)setTimeout(function(){window.MZ_MAP.refit();},70);
+  }
+  if(fs)fs.addEventListener('click',function(){toggleFull(!box.classList.contains('full'));});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&box&&box.classList.contains('full'))toggleFull(false);});
+  ['zin','zout','zreset'].forEach(function(id){
+    var b=document.getElementById(id);if(!b)return;
+    b.addEventListener('click',function(){
+      if(!window.MZ_MAP||!box)return;
+      var r=box.getBoundingClientRect();
+      if(id==='zreset')window.MZ_MAP.reset();
+      else window.MZ_MAP.zoomAt(r.width/2,r.height/2,window.MZ_MAP.scale*(id==='zin'?1.7:1/1.7),true);
+      hideTip();
+    });
+  });
+  if(pop)new MutationObserver(function(){
+    document.body.classList.toggle('mz-sheet',pop.classList.contains('open')&&mq.matches);
+  }).observe(pop,{attributes:true,attributeFilter:['class']});
+  var show=document.getElementById('c-show');
+  if(show)show.addEventListener('click',function(){
+    var id=show.getAttribute('data-id');if(!id)return;
+    setTab('map');
+    if(window.MZ_MAP)window.MZ_MAP.zoomToStand(id);
+    pop.classList.remove('open');
+    var sc=document.getElementById('scrim');if(sc)sc.classList.remove('open');
+    if(box&&!box.classList.contains('full')){var r=box.getBoundingClientRect();window.scrollTo({top:Math.max(0,window.pageYOffset+r.top-64),behavior:'smooth'});}
+  });
+  function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,"'");}
+  function build(){
+    var A=window.MZ_PLAN;
+    if(!A||!list)return setTimeout(build,250);
+    var D=window.MZ_PLAN_D||{},ids=Object.keys(A.hotEls);
+    function grp(f){return ids.filter(f).sort(function(a,b){return a.localeCompare(b,undefined,{numeric:true});});}
+    var groups=[
+      [t('Halle 550 · Stände','Halle 550 · booths','Halle 550 · stands'),grp(function(i){return i.charAt(0)==='H';})],
+      [t('Hall D · FMX-Zone','Hall D · FMX zone','Hall D · zone FMX'),grp(function(i){return i.charAt(0)==='D';})],
+      ['StageOne',grp(function(i){return 'SGKE'.indexOf(i.charAt(0))>=0;})]
+    ];
+    var html='';
+    groups.forEach(function(g){
+      if(!g[1].length)return;
+      html+='<div class="ml-h">'+g[0]+' · '+g[1].length+'</div>';
+      g[1].forEach(function(id){
+        var m=A.meta(id),d=D[id],cls='',ttl=m.title||id,sub=m.area,price='';
+        if(id.charAt(0)==='H'){
+          if(d&&d.s==='FREI'){
+            ttl=t('Frei – verfügbar','Free – available','Libre – disponible');
+            sub=(d.mass&&d.mass!=='—'?d.mass+' m':'')+(d.m2?' · '+d.m2+' m²':'');
+            price=d.neu?'CHF '+fmt(d.neu):t('Anfrage','On request','Sur demande');
+          }else if(d){
+            cls=' is-intern';ttl=d.note||t('Interne Fläche','Internal area','Surface interne');
+            sub=t('nicht im Verkauf','not for sale','non commercialisée');price='—';
+          }else{ttl=t('Frei – auf Anfrage','Free – on request','Libre – sur demande');sub='Halle 550';price=t('Anfrage','On request','Sur demande');}
+        }else if(id.charAt(0)==='D'){
+          cls=' is-zone';sub=t('Hall D / FMX-Zone','Hall D / FMX zone','Hall D / zone FMX');
+          price=t('Anfrage','On request','Sur demande');
+        }else{
+          if(m.title&&m.title!=='StageOne'){cls=' is-taken';sub=t('belegt 2026','booked 2026','occupé 2026');}
+          else{ttl=t('StageOne · Fläche','StageOne · space','StageOne · surface');sub=t('Details auf Anfrage','Details on request','Détails sur demande');}
+        }
+        html+='<button type="button" class="ml-row'+cls+'" data-id="'+id+'"><span class="ml-id">'+id+'</span><span class="ml-tx"><span class="ml-t">'+ttl+'</span>'+(sub?'<span class="ml-s">'+sub+'</span>':'')+'</span>'+(price?'<span class="ml-p">'+price+'</span>':'')+'</button>';
+      });
+    });
+    list.innerHTML=html;
+  }
+  if(list)list.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-id]');if(!b||!window.MZ_PLAN)return;
+    var id=b.getAttribute('data-id');
+    window.MZ_PLAN.select(id,window.MZ_PLAN.hotEls[id]);
+  });
+  if(document.readyState==='complete')build();else window.addEventListener('load',build);
+  if(location.hash==='#preisliste'&&mq.matches)setTab('list');
 })();
 </script>
 </body>
