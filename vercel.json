@@ -2,19 +2,19 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/faq",                         "destination": "/FAQ.html" },
-    { "source": "/programm",                    "destination": "/Programm.html" },
-    { "source": "/aussteller-motozuerich-2026", "destination": "/Aussteller.html" },
-    { "source": "/gesamtplan",                  "destination": "/Gesamtplan.html" },
-    { "source": "/team",                        "destination": "/Team.html" },
-    { "source": "/medien",                      "destination": "/Medien.html" },
-    { "source": "/volunteers",                  "destination": "/Volunteers.html" },
-    { "source": "/creators",                    "destination": "/Creators.html" },
-    { "source": "/warum_motozurich",            "destination": "/Warum.html" },
-    { "source": "/sound",                       "destination": "/Sound.html" },
-    { "source": "/mz2026",                      "destination": "/Rueckblick-2026.html" },
-    { "source": "/agb",                         "destination": "/AGB.html" },
-    { "source": "/datenschutz",                 "destination": "/Datenschutz.html" },
-    { "source": "/impressum",                   "destination": "/Impressum.html" }
+    { "source": "/faq",                         "destination": "/FAQ" },
+    { "source": "/programm",                    "destination": "/Programm" },
+    { "source": "/aussteller-motozuerich-2026", "destination": "/Aussteller" },
+    { "source": "/gesamtplan",                  "destination": "/Gesamtplan" },
+    { "source": "/team",                        "destination": "/Team" },
+    { "source": "/medien",                      "destination": "/Medien" },
+    { "source": "/volunteers",                  "destination": "/Volunteers" },
+    { "source": "/creators",                    "destination": "/Creators" },
+    { "source": "/warum_motozurich",            "destination": "/Warum" },
+    { "source": "/sound",                        "destination": "/Sound" },
+    { "source": "/mz2026",                       "destination": "/Rueckblick-2026" },
+    { "source": "/agb",                          "destination": "/AGB" },
+    { "source": "/datenschutz",                  "destination": "/Datenschutz" },
+    { "source": "/impressum",                    "destination": "/Impressum" }
   ]
 }
