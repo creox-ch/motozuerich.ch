@@ -31,6 +31,7 @@
 <meta name="description" content="ZWO sind die offiziellen Sounds der MOTO-ZÜRICH – Rock und House für den musikalischen Vibe des Events. Tracks anhören und herunterladen." />
 <link rel="stylesheet" href="colors_and_type.css" />
 <link rel="stylesheet" href="motozuerich-page.css?v=6" />
+<link rel="stylesheet" href="mz-enhance.css" />
 </head>
 <body data-page="sound">
 
@@ -51,31 +52,34 @@
   <div class="track-list">
     <div class="track-card body-fade" data-delay="0">
       <div class="track-card-kind">Rock</div>
-      <div class="track-card-play" aria-hidden="true"></div>
+      <button class="track-card-play" type="button" aria-label="MOTO-ZÜRICH Rock abspielen" data-src="assets/sound/zwo-rock.mp3"></button>
       <div class="track-card-name">MOTO-ZÜRICH Rock</div>
       <div class="track-card-desc">Ein lauter, energiegeladener Track, der sofort mitreisst und Lust auf Bewegung macht.</div>
-      <a class="track-card-dl" href="https://drive.google.com/uc?export=download&id=1ubPjl-Pm5MqUyzKiRSd_OwE0Da_XPosi" target="_blank" rel="noopener">Audio herunterladen <span>↓</span></a>
+      <div class="track-player"><div class="track-bar" role="slider" aria-label="Wiedergabeposition"><span></span></div><div class="track-time">0:00</div></div>
+      <a class="track-card-dl" href="assets/sound/zwo-rock.mp3" download="MOTO-ZUERICH_Rock.mp3">Audio herunterladen <span>↓</span></a>
     </div>
     <div class="track-card body-fade" data-delay="90">
       <div class="track-card-kind">House 01</div>
-      <div class="track-card-play" aria-hidden="true"></div>
+      <button class="track-card-play" type="button" aria-label="MOTO-ZÜRICH House 01 abspielen" data-src="assets/sound/zwo-house-01.mp3"></button>
       <div class="track-card-name">MOTO-ZÜRICH House 01</div>
       <div class="track-card-desc">House über Freiheit und Bewegung, mit einem Gefühl von Wind und Leichtigkeit, das einfach weiterträgt.</div>
-      <a class="track-card-dl" href="https://drive.google.com/uc?export=download&id=1QTQvfTouJ3MUdNgvXTJ8veFtgtuqN0pz" target="_blank" rel="noopener">Audio herunterladen <span>↓</span></a>
+      <div class="track-player"><div class="track-bar" role="slider" aria-label="Wiedergabeposition"><span></span></div><div class="track-time">0:00</div></div>
+      <a class="track-card-dl" href="assets/sound/zwo-house-01.mp3" download="MOTO-ZUERICH_House-01.mp3">Audio herunterladen <span>↓</span></a>
     </div>
     <div class="track-card body-fade" data-delay="180">
       <div class="track-card-kind">House 02</div>
-      <div class="track-card-play" aria-hidden="true"></div>
+      <button class="track-card-play" type="button" aria-label="MOTO-ZÜRICH House 02 abspielen" data-src="assets/sound/zwo-house-02.mp3"></button>
       <div class="track-card-name">MOTO-ZÜRICH House 02</div>
       <div class="track-card-desc">Sinnlicher House mit Vibe und Anziehung, der die Atmosphäre der Nacht aufbaut und fesselt.</div>
-      <a class="track-card-dl" href="https://drive.google.com/uc?export=download&id=1AL690o_f5iUlW6c8keJJaMpRQNM2Upsf" target="_blank" rel="noopener">Audio herunterladen <span>↓</span></a>
+      <div class="track-player"><div class="track-bar" role="slider" aria-label="Wiedergabeposition"><span></span></div><div class="track-time">0:00</div></div>
+      <a class="track-card-dl" href="assets/sound/zwo-house-02.mp3" download="MOTO-ZUERICH_House-02.mp3">Audio herunterladen <span>↓</span></a>
     </div>
   </div>
 </section>
 
-<section class="block-alt">
+<section class="block-alt zwo-feature">
   <div class="inner" style="text-align:center; max-width:760px; margin:0 auto;">
-    <div class="section-label body-fade" style="justify-content:center">ZWO</div>
+    <img class="zwo-logo-badge body-fade" src="assets/zwo-logo.png" alt="ZWO – We ride for our passion & addiction" width="128" height="128" />
     <h2 class="section-title" style="text-align:center">Dein Sound,<br /><span class="hl">deine Story.</span></h2>
     <p class="section-lead body-fade" data-delay="100" style="margin:24px auto 0">
       Echte Emotionen, tiefe Melodien und klangvolle Momente – das ist ZWO.
@@ -87,6 +91,67 @@
 </section>
 
 <script src="mz-chrome.js"></script>
+<script src="i18n/dict-sound.js"></script>
+<script src="mz-i18n.js"></script>
 <script src="mz-page.js"></script>
+<script>
+/* Track cards drive the site-wide music controller (window.MZMusic, from mz-head.js),
+   so playback + the floating mini-player persist across pages. */
+(function () {
+  function fmt(t) {
+    if (!isFinite(t) || t < 0) return "0:00";
+    var m = Math.floor(t / 60), s = Math.floor(t % 60);
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".track-card"));
+  function isCurrent(state, src) {
+    return !!(state && state.src && (state.src === src || state.src.indexOf(src) !== -1));
+  }
+  function sync(state) {
+    state = state || {};
+    cards.forEach(function (card) {
+      var btn = card.querySelector(".track-card-play");
+      var fill = card.querySelector(".track-bar span");
+      var time = card.querySelector(".track-time");
+      var src = btn && btn.getAttribute("data-src");
+      var cur = isCurrent(state, src);
+      if (cur && state.playing) btn.classList.add("is-playing");
+      else btn.classList.remove("is-playing");
+      if (cur) {
+        if (fill) fill.style.width = (state.duration ? (state.time / state.duration * 100) : 0) + "%";
+        if (time) time.textContent = fmt(state.time || 0);
+      } else {
+        if (fill) fill.style.width = "0%";
+        if (time) time.textContent = "0:00";
+      }
+    });
+  }
+  cards.forEach(function (card) {
+    var btn = card.querySelector(".track-card-play");
+    var bar = card.querySelector(".track-bar");
+    var nameEl = card.querySelector(".track-card-name");
+    var src = btn && btn.getAttribute("data-src");
+    if (!btn || !src) return;
+    var title = nameEl ? nameEl.textContent.trim() : "Track";
+    btn.addEventListener("click", function () {
+      if (!window.MZMusic) return;
+      var st = window.MZMusic.get();
+      if (isCurrent(st, src)) window.MZMusic.toggle();
+      else window.MZMusic.play(src, title);
+    });
+    if (bar) {
+      bar.addEventListener("click", function (e) {
+        if (!window.MZMusic) return;
+        var st = window.MZMusic.get();
+        if (!isCurrent(st, src)) { window.MZMusic.play(src, title); return; }
+        var r = bar.getBoundingClientRect();
+        window.MZMusic.seek((e.clientX - r.left) / r.width);
+      });
+    }
+  });
+  window.addEventListener("mz-music-change", function (e) { sync(e.detail); });
+  if (window.MZMusic) sync(window.MZMusic.get());
+})();
+</script>
 </body>
 </html>

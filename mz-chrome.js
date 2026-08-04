@@ -5,65 +5,71 @@
    Load BEFORE mz-page.js.
    ============================================================ */
 (function () {
-  var HOME = 'MOTO-ZÜRICH 2027.html';
+  var HOME = 'index.html';
   var page = document.body.getAttribute('data-page') || '';
 
   /* dropdown nav — groups mirror the original site, every page reachable */
   var EVENT_GUIDE = 'https://drive.google.com/uc?export=download&id=1LnjHCKHGYVMsXE9L1QmDCLv_fH-T6_kk';
   var nav = [
-    { id: 'home', label: 'Home', href: HOME },
-    { label: 'Besucher', children: [
-      { id: 'faq', label: 'Gut zu Wissen', href: 'FAQ.html' },
-      { label: 'Anreise & Parking',      href: 'FAQ.html#parking' },
-      { label: 'Hallenplan',             href: 'Programm.html#hallenplan' },
-      { id: 'party', label: 'Saisonstart Party', href: 'Party.html' }
+    { id: 'home', label: 'Home', en: 'Home', fr: 'Accueil', href: HOME },
+    { label: 'Besucher', en: 'Visitors', fr: 'Visiteurs', children: [
+      { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: 'FAQ.html' },
+      { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: 'FAQ.html#parking' },
+      { id: 'gesamtplan', label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: 'Gesamtplan.html' },
+      { id: 'party', label: 'Saisonstart Party', en: 'Season-Opening Party', fr: "Soirée d'ouverture", href: 'Party.html' }
     ]},
-    { id: 'programm', label: 'Programm', href: 'Programm.html', children: [
-      { label: 'Programm 2027',     href: 'Programm.html' },
+    { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: 'Programm.html', children: [
+      { label: 'Programm 2027', en: 'Programme 2027', fr: 'Programme 2027', href: 'Programm.html' },
       { label: 'Live Arena',        href: 'Programm.html#live-arena' },
       { label: 'Action Zone',       href: 'Programm.html#action-zone' },
-      { label: 'Act vorschlagen',   href: 'https://pyrus.com/form/2399268', ext: true }
+      { label: 'Act vorschlagen', en: 'Suggest an Act', fr: 'Proposer un act', href: 'https://pyrus.com/form/2399268', ext: true }
     ]},
-    { id: 'aussteller', label: 'Aussteller', href: 'Aussteller.html', children: [
-      { label: 'Aussteller werden', href: 'Aussteller.html' },
-      { label: 'Anfrage senden',    href: 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027' }
+    { id: 'aussteller', label: 'Aussteller', en: 'Exhibitors', fr: 'Exposants', href: 'Aussteller.html', children: [
+      { label: 'Aussteller werden', en: 'Become an Exhibitor', fr: 'Devenir exposant', href: 'Aussteller.html' },
+      { label: 'Anfrage senden', en: 'Send Enquiry', fr: 'Envoyer une demande', href: 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027' }
     ]},
-    { label: 'Über uns', children: [
+    { label: 'Über uns', en: 'About Us', fr: 'À propos', children: [
       { id: 'rueckblick', label: 'MOTO-ZÜRICH 2026', href: 'Rueckblick-2026.html' },
       { id: 'team',  label: 'Team',                  href: 'Team.html' },
-      { id: 'warum', label: 'Warum die MOTO-ZÜRICH', href: 'Warum.html' },
+      { id: 'warum', label: 'Warum die MOTO-ZÜRICH', en: 'Why MOTO-ZÜRICH', fr: 'Pourquoi MOTO-ZÜRICH', href: 'Warum.html' },
       { id: 'volunteers', label: 'Volunteers',        href: 'Volunteers.html' },
       { id: 'creators',   label: 'Creators',          href: 'Creators.html' },
-      { id: 'sound', label: 'Sounds der MOTO-ZÜRICH', href: 'Sound.html' },
-      { label: 'Kontaktiere uns', href: 'https://pyrus.com/form/2399268', ext: true }
+      { id: 'sound', label: 'Sounds der MOTO-ZÜRICH', en: 'Sounds of MOTO-ZÜRICH', fr: 'Les sons de MOTO-ZÜRICH', href: 'Sound.html' },
+      { label: 'Kontaktiere uns', en: 'Contact Us', fr: 'Contactez-nous', href: 'https://pyrus.com/form/2399268', ext: true }
     ]},
-    { id: 'medien', label: 'Medien', href: 'Medien.html' }
+    { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: 'Medien.html' }
   ];
 
   var AUSSTELLER_MAIL = 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027';
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
   var CONTACT_FORM = 'https://pyrus.com/form/2399268';
 
+  // emit data-en/data-fr only when a translation exists (DE is the captured base)
+  function i18n(o, suffix) {
+    suffix = suffix || '';
+    return (o.en ? ' data-en="' + o.en + suffix + '"' : '') + (o.fr ? ' data-fr="' + o.fr + suffix + '"' : '');
+  }
   function childLink(c) {
     var act = c.id && c.id === page ? ' class="is-active"' : '';
     var tgt = c.ext ? ' target="_blank" rel="noopener"' : '';
-    return '<li><a href="' + c.href + '"' + act + tgt + '>' + c.label + '</a></li>';
+    return '<li><a href="' + c.href + '"' + act + tgt + i18n(c) + '>' + c.label + '</a></li>';
   }
+  var CARET = '<span class=nav-caret></span>';
   var navItems = nav.map(function (n) {
     if (n.children) {
       var groupActive = n.id === page || n.children.some(function (c) { return c.id === page; });
       var topCls = 'nav-top' + (groupActive ? ' nav-active' : '');
       var top = n.href
-        ? '<a href="' + n.href + '" class="' + topCls + '">' + n.label + '<span class="nav-caret"></span></a>'
-        : '<button type="button" class="' + topCls + '">' + n.label + '<span class="nav-caret"></span></button>';
+        ? '<a href="' + n.href + '" class="' + topCls + '"' + i18n(n, CARET) + '>' + n.label + '<span class="nav-caret"></span></a>'
+        : '<button type="button" class="' + topCls + '"' + i18n(n, CARET) + '>' + n.label + '<span class="nav-caret"></span></button>';
       return '<li class="has-sub">' + top + '<ul class="submenu">' + n.children.map(childLink).join('') + '</ul></li>';
     }
     var active = n.id === page ? ' class="nav-active" aria-current="page"' : '';
-    return '<li><a href="' + n.href + '"' + active + '>' + n.label + '</a></li>';
+    return '<li><a href="' + n.href + '"' + active + i18n(n) + '>' + n.label + '</a></li>';
   }).join('');
 
   // build date bar track (3 repeats)
-  var seg = '<span>MOTO-ZÜRICH 2027</span><span>19.–21. Februar 2027</span><span>Wird grösser</span><span>Save the Date</span>';
+  var seg = '<span>MOTO-ZÜRICH 2027</span><span data-en="February 19–21, 2027" data-fr="19–21 février 2027">19.–21. Februar 2027</span><span data-en="Getting bigger" data-fr="Voir plus grand">Wird grösser</span><span>Save the Date</span>';
   var dateBar =
     '<div class="date-bar"><div class="date-bar-track">' + seg + seg + seg + '</div></div>';
 
@@ -74,13 +80,13 @@
       '</a>' +
       '<button class="nav-mobile-toggle" aria-label="Menü" onclick="document.getElementById(\'mainNav\').classList.toggle(\'open\')">☰</button>' +
       '<nav id="mainNav"><ul>' + navItems +
-        '<li><a href="' + AUSSTELLER_MAIL + '" class="nav-cta">Aussteller werden →</a></li>' +
+        '<li><a href="' + AUSSTELLER_MAIL + '" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
       '</ul></nav>' +
     '</div></header>';
 
   var partners =
     '<section class="partners-strip"><div class="partners-strip-inner">' +
-      '<div class="partners-strip-label">Partner &amp; Medienpartner 2026</div>' +
+      '<div class="partners-strip-label" data-en="Partners &amp; Media Partners 2026" data-fr="Partenaires &amp; partenaires médias 2026">Partner &amp; Medienpartner 2026</div>' +
       '<div class="partners-strip-logos">' +
         '<img src="assets/partners/Allianz.svg" alt="Allianz" title="Presenting Partner · Allianz" />' +
         '<img src="assets/partners/blick-logo.svg" alt="Blick" title="Medienpartner · Blick" />' +
@@ -97,33 +103,33 @@
   var footer =
     '<footer><div class="footer-inner">' +
       '<div class="footer-brand">' +
-        '<img class="footer-logo" src="assets/logo-moto-zuerich-white.svg" alt="MOTO-ZÜRICH" />' +
-        '<p class="footer-tagline">Der unabhängige Saisonstart der Schweizer Motorradszene.<br />Urban. Kuratiert. Nahbar.</p>' +
+        '<a href="' + HOME + '" class="footer-logo-link" aria-label="MOTO-ZÜRICH Home"><img class="footer-logo" src="assets/logo-moto-zuerich-white.svg" alt="MOTO-ZÜRICH" /></a>' +
+        '<p class="footer-tagline" data-en="The independent season opener of the Swiss motorcycle scene.<br />Urban. Curated. Approachable." data-fr="Le coup d&#39;envoi indépendant de la scène moto suisse.<br />Urbain. Sélectif. Accessible.">Der unabhängige Saisonstart der Schweizer Motorradszene.<br />Urban. Kuratiert. Nahbar.</p>' +
         '<div class="footer-social" aria-label="Social Media">' +
-          '<a href="https://www.instagram.com/motozuerich/" target="_blank" rel="noopener">IG</a>' +
+          '<a href="https://www.instagram.com/motozuerich" target="_blank" rel="noopener">IG</a>' +
           '<a href="https://www.facebook.com/motozuerich" target="_blank" rel="noopener">FB</a>' +
           '<a href="https://www.youtube.com/@motozuerich" target="_blank" rel="noopener">YT</a>' +
           '<a href="https://www.linkedin.com/company/motozuerich" target="_blank" rel="noopener">LI</a>' +
-          '<a href="https://tiktok.me/motozuerich" target="_blank" rel="noopener">TT</a>' +
+          '<a href="https://www.tiktok.com/@motozuerich" target="_blank" rel="noopener">TT</a>' +
           '<a href="https://www.whatsapp.com/channel/0029VbAqa7tD38CIf5czGN2R" target="_blank" rel="noopener">WA</a>' +
         '</div>' +
       '</div>' +
-      '<div class="footer-col"><h4>Besuch</h4><ul>' +
-        '<li><a href="Programm.html">Programm</a></li>' +
-        '<li><a href="Aussteller.html">Aussteller</a></li>' +
-        '<li><a href="Party.html">Saisonstart-Party</a></li>' +
-        '<li><a href="FAQ.html">Gut zu Wissen</a></li>' +
-        '<li><a href="' + TICKETS + '" target="_blank" rel="noopener">Tickets</a></li>' +
+      '<div class="footer-col"><h4 data-en="Visit" data-fr="Visite">Besuch</h4><ul>' +
+        '<li><a href="Programm.html" data-en="Programme" data-fr="Programme">Programm</a></li>' +
+        '<li><a href="Aussteller.html" data-en="Exhibitors" data-fr="Exposants">Aussteller</a></li>' +
+        '<li><a href="Party.html" data-en="Season-Opening Party" data-fr="Soirée d&#39;ouverture">Saisonstart-Party</a></li>' +
+        '<li><a href="FAQ.html" data-en="Good to Know" data-fr="Bon à savoir">Gut zu Wissen</a></li>' +
+        '<li><a href="' + TICKETS + '" target="_blank" rel="noopener" data-en="Tickets" data-fr="Billets">Tickets</a></li>' +
       '</ul></div>' +
-      '<div class="footer-col"><h4>Über uns</h4><ul>' +
+      '<div class="footer-col"><h4 data-en="About Us" data-fr="À propos">Über uns</h4><ul>' +
         '<li><a href="Rueckblick-2026.html">MOTO-ZÜRICH 2026</a></li>' +
         '<li><a href="Team.html">Team</a></li>' +
-        '<li><a href="Warum.html">Warum MOTO-ZÜRICH</a></li>' +
-        '<li><a href="Sound.html">Sounds</a></li>' +
-        '<li><a href="Medien.html">Medien</a></li>' +
+        '<li><a href="Warum.html" data-en="Why MOTO-ZÜRICH" data-fr="Pourquoi MOTO-ZÜRICH">Warum MOTO-ZÜRICH</a></li>' +
+        '<li><a href="Sound.html" data-en="Sounds" data-fr="Sons">Sounds</a></li>' +
+        '<li><a href="Medien.html" data-en="Media" data-fr="Médias">Medien</a></li>' +
       '</ul>' +
-      '<a href="' + AUSSTELLER_MAIL + '" class="footer-cta">Aussteller werden <span>→</span></a></div>' +
-      '<div class="footer-col"><h4>Kontakt</h4><ul>' +
+      '<a href="' + AUSSTELLER_MAIL + '" class="footer-cta" data-en="Become an exhibitor <span>→</span>" data-fr="Devenir exposant <span>→</span>">Aussteller werden <span>→</span></a></div>' +
+      '<div class="footer-col"><h4 data-en="Contact" data-fr="Contact">Kontakt</h4><ul>' +
         '<li><a href="mailto:team@motozuerich.ch">team@motozuerich.ch</a></li>' +
         '<li><a href="mailto:help@motozuerich.ch">help@motozuerich.ch</a></li>' +
         '<li><a href="tel:+41772871634">+41 77 287 16 34</a></li>' +
@@ -132,9 +138,9 @@
       '</ul></div>' +
     '</div>' +
     '<div class="footer-bottom">' +
-      '<div><a href="Impressum.html">Impressum</a><a href="AGB.html">AGB</a><a href="Datenschutz.html">Datenschutz</a>' +
-        '<a href="#" onclick="if(window.mzOpenConsent){window.mzOpenConsent();}return false;">Cookie-Einstellungen</a></div>' +
-      '<div>© 2026 MOTO-ZÜRICH · Saisonstart Schweiz</div>' +
+      '<div><a href="Impressum.html" data-en="Imprint" data-fr="Mentions légales">Impressum</a><a href="AGB.html" data-en="Terms" data-fr="CGV">AGB</a><a href="Datenschutz.html" data-en="Privacy" data-fr="Confidentialité">Datenschutz</a>' +
+        '<a href="#" onclick="if(window.mzOpenConsent){window.mzOpenConsent();}return false;" data-en="Cookie Settings" data-fr="Paramètres cookies">Cookie-Einstellungen</a></div>' +
+      '<div data-en="© 2026 MOTO-ZÜRICH · Season Opener Switzerland" data-fr="© 2026 MOTO-ZÜRICH · Coup d&#39;envoi Suisse">© 2026 MOTO-ZÜRICH · Saisonstart Schweiz</div>' +
     '</div></footer>';
 
   var headerHTML = dateBar + header;
