@@ -15,7 +15,7 @@
     { label: 'Besucher', en: 'Visitors', fr: 'Visiteurs', children: [
       { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: 'FAQ.html' },
       { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: 'FAQ.html#parking' },
-      { label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: 'Programm.html#hallenplan' }
+      { id: 'gesamtplan', label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: 'Gesamtplan.html' }
     ]},
     { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: 'Programm.html', children: [
       { label: 'Programm 2027', en: 'Programme 2027', fr: 'Programme 2027', href: 'Programm.html' },
@@ -32,6 +32,7 @@
       { id: 'team',  label: 'Team',                  href: 'Team.html' },
       { id: 'warum', label: 'Warum die MOTO-ZÜRICH', en: 'Why MOTO-ZÜRICH', fr: 'Pourquoi MOTO-ZÜRICH', href: 'Warum.html' },
       { id: 'volunteers', label: 'Volunteers',        href: 'Volunteers.html' },
+      { id: 'creators', label: 'Creators',            href: 'Creators.html' },
       { id: 'sound', label: 'Sounds der MOTO-ZÜRICH', en: 'Sounds of MOTO-ZÜRICH', fr: 'Les sons de MOTO-ZÜRICH', href: 'Sound.html' },
       { label: 'Kontaktiere uns', en: 'Contact Us', fr: 'Contactez-nous', href: 'https://pyrus.com/form/2399268', ext: true }
     ]},
@@ -140,6 +141,7 @@
         '<li><a href="mailto:team@motozuerich.ch">team@motozuerich.ch</a></li>' +
         '<li><a href="mailto:help@motozuerich.ch">help@motozuerich.ch</a></li>' +
         '<li><a href="Volunteers.html">Volunteers</a></li>' +
+        '<li><a href="Creators.html">Creators</a></li>' +
       '</ul></div>' +
     '</div>' +
     '<div class="footer-bottom">' +
