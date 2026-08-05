@@ -131,7 +131,7 @@
     <a href="#mz2027" class="logo-link" aria-label="MOTO-ZÜRICH Home">
       <img class="logo-svg" src="assets/logo-moto-zuerich.svg" alt="MOTO-ZÜRICH" />
     </a>
-    <button class="nav-mobile-toggle" aria-label="Menü" onclick="document.getElementById('mainNav').classList.toggle('open')">☰</button>
+    <button class="nav-mobile-toggle" aria-label="Menü" aria-expanded="false" onclick="window.mzNavToggle()">☰</button>
     <nav id="mainNav">
       <ul>
         <li><a href="#mz2027" class="nav-active" aria-current="page">Home</a></li>
@@ -169,6 +169,7 @@
           </ul>
         </li>
         <li><a href="Medien" data-en="Media" data-fr="Médias">Medien</a></li>
+        <li class="nav-tickets-li"><a href="https://motozuerich.shop.bookinea.app/de" target="_blank" rel="noopener" class="nav-cta nav-cta-tickets" data-en="Get Tickets →" data-fr="Billets →">Tickets sichern →</a></li>
         <li><a href="mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>
       </ul>
     </nav>
@@ -709,9 +710,31 @@
     if (a) markLink(a);
   }, true);
 
-  /* ---- mobile nav: close on link click ---- */
-  document.querySelectorAll('#mainNav a').forEach(function (a) {
-    a.addEventListener('click', function () { document.getElementById('mainNav').classList.remove('open'); });
+  /* ---- mobile nav: fullscreen overlay + accordion (same logic as mz-chrome.js) ---- */
+  window.mzNavToggle = function () {
+    var nav = document.getElementById('mainNav');
+    if (nav.parentNode !== document.body) { nav._mzHome = nav.parentNode; document.body.appendChild(nav); }
+    var open = nav.classList.toggle('open');
+    document.body.classList.toggle('mz-nav-lock', open);
+    var btn = document.querySelector('.nav-mobile-toggle');
+    if (btn) { btn.textContent = open ? '✕' : '☰'; btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    if (!open) {
+      nav.querySelectorAll('li.sub-open').forEach(function (li) { li.classList.remove('sub-open'); });
+      if (nav._mzHome) nav._mzHome.appendChild(nav);
+    }
+  };
+  document.getElementById('mainNav').addEventListener('click', function (e) {
+    var isMobile = window.matchMedia('(max-width: 980px)').matches;
+    var top = e.target.closest('li.has-sub > .nav-top');
+    if (top && isMobile) {
+      e.preventDefault();
+      var li = top.parentNode;
+      var wasOpen = li.classList.contains('sub-open');
+      this.querySelectorAll('li.sub-open').forEach(function (o) { o.classList.remove('sub-open'); });
+      if (!wasOpen) li.classList.add('sub-open');
+      return;
+    }
+    if (isMobile && e.target.closest('a') && this.classList.contains('open')) window.mzNavToggle();
   });
 
   /* ---- video facade: click loads the YouTube iframe ---- */

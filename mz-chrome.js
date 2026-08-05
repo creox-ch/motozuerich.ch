@@ -77,8 +77,9 @@
       '<a href="' + HOME + '" class="logo-link" aria-label="MOTO-ZÜRICH Home">' +
         '<img class="logo-svg" src="assets/logo-moto-zuerich.svg" alt="MOTO-ZÜRICH" />' +
       '</a>' +
-      '<button class="nav-mobile-toggle" aria-label="Menü" onclick="document.getElementById(\'mainNav\').classList.toggle(\'open\')">☰</button>' +
+      '<button class="nav-mobile-toggle" aria-label="Menü" aria-expanded="false" onclick="window.mzNavToggle()">☰</button>' +
       '<nav id="mainNav"><ul>' + navItems +
+        '<li class="nav-tickets-li"><a href="' + TICKETS + '" target="_blank" rel="noopener" class="nav-cta nav-cta-tickets" data-en="Get Tickets →" data-fr="Billets →">Tickets sichern →</a></li>' +
         '<li><a href="' + AUSSTELLER_MAIL + '" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
       '</ul></nav>' +
     '</div></header>';
@@ -156,4 +157,34 @@
   /* mount: header at the very top of <body>, footer/partners at the end */
   document.body.insertAdjacentHTML('afterbegin', headerHTML);
   document.body.insertAdjacentHTML('beforeend', footerHTML);
+
+  /* ===== mobile fullscreen menu: toggle + accordion groups ===== */
+  window.mzNavToggle = function () {
+    var nav = document.getElementById('mainNav');
+    /* fixed-inside-header breaks (backdrop-filter makes .header the containing block) — mount the overlay on <body> */
+    if (nav.parentNode !== document.body) { nav._mzHome = nav.parentNode; document.body.appendChild(nav); }
+    var open = nav.classList.toggle('open');
+    document.body.classList.toggle('mz-nav-lock', open);
+    var btn = document.querySelector('.nav-mobile-toggle');
+    if (btn) { btn.textContent = open ? '✕' : '☰'; btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    if (!open) {
+      nav.querySelectorAll('li.sub-open').forEach(function (li) { li.classList.remove('sub-open'); });
+      if (nav._mzHome) nav._mzHome.appendChild(nav); /* back into the header for desktop layout */
+    }
+  };
+  document.getElementById('mainNav').addEventListener('click', function (e) {
+    var isMobile = window.matchMedia('(max-width: 980px)').matches;
+    var top = e.target.closest('li.has-sub > .nav-top');
+    if (top && isMobile) {
+      /* group headers expand/collapse instead of navigating */
+      e.preventDefault();
+      var li = top.parentNode;
+      var wasOpen = li.classList.contains('sub-open');
+      this.querySelectorAll('li.sub-open').forEach(function (o) { o.classList.remove('sub-open'); });
+      if (!wasOpen) li.classList.add('sub-open');
+      return;
+    }
+    /* tapping a real link closes the menu */
+    if (isMobile && e.target.closest('a') && this.classList.contains('open')) window.mzNavToggle();
+  });
 })();
