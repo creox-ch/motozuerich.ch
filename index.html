@@ -19,15 +19,15 @@
 <meta property="og:url" content="https://motozuerich.ch/" />
 <meta property="og:title" content="MOTO-ZÜRICH 2027 – 19.–21. Februar 2027 | Saisonstart Schweiz" />
 <meta property="og:description" content="MOTO-ZÜRICH 2027: 19.–21. Februar 2027 in Zürich-Oerlikon. Der unabhängige Saisonstart der Schweizer Motorradszene – urban, kuratiert, nahbar." />
-<meta property="og:image" content="https://motozuerich.ch/assets/og/home.png" />
+<meta property="og:image" content="https://motozuerich.ch/assets/og/home.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:type" content="image/png" />
+<meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:alt" content="MOTO-ZÜRICH 2027 – Saisonstart der Schweizer Motorradszene" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="MOTO-ZÜRICH 2027 – 19.–21. Februar 2027 | Saisonstart Schweiz" />
 <meta name="twitter:description" content="MOTO-ZÜRICH 2027: 19.–21. Februar 2027 in Zürich-Oerlikon. Der unabhängige Saisonstart der Schweizer Motorradszene – urban, kuratiert, nahbar." />
-<meta name="twitter:image" content="https://motozuerich.ch/assets/og/home.png" />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og/home.jpg" />
 <meta name="twitter:image:alt" content="MOTO-ZÜRICH 2027 – Saisonstart der Schweizer Motorradszene" />
 <!-- ===== Favicon ===== -->
 <link rel="icon" href="favicon.ico" sizes="any" />
@@ -177,9 +177,8 @@
 
 <!-- ====== HERO: SAVE THE DATE 2027 ====== -->
 <section class="hero-identity" id="mz2027">
-  <video class="hero-identity-video" id="heroBgVideo" autoplay muted loop playsinline preload="auto" poster="">
-    <source src="assets/hero-bg.mp4" type="video/mp4" />
-  </video>
+  <div class="hero-identity-poster" aria-hidden="true" style="position:absolute;left:0;top:-12%;width:100%;height:124%;z-index:0;background:url('assets/hero-poster.jpg') center/cover no-repeat;pointer-events:none"></div>
+  <video class="hero-identity-video" id="heroBgVideo" muted loop playsinline preload="none" poster="assets/hero-poster.jpg" data-src="assets/hero-bg.mp4" style="opacity:0;transition:opacity .9s ease"></video>
   <script>
   (function(){
     var v=document.getElementById('heroBgVideo');
@@ -187,6 +186,24 @@
     var setRate=function(){ v.playbackRate=0.5; };
     setRate();
     ['loadedmetadata','loadeddata','canplay','play','playing'].forEach(function(ev){ v.addEventListener(ev,setRate); });
+
+    /* Плавное появление: видео проявляется поверх статичного первого кадра, когда реально пошло воспроизведение — без резкого «щелчка». */
+    v.addEventListener('playing',function(){ v.style.opacity='1'; },{once:true});
+    /* Возобновляем воспроизведение при возврате на вкладку (раньше это делал autoplay). */
+    document.addEventListener('visibilitychange',function(){ if(!document.hidden&&started&&v.paused){ var pr=v.play(); if(pr&&pr.catch)pr.catch(function(){}); } });
+
+    /* Тяжёлое hero-видео грузим ОТЛОЖЕННО — только когда страница готова,
+       чтобы 14 МБ никогда не блокировали загрузку. До этого держится постер (первый кадр).
+       Медленный инет → просто дольше висит кадр; быстрый → видео стартует почти сразу. */
+    var started=false;
+    function startHeroVideo(){
+      if(started||!v.dataset.src)return; started=true;
+      v.src=v.dataset.src; v.load();
+      var p=v.play(); if(p&&p.catch)p.catch(function(){});
+    }
+    var kick=function(){ (window.requestIdleCallback||function(cb){setTimeout(cb,400);})(startHeroVideo); };
+    if(document.readyState==='complete') kick();
+    else window.addEventListener('load',kick);
 
     /* Parallax: video drifts slower than the page on scroll */
     var hero=document.getElementById('mz2027');

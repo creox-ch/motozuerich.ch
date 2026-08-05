@@ -35,7 +35,7 @@
           eventStatus: 'https://schema.org/EventScheduled',
           eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
           url: 'https://motozuerich.ch/',
-          image: 'https://motozuerich.ch/assets/og/home.png',
+          image: 'https://motozuerich.ch/assets/og/home.jpg',
           description: 'Der unabhängige Saisonauftakt der Schweizer Motorradszene – urban, kuratiert und nahbar.',
           location: {
             '@type': 'Place',
