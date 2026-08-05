@@ -690,6 +690,13 @@ html.no-js .hl-yellow::before { transform: scaleX(1); }
 }
 
 /* ============ RESPONSIVE ============ */
+@media (max-width: 560px) {
+  /* Hero-Wordmark: bewusster Zweizeiler (MOTO- / ZÜRICH); line-height > 1, damit die Ü-Punkte nicht in die Zeile darüber ragen */
+  .hero-identity-wordmark { font-size: clamp(56px, 16.5vw, 72px); line-height: 1.04; }
+  /* Datums-Badge: nie mitten im Text umbrechen; wenn zu schmal, bricht sauber zwischen Zahl und Monat */
+  .hero-identity-date-badge { flex-wrap: wrap; gap: 6px 12px; padding: 12px 18px; }
+  .hero-date-num, .hero-date-rest { font-size: 24px; white-space: nowrap; }
+}
 @media (max-width: 980px) {
   /* Footer: Marke über die ganze Breite, darunter drei Linkspalten – 4 Spalten passen hier nicht */
   footer { padding: 56px 20px 28px; }
@@ -701,7 +708,7 @@ html.no-js .hl-yellow::before { transform: scaleX(1); }
   .impressionen-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(150px, 34vw, 220px); }
   .imp-big { grid-column: span 2; grid-row: span 1; }
   .photo-band-title { max-width: none; }
-  .nav-mobile-toggle { display: grid; place-items: center; order: 3; }
+  .nav-mobile-toggle { display: grid; place-items: center; order: 3; flex: 0 0 44px; }
   .mz-ctrl { order: 2; }
   nav { display: none; position: absolute; top: 100%; right: 16px; background: #fff; border: 1px solid var(--line); padding: 18px; box-shadow: 0 10px 24px rgba(0,0,0,0.08); }
   nav.open { display: block; }
