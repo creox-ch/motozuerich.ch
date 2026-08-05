@@ -220,6 +220,11 @@ html[data-theme="dark"] .intro-split-text b { color: var(--brand-light); }
   .mz-lang button { padding: 0; width: 36px; min-height: 36px; font-size: 11px; justify-content: center; }
   .mz-theme { width: 36px; height: 36px; }
   .nav-mobile-toggle { flex: 0 0 36px; width: 36px; height: 36px; font-size: 17px; }
+  /* Countdown: Boxen umschliessen ihren Inhalt (Auto-Layout) statt fixer Breiten – «197» bekommt automatisch mehr Platz */
+  .mz-cd-units { gap: 2vw; width: 100%; }
+  .mz-cd-unit { min-width: 0; width: auto; flex: 0 1 auto; padding: 3.2vw 3vw 2.4vw; }
+  .mz-cd-num { font-size: min(10vw, 44px); }
+  .mz-cd-u { font-size: min(2.9vw, 12px); letter-spacing: 0.06em; margin-top: 1.4vw; }
   footer .footer-col a, footer .footer-links a { display: inline-block; padding: 6px 0; }
 }
 
