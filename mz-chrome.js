@@ -39,7 +39,9 @@
     { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: 'Medien' }
   ];
 
-  var AUSSTELLER_MAIL = 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027';
+  /* CTA "Aussteller werden" fuehrt auf den Hallenplan (Standflaechen + Preise),
+     nicht direkt auf die Anfrage — die Anfrage steht im Menue und auf dem Plan. */
+  var AUSSTELLER_CTA = 'Gesamtplan';
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
   var CONTACT_FORM = 'https://pyrus.com/form/2399268';
 
@@ -80,7 +82,7 @@
       '<button class="nav-mobile-toggle" aria-label="Menü" aria-expanded="false" onclick="window.mzNavToggle()">☰</button>' +
       '<nav id="mainNav"><ul>' + navItems +
         '<li class="nav-tickets-li"><a href="' + TICKETS + '" target="_blank" rel="noopener" class="nav-cta nav-cta-tickets" data-en="Get Tickets →" data-fr="Billets →">Tickets sichern →</a></li>' +
-        '<li><a href="' + AUSSTELLER_MAIL + '" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
+        '<li><a href="' + AUSSTELLER_CTA + '" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
       '</ul></nav>' +
     '</div></header>';
 
@@ -137,7 +139,7 @@
         '<li><a href="Sound" data-en="Sounds" data-fr="Sons">Sounds</a></li>' +
         '<li><a href="Medien" data-en="Media" data-fr="Médias">Medien</a></li>' +
       '</ul>' +
-      '<a href="' + AUSSTELLER_MAIL + '" class="footer-cta" data-en="Become an exhibitor <span>→</span>" data-fr="Devenir exposant <span>→</span>">Aussteller werden <span>→</span></a></div>' +
+      '<a href="' + AUSSTELLER_CTA + '" class="footer-cta" data-en="Become an exhibitor <span>→</span>" data-fr="Devenir exposant <span>→</span>">Aussteller werden <span>→</span></a></div>' +
       '<div class="footer-col"><h4 data-en="Contact" data-fr="Contact">Kontakt</h4><ul>' +
         '<li><a href="mailto:team@motozuerich.ch">team@motozuerich.ch</a></li>' +
         '<li><a href="mailto:help@motozuerich.ch">help@motozuerich.ch</a></li>' +
