@@ -179,7 +179,11 @@
 <!-- ====== HERO: SAVE THE DATE 2027 ====== -->
 <section class="hero-identity" id="mz2027">
   <div class="hero-identity-poster" aria-hidden="true" style="position:absolute;left:0;top:-12%;width:100%;height:124%;z-index:0;background:url('assets/hero-poster.jpg') center/cover no-repeat;pointer-events:none"></div>
-  <video class="hero-identity-video" id="heroBgVideo" muted loop playsinline preload="none" poster="assets/hero-poster.jpg" data-src="assets/hero-bg.mp4" style="opacity:0;transition:opacity .9s ease"></video>
+  <video class="hero-identity-video" id="heroBgVideo" muted loop playsinline preload="none" poster="assets/hero-poster.jpg"
+         data-src="assets/hero-bg.mp4"
+         data-src-sm-webm="assets/hero-bg-720.webm"
+         data-src-sm-mp4="assets/hero-bg-720.mp4"
+         style="opacity:0;transition:opacity .9s ease"></video>
   <script>
   (function(){
     var v=document.getElementById('heroBgVideo');
@@ -193,13 +197,31 @@
     /* Возобновляем воспроизведение при возврате на вкладку (раньше это делал autoplay). */
     document.addEventListener('visibilitychange',function(){ if(!document.hidden&&started&&v.paused){ var pr=v.play(); if(pr&&pr.catch)pr.catch(function(){}); } });
 
-    /* Тяжёлое hero-видео грузим ОТЛОЖЕННО — только когда страница готова,
-       чтобы 14 МБ никогда не блокировали загрузку. До этого держится постер (первый кадр).
+    /* Hero-видео грузим ОТЛОЖЕННО — только когда страница готова, чтобы оно
+       никогда не блокировало загрузку. До этого держится постер (первый кадр).
        Медленный инет → просто дольше висит кадр; быстрый → видео стартует почти сразу. */
+    /* Выбор источника: телефонам — 720p (втрое легче), остальным — 1080p.
+       71% трафика мобильный, часто сотовая сеть, поэтому 13.8 МБ туда не тянем.
+       VP9 (.webm, 3.5 МБ) отдаём где поддерживается, иначе H.264 (.mp4, 5.8 МБ):
+       Safari до 14 версии VP9 не умеет. Кадровая частота везде 60 fps.
+       saveData / 2g-3g — дополнительный признак, но в Safari его нет,
+       поэтому айфоны ловятся именно проверкой ширины. */
+    function pickHeroSrc(){
+      var d=v.dataset;
+      var narrow = window.matchMedia
+        ? window.matchMedia('(max-width: 768px)').matches
+        : (window.innerWidth>0 && window.innerWidth<=768);
+      var c = navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+      var frugal = !!(c && (c.saveData || /^(slow-)?2g$|^3g$/.test(c.effectiveType||'')));
+      if(!(narrow||frugal)) return d.src;
+      var canWebm = v.canPlayType && v.canPlayType('video/webm; codecs="vp9"');
+      return (canWebm==='probably'||canWebm==='maybe') ? (d.srcSmWebm||d.src) : (d.srcSmMp4||d.src);
+    }
+
     var started=false;
     function startHeroVideo(){
       if(started||!v.dataset.src)return; started=true;
-      v.src=v.dataset.src; v.load();
+      v.src=pickHeroSrc(); v.load();
       var p=v.play(); if(p&&p.catch)p.catch(function(){});
     }
     var kick=function(){ (window.requestIdleCallback||function(cb){setTimeout(cb,400);})(startHeroVideo); };
