@@ -15,6 +15,20 @@
   var FB_ID = '1525171172005763';
   var STORE = 'mz-consent-v1';
 
+  /* ---- Vercel Web Analytics ----------------------------------------------
+     Cookiefreie Reichweitenmessung. Bewusst NICHT hinter dem Consent-Gate:
+     es werden keine Cookies gesetzt und keine Kennungen gespeichert, daher
+     ist keine Einwilligung erforderlich. GA4 und Meta-Pixel unten bleiben
+     einwilligungspflichtig.
+     Hier eingebaut (nicht im HTML), damit ein Design-Re-Export die Zeile
+     nicht entfernt. ---------------------------------------------------- */
+  try {
+    var _va = document.createElement('script');
+    _va.defer = true;
+    _va.src = '/_vercel/insights/script.js';
+    (document.head || document.documentElement).appendChild(_va);
+  } catch (e) {}
+
   /* ---- schema.org (Organization + Event) — Rich Results, auf jeder Seite ---- */
   try {
     var _ld = {
