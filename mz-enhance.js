@@ -6,6 +6,9 @@
    ============================================================ */
 (function () {
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
+  /* Ticketverkauf 2027 läuft noch nicht: Hero-Button und Sticky-Bar sind ausgeblendet.
+     Zum Wiedereinschalten hier auf true setzen – sonst nichts nötig. */
+  var TICKETS_LIVE = false;
   var EVENT = {
     title: 'MOTO-ZÜRICH 2027',
     start: '20270219', end: '20270222',           // all-day, DTEND exclusive (19–21 Feb)
@@ -146,7 +149,7 @@
         '</div>' +
       '</div>' +
       '<div class="mz-hero-actions">' +
-        '<a class="mz-btn mz-btn-primary" target="_blank" rel="noopener" href="' + TICKETS + '"></a>' +
+        (TICKETS_LIVE ? '<a class="mz-btn mz-btn-primary" target="_blank" rel="noopener" href="' + TICKETS + '"></a>' : '') +
         '<div class="mz-cal">' +
           '<button class="mz-btn mz-btn-ghost" type="button">' +
             '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>' +
@@ -227,21 +230,23 @@
   }
 
   /* ---------- STICKY TICKET BAR ---------- */
-  var sticky = document.createElement('div');
-  sticky.className = 'mz-sticky';
-  sticky.innerHTML =
-    '<span class="mz-sticky-text"></span>' +
-    '<a class="mz-sticky-btn" target="_blank" rel="noopener" href="' + TICKETS + '"></a>' +
-    '<button class="mz-sticky-close" type="button" aria-label="Schliessen">×</button>';
-  document.body.appendChild(sticky);
-  stickyTextEl = sticky.querySelector('.mz-sticky-text');
-  stickyBtnEl = sticky.querySelector('.mz-sticky-btn');
-  var stickyClosed = false;
-  sticky.querySelector('.mz-sticky-close').addEventListener('click', function () {
-    stickyClosed = true; sticky.classList.remove('show'); document.body.classList.remove('mz-sticky-on');
-  });
+  var sticky = null, stickyClosed = false;
+  if (TICKETS_LIVE) {
+    sticky = document.createElement('div');
+    sticky.className = 'mz-sticky';
+    sticky.innerHTML =
+      '<span class="mz-sticky-text"></span>' +
+      '<a class="mz-sticky-btn" target="_blank" rel="noopener" href="' + TICKETS + '"></a>' +
+      '<button class="mz-sticky-close" type="button" aria-label="Schliessen">×</button>';
+    document.body.appendChild(sticky);
+    stickyTextEl = sticky.querySelector('.mz-sticky-text');
+    stickyBtnEl = sticky.querySelector('.mz-sticky-btn');
+    sticky.querySelector('.mz-sticky-close').addEventListener('click', function () {
+      stickyClosed = true; sticky.classList.remove('show'); document.body.classList.remove('mz-sticky-on');
+    });
+  }
   function stickyVis() {
-    if (stickyClosed) return;
+    if (!sticky || stickyClosed) return;
     var past = window.scrollY > 1000;
     sticky.classList.toggle('show', past);
     document.body.classList.toggle('mz-sticky-on', past);

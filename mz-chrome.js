@@ -43,6 +43,10 @@
      nicht direkt auf die Anfrage — die Anfrage steht im Menue und auf dem Plan. */
   var AUSSTELLER_CTA = 'Gesamtplan';
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
+  /* Ticketverkauf 2027 läuft noch nicht: Menü-CTA, Desktop-Header-CTA und Footer-Link sind aus.
+     Zum Wiedereinschalten hier auf true setzen – und dasselbe Flag in mz-enhance.js
+     (Hero-Button + Sticky-Bar) sowie das <li class="nav-tickets-li"> in index.html. */
+  var TICKETS_LIVE = false;
   var CONTACT_FORM = 'https://pyrus.com/form/2399268';
 
   // emit data-en/data-fr only when a translation exists (DE is the captured base)
@@ -81,7 +85,7 @@
       '</a>' +
       '<button class="nav-mobile-toggle" aria-label="Menü" aria-expanded="false" onclick="window.mzNavToggle()">☰</button>' +
       '<nav id="mainNav"><ul>' + navItems +
-        '<li class="nav-tickets-li"><a href="' + TICKETS + '" target="_blank" rel="noopener" class="nav-cta nav-cta-tickets" data-en="Get Tickets →" data-fr="Billets →">Tickets sichern →</a></li>' +
+        (TICKETS_LIVE ? '<li class="nav-tickets-li"><a href="' + TICKETS + '" target="_blank" rel="noopener" class="nav-cta nav-cta-tickets" data-en="Get Tickets →" data-fr="Billets →">Tickets sichern →</a></li>' : '') +
         '<li><a href="' + AUSSTELLER_CTA + '" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
       '</ul></nav>' +
     '</div></header>';
@@ -130,7 +134,7 @@
         '<li><a href="Programm" data-en="Programme" data-fr="Programme">Programm</a></li>' +
         '<li><a href="Aussteller" data-en="Exhibitors" data-fr="Exposants">Aussteller</a></li>' +
         '<li><a href="FAQ" data-en="Good to Know" data-fr="Bon à savoir">Gut zu Wissen</a></li>' +
-        '<li><a href="' + TICKETS + '" target="_blank" rel="noopener" data-en="Tickets" data-fr="Billets">Tickets</a></li>' +
+        (TICKETS_LIVE ? '<li><a href="' + TICKETS + '" target="_blank" rel="noopener" data-en="Tickets" data-fr="Billets">Tickets</a></li>' : '') +
       '</ul></div>' +
       '<div class="footer-col"><h4 data-en="About Us" data-fr="À propos">Über uns</h4><ul>' +
         '<li><a href="Rueckblick-2026">MOTO-ZÜRICH 2026</a></li>' +

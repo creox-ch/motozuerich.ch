@@ -692,8 +692,11 @@ html.no-js .hl-yellow::before { transform: scaleX(1); }
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 560px) {
-  /* Hero-Wordmark: bewusster Zweizeiler (MOTO- / ZÜRICH); line-height > 1, damit die Ü-Punkte nicht in die Zeile darüber ragen */
-  .hero-identity-wordmark { font-size: clamp(56px, 16.5vw, 72px); line-height: 1.04; }
+  /* Hero-Wordmark: bewusster Zweizeiler (MOTO- / ZÜRICH); line-height > 1, damit die Ü-Punkte nicht in die Zeile darüber ragen.
+     white-space MUSS hier auf normal zurück: die Basis-Regel setzt nowrap, und unter nowrap ignorieren
+     WebKit/Safari (iOS) das <wbr> im Markup – der Titel lief dort einzeilig über den rechten Rand hinaus.
+     Mit normal bricht der Titel in jeder Engine nach dem Bindestrich um. */
+  .hero-identity-wordmark { font-size: clamp(60px, 18vw, 80px); line-height: 1.04; white-space: normal; }
   /* Datums-Badge: nie mitten im Text umbrechen; wenn zu schmal, bricht sauber zwischen Zahl und Monat */
   .hero-identity-date-badge { flex-wrap: wrap; gap: 6px 12px; padding: 12px 18px; }
   .hero-date-num, .hero-date-rest { font-size: 24px; white-space: nowrap; }
@@ -765,6 +768,10 @@ html.no-js .hl-yellow::before { transform: scaleX(1); }
 }
 
 @media (max-width: 600px) {
+  /* Aussteller-Streifen der Startseite: «Werde Teil der» / «MOTO-ZÜRICH 2027» auf zwei Zeilen.
+     Nur über die Zusatzklasse, nicht global — auf den anderen Seiten steht im <b> ein Satzteil
+     (z. B. «Noch eine <b>Frage offen</b>?»), dort würde ein Block-Umbruch den Satz zerreissen. */
+  .aussteller-strip-text.strip-break-mobile b { display: block; }
   .exhibitor-grid { grid-template-columns: 1fr; }
   .showtime-row { gap: 6px; }
   .prog-card { grid-template-columns: 1fr; }
