@@ -6,6 +6,8 @@
     { "source": "/programm",                    "destination": "/Programm" },
     { "source": "/aussteller-motozuerich-2026", "destination": "/Aussteller" },
     { "source": "/gesamtplan",                  "destination": "/Gesamtplan" },
+    { "source": "/besucherplan",                "destination": "/Besucherplan" },
+    { "source": "/standflaechen",               "destination": "/Standflaechen" },
     { "source": "/team",                        "destination": "/Team" },
     { "source": "/medien",                      "destination": "/Medien" },
     { "source": "/volunteers",                  "destination": "/Volunteers" },

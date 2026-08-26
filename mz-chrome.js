@@ -15,6 +15,7 @@
     { label: 'Besucher', en: 'Visitors', fr: 'Visiteurs', children: [
       { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: 'FAQ' },
       { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: 'FAQ#parking' },
+      { id: 'besucherplan', label: 'Besucherplan', en: 'Visitor Map', fr: 'Plan visiteurs', href: 'Besucherplan' },
       { id: 'gesamtplan', label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: 'Gesamtplan' }
     ]},
     { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: 'Programm', children: [
@@ -25,6 +26,7 @@
     ]},
     { id: 'aussteller', label: 'Aussteller', en: 'Exhibitors', fr: 'Exposants', href: 'Aussteller', children: [
       { label: 'Aussteller werden', en: 'Become an Exhibitor', fr: 'Devenir exposant', href: 'Aussteller' },
+      { id: 'standflaechen', label: 'Standflächen 2027', en: 'Booth Spaces 2027', fr: 'Surfaces 2027', href: 'Standflaechen' },
       { label: 'Anfrage senden', en: 'Send Enquiry', fr: 'Envoyer une demande', href: 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027' }
     ]},
     { label: 'Über uns', en: 'About Us', fr: 'À propos', children: [
