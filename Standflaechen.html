@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="mz-head.js"></script>
+<title>Standflächen 2027 – MOTO-ZÜRICH | Halle 550 + StageOne mieten</title>
+<meta name="description" content="Standflächen der MOTO-ZÜRICH 2027 mieten: interaktiver Plan mit allen freien Flächen in Halle 550, Hall D und StageOne — Masse, Quadratmeter, Preise und Direktanfrage." />
+<link rel="canonical" href="https://motozuerich.ch/standflaechen" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MOTO-ZÜRICH" />
+<meta property="og:locale" content="de_CH" />
+<meta property="og:url" content="https://motozuerich.ch/standflaechen" />
+<meta property="og:title" content="Standflächen 2027 mieten – MOTO-ZÜRICH" />
+<meta property="og:description" content="Freie Flächen in Halle 550, Hall D und StageOne — Masse, m², Preise, Direktanfrage." />
+<meta property="og:image" content="https://motozuerich.ch/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Standflächen 2027 mieten – MOTO-ZÜRICH" />
+<meta name="twitter:description" content="Freie Flächen in Halle 550, Hall D und StageOne — Masse, m², Preise, Direktanfrage." />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og-image.png" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="motozuerich-page.css?v=10" />
+<link rel="stylesheet" href="mz-enhance.css?v=2" />
+<link rel="stylesheet" href="plan-shared.css?v=11" />
+<link rel="stylesheet" href="plan2027.css?v=3" />
+</head>
+<body data-page="standflaechen" data-planmode="space">
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#1f4571"/><rect x="26" y="26" width="48" height="48" fill="none" stroke="#FAF143" stroke-width="6"/><text x="50" y="88" font-family="sans-serif" font-weight="700" font-size="12" fill="#fff" text-anchor="middle">FLÄCHE</text></svg></template>
+
+<section class="page-hero" data-ghost="MZ">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Aussteller · Standflächen 2027</div>
+    <h1 class="page-hero-title">Fläche <span class="hl-yellow">sichern</span></h1>
+    <p class="page-hero-lead">
+      Der Verkaufsplan der MOTO-ZÜRICH 2027: <b>Halle 550</b> mit Hall D und FMX-Zone,
+      <b>StageOne</b> mit Erdgeschoss und Galerie. Klicke auf eine Fläche für Masse,
+      Quadratmeter und Preis — und frage sie direkt an.
+    </p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="section-label body-fade">Verkaufsplan · Stand August 2026</div>
+  <h2 class="section-title">Freie Flächen<br /><span class="hl">Masse &amp; Preise</span></h2>
+  <div class="plan-bleed body-fade" id="planroot" data-delay="140">
+    <div class="plan-mtabs" id="mtabs"><button type="button" class="on" data-mtab="map" data-en="Map" data-fr="Carte">Karte</button><button type="button" data-mtab="list" data-en="List" data-fr="Liste">Liste</button></div>
+    <div class="plan-top">
+      <div class="plan-search" id="plan-search">
+        <svg class="ps-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2"/></svg>
+        <input type="text" id="ps-input" autocomplete="off" placeholder="Stand oder Aussteller suchen …" data-en="Search booth or exhibitor …" data-fr="Rechercher stand ou exposant …" />
+        <button type="button" id="ps-clear" aria-label="Löschen" hidden>✕</button>
+        <ul class="ps-results" id="ps-results" hidden></ul>
+      </div>
+      <div class="plan-stats" id="plan-stats"></div>
+    </div>
+    <div class="plan-flex">
+      <div class="plan-box">
+        <div class="plan-inner" id="plan"><img src="assets/plan-2027-sales.svg?v=2" alt="Standflächen-Plan MOTO-ZÜRICH 2027: Halle 550 und StageOne" /></div>
+        <div class="plan-ov" id="planov"><div class="plan-zrow"><button type="button" class="plan-zbtn" data-zone="all" data-en="All" data-fr="Tout">Alle</button><button type="button" class="plan-zbtn" data-zone="halle">Halle 550</button><button type="button" class="plan-zbtn" data-zone="halld">Hall D</button><button type="button" class="plan-zbtn" data-zone="stage">StageOne</button></div><button type="button" class="plan-zbtn plan-fs" id="mfull" aria-label="Vollbild">⤢</button></div>
+        <div class="plan-zoom" id="zoomui"><button type="button" id="zin" aria-label="Vergrössern">+</button><button type="button" id="zout" aria-label="Verkleinern">−</button><button type="button" id="zreset" aria-label="Zurücksetzen">↺</button></div>
+        <div class="plan-tip" id="plantip" data-en="Drag · pinch to zoom" data-fr="Glisser · pincer pour zoomer">Ziehen · kneifen zum Zoomen</div>
+        <div class="plan-pop" id="pop">
+          <button class="plan-pop-close" id="pop-close" aria-label="Schliessen">✕</button>
+          <span class="pd-eyebrow">Standfläche</span>
+          <div class="plan-logobox" id="c-logobox" style="display:none;margin-top:10px"><img id="c-logo" alt="" /></div>
+          <h3 class="pd-name" id="c-name">–</h3>
+          <div class="pd-stripe" id="c-stripe"></div>
+          <div class="pd-loc" id="c-loc"></div>
+          <p class="plan-hint" id="c-hint"></p>
+          <div id="c-extra"></div>
+          <button type="button" id="c-show" data-en="Show on the map" data-fr="Afficher sur le plan" hidden>Auf der Karte zeigen</button>
+          <div class="plan-cta" id="c-cta" style="display:none"><a id="c-mail" href="#">Diesen Stand anfragen →</a></div>
+        </div>
+      </div>
+      <aside class="plan-detail" id="det">
+        <div id="det-body">
+          <span class="pd-eyebrow">Standfläche</span>
+          <div class="plan-logobox" id="d-logobox" style="display:none;margin-top:12px"><img id="d-logo" alt="" /></div>
+          <h3 class="pd-name" id="d-name"></h3>
+          <div class="pd-stripe" id="d-stripe"></div>
+          <div class="pd-loc" id="d-loc"></div>
+          <div id="d-rows"></div>
+          <p class="plan-hint" id="d-info"></p>
+          <div class="pd-links" id="d-links"></div>
+          <div class="plan-cta" id="d-cta" style="display:none"><a id="d-mail" href="#">Diesen Stand anfragen →</a></div>
+        </div>
+      </aside>
+    </div>
+    <div class="plan-mlist" id="mlist"></div>
+    <div class="plan-legend body-fade" data-delay="160">
+      <span><i class="plan-sw" style="background:#bcd4ea;border-color:var(--brand)"></i><span data-en="Available · Halle 550 &amp; StageOne" data-fr="Libre · Halle 550 &amp; StageOne">Frei · Halle 550 &amp; StageOne</span></span>
+      <span><i class="plan-sw" style="background:#baed8e;border-color:#2e9e4f"></i><span data-en="Available · Hall D" data-fr="Libre · Hall D">Frei · Hall D</span></span>
+      <span><i class="plan-sw" style="background:#dfe3e8;border-color:#7a8591"></i><span data-en="Booked 2027" data-fr="Occupé 2027">Belegt 2027</span></span>
+      <span><i class="plan-sw" style="background:#f7cc57;border-color:#cb6a15"></i><span data-en="Bar / catering · not for sale" data-fr="Bar / gastro · non commercialisé">Bar / Gastro · nicht buchbar</span></span>
+    </div>
+    <div class="plan-acc body-fade" id="preisliste" data-delay="180">
+      <button class="plan-acc-btn" id="acc-btn" aria-expanded="false" aria-controls="acc-body"><span data-en="All available spaces as a list" data-fr="Toutes les surfaces libres en liste">Alle freien Flächen als Liste</span><span class="plan-acc-caret" aria-hidden="true"></span></button>
+      <div class="plan-acc-body" id="acc-body" hidden style="border-top:2px solid var(--brand)">
+        <p class="plan-hint" style="margin:14px 0 4px" data-en="Click a row to see the space on the plan." data-fr="Cliquez sur une ligne pour voir la surface sur le plan.">Klicke auf eine Zeile, um die Fläche im Plan zu sehen.</p>
+        <div class="plan-table-wrap"><table class="plan-table"><thead><tr><th>Stand</th><th>Status</th><th>Masse</th><th>Fläche</th><th>Preis</th></tr></thead><tbody id="price-rows"></tbody></table></div>
+        <p class="plan-hint" style="margin-top:16px" data-en="Prices excl. VAT. Spaces in Hall D and StageOne on request — dimensions are measured from the plan." data-fr="Prix hors TVA. Surfaces en Hall D et StageOne sur demande — dimensions relevées sur le plan.">Preise exkl. MwSt. Flächen in Hall D und StageOne auf Anfrage — Masse aus dem Plan gemessen.</p>
+      </div>
+    </div>
+  </div>
+  <div class="plan-sheet-scrim" id="scrim"></div>
+</section>
+
+<section class="aussteller-strip">
+  <div class="aussteller-strip-inner">
+    <div class="aussteller-strip-text">Deinen <b>Wunschstand</b> sichern?</div>
+    <a href="mailto:yves@motozuerich.ch?subject=Standanfrage%20MOTO-Z%C3%9CRICH%202027" class="aussteller-strip-btn">Anfrage senden <span>→</span></a>
+  </div>
+</section>
+
+<script src="mz-chrome.js?v=4"></script>
+<script src="plan2027-data.js?v=3"></script>
+<script src="plan2027.js?v=4"></script>
+<script src="mz-i18n.js"></script>
+<script src="mz-page.js"></script>
+</body>
+</html>

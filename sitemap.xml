@@ -4,6 +4,8 @@
   <url><loc>https://motozuerich.ch/programm</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://motozuerich.ch/aussteller-motozuerich-2026</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://motozuerich.ch/gesamtplan</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://motozuerich.ch/besucherplan</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://motozuerich.ch/standflaechen</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://motozuerich.ch/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://motozuerich.ch/mz2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://motozuerich.ch/team</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>

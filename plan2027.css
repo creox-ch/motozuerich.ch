@@ -1,0 +1,207 @@
+/* MOTO-ZÜRICH — plan2027.css
+   Ergänzt plan-shared.css für die zwei Karten 2027 (Besucherplan / Standflächen).
+   Gemeinsam: Layout, Suche, Detail-Panel, Mobile-Karte.
+   Modus-abhängig: Einfärbung der Hotspots + POI-Layer. */
+
+.plan-inner{position:relative;width:100%;aspect-ratio:1835.51/1602.87}
+.plan-inner img{position:absolute;inset:0;width:100%;height:100%}
+.plan-hint{margin:0}
+.plan-bleed{width:auto;max-width:none;margin-left:0;margin-right:0;padding:0;margin-top:0}
+
+/* ---- Kopfzeile über der Karte: Suche, Zähler, Chips ---- */
+.plan-top{display:flex;gap:18px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.plan-search{position:relative;flex:1 1 380px;max-width:440px;display:flex;align-items:center;border:1px solid var(--line-strong);background:var(--bg)}
+.plan-search .ps-ico{width:20px;height:20px;margin-left:14px;color:var(--muted);flex:none}
+#ps-input{flex:1;min-width:0;border:0;background:none;padding:13px 12px;font-family:var(--font-body);font-size:15px;color:var(--fg)}
+#ps-input:focus{outline:none}
+#ps-clear{border:0;background:none;cursor:pointer;font-size:16px;color:var(--muted);padding:0 14px;height:100%}
+#ps-clear:hover{color:var(--fg)}
+.ps-results{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:45;margin:0;padding:6px 0;list-style:none;background:var(--bg);border:1px solid var(--line-strong);box-shadow:0 12px 40px rgba(15,35,60,.18);max-height:320px;overflow:auto}
+.ps-results li{display:flex;align-items:baseline;gap:10px;padding:10px 16px;cursor:pointer;font-family:var(--font-body);font-size:14px}
+.ps-results li:hover,.ps-results li.on{background:var(--brand-soft)}
+.ps-results .ps-id{font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.04em;color:var(--brand-dark);flex:none;min-width:46px}
+.ps-results .ps-lbl{color:var(--fg)}
+.ps-results .ps-empty{color:var(--muted);cursor:default}
+.ps-results .ps-empty:hover{background:none}
+.plan-stats{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding-bottom:6px}
+.plan-stats b{color:var(--brand-dark);font-size:15px}
+.plan-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.plan-chips button{appearance:none;border:1px solid var(--line-strong);background:var(--bg);color:var(--brand-dark);cursor:pointer;padding:9px 14px;font-family:var(--font-mono);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;transition:background .13s,color .13s,border-color .13s}
+.plan-chips button:hover{background:var(--brand-soft)}
+.plan-chips button.on{background:var(--brand-dark);border-color:var(--brand-dark);color:#fff}
+
+/* ---- Karte + Detail-Panel ---- */
+.plan-flex{display:flex;gap:18px;align-items:stretch}
+.plan-flex>.plan-box{flex:1;min-width:0}
+.plan-detail{display:none;flex:0 0 320px;min-width:0;border:1px solid var(--line-strong);background:var(--bg);padding:22px;align-self:stretch}
+.plan-detail.on{display:block}
+.pd-eyebrow{display:block;font-family:var(--font-mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pd-name{font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1.05;margin:10px 0 0;color:var(--brand-dark);word-break:break-word}
+.pd-stripe{height:6px;margin:16px 0 6px}
+.pd-loc{padding:9px 12px;margin-bottom:4px;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+.plan-detail .plan-row .v{text-align:right;max-width:60%}
+.pd-links{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.pd-link{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--brand-dark);text-decoration:none;padding:11px 13px;border:1px solid var(--line-strong);transition:background .12s,color .12s}
+.pd-link:hover{background:var(--brand);color:#fff}
+.pd-alt{margin-top:14px;font-family:var(--font-body);font-size:13.5px;line-height:1.55;color:var(--muted)}
+.pd-alt a{color:var(--brand-dark);font-weight:700}
+@media(max-width:980px){.plan-flex{flex-direction:column}.plan-detail{flex-basis:auto}.plan-detail .plan-logobox{max-width:210px}}
+@media(max-width:760px){.plan-detail{display:none}}
+
+/* ---- Hotspots: Besucherplan ----
+   Logik invertiert zur Verkaufskarte: FARBIG = Aussteller da (klick = Lampe),
+   GRAU (in der Grafik) = Fläche wird noch vergeben — leise Interaktion. */
+body[data-planmode="visitor"] .plan-hot.st-taken{box-shadow:none}
+body[data-planmode="visitor"] .plan-hot.st-taken:hover{background:rgba(47,101,160,.16);box-shadow:0 0 0 2px var(--brand)}
+body[data-planmode="visitor"] .plan-hot.st-taken.sel{background:rgba(47,101,160,.16);box-shadow:0 0 0 2.5px var(--brand),0 0 10px 3px rgba(47,101,160,.5)}
+body[data-planmode="visitor"] .plan-hot.st-taken.z-halld:hover{background:rgba(70,169,9,.16);box-shadow:0 0 0 2px #46a909}
+body[data-planmode="visitor"] .plan-hot.st-taken.z-halld.sel{background:rgba(70,169,9,.14);box-shadow:0 0 0 2.5px #46a909,0 0 10px 3px rgba(70,169,9,.5)}
+body[data-planmode="visitor"] .plan-hot.sel{z-index:9}
+body[data-planmode="visitor"] .plan-hot.sel::after{display:none}
+body[data-planmode="visitor"] .plan-hot.st-free{box-shadow:none}
+body[data-planmode="visitor"] .plan-hot.st-free:hover{background:rgba(107,114,128,.1);box-shadow:0 0 0 1.5px rgba(107,114,128,.5)}
+body[data-planmode="visitor"] .plan-hot.st-free.sel{background:rgba(107,114,128,.12);box-shadow:0 0 0 1.5px #8b96a2;animation:none}
+body[data-planmode="visitor"] .plan-hot.st-bar,body[data-planmode="visitor"] .plan-hot.st-intern{box-shadow:none}
+body[data-planmode="visitor"] .plan-hot.st-bar:hover,body[data-planmode="visitor"] .plan-hot.st-intern:hover{background:rgba(247,204,87,.28);box-shadow:0 0 0 1.5px #cb6a15}
+body[data-planmode="visitor"] .plan-hot.st-bar.sel,body[data-planmode="visitor"] .plan-hot.st-intern.sel{background:rgba(247,204,87,.3);box-shadow:0 0 0 2.5px #cb6a15,0 0 10px 3px rgba(203,106,21,.45)}
+@keyframes selPulseO{0%,100%{box-shadow:0 0 0 2.5px #cb6a15,0 0 8px 3px rgba(203,106,21,.6),0 0 20px 8px rgba(203,106,21,.28)}50%{box-shadow:0 0 0 2.5px #e07f24,0 0 16px 6px rgba(224,127,36,.85),0 0 42px 16px rgba(203,106,21,.5)}}
+body[data-planmode="visitor"] .plan-hot.st-free.sel{background:rgba(107,114,128,.14);box-shadow:0 0 0 2px #8b96a2,0 0 8px 3px rgba(139,150,162,.45)}
+@keyframes selPulseN{0%,100%{box-shadow:0 0 0 2px #8b96a2,0 0 8px 3px rgba(139,150,162,.55),0 0 18px 7px rgba(139,150,162,.25)}50%{box-shadow:0 0 0 2px #9fa9b4,0 0 14px 6px rgba(139,150,162,.8),0 0 34px 13px rgba(139,150,162,.45)}}
+
+/* ---- Hotspots: Standflächen ----
+   Farb-Logik: die Grafik selbst trägt die Farben (frei = blau/grün,
+   belegt = grau in plan-2027-sales.svg, Bars orange — nicht klickbar).
+   Ruhezustand: KEINE Rahmen. Hover: leichte Tönung. Klick: sehr kräftiges
+   Leuchten in der Farbe, die der Stand auf der Karte hat + Karten-Pin. */
+body[data-planmode="space"] .plan-hot.st-free{background:transparent;box-shadow:none}
+body[data-planmode="space"] .plan-hot.st-free:hover{background:rgba(47,101,160,.16);box-shadow:0 0 0 2px var(--brand)}
+body[data-planmode="space"] .plan-hot.sel{z-index:9}
+body[data-planmode="space"] .plan-hot.sel::after{display:none}
+/* Auswahl: der KONTUR ist die Lampe — leuchtende Linie rund um den Stand,
+   die nach innen und aussen weiches farbiges Licht abstrahlt */
+body[data-planmode="space"] .plan-hot.st-free.sel{background:rgba(47,101,160,.14);animation:selPulseB 2.2s ease-in-out infinite;box-shadow:0 0 0 2.5px #2f65a0,0 0 10px 4px rgba(47,101,160,.75),0 0 26px 10px rgba(47,101,160,.4),inset 0 0 10px rgba(47,101,160,.45)}
+body[data-planmode="space"] .plan-hot.st-free.z-halld:hover{background:rgba(46,158,79,.18);box-shadow:0 0 0 2px #2e9e4f}
+body[data-planmode="space"] .plan-hot.st-free.z-halld.sel{background:rgba(46,158,79,.14);animation:selPulseG 2.2s ease-in-out infinite;box-shadow:0 0 0 2.5px #46a909,0 0 10px 4px rgba(70,169,9,.75),0 0 26px 10px rgba(46,158,79,.42),inset 0 0 10px rgba(70,169,9,.45)}
+@keyframes selPulseB{0%,100%{box-shadow:0 0 0 2.5px #2f65a0,0 0 8px 3px rgba(47,101,160,.65),0 0 20px 8px rgba(47,101,160,.32),inset 0 0 8px rgba(47,101,160,.4)}50%{box-shadow:0 0 0 2.5px #4a86c4,0 0 16px 6px rgba(74,134,196,.9),0 0 42px 16px rgba(47,101,160,.55),inset 0 0 14px rgba(74,134,196,.6)}}
+@keyframes selPulseG{0%,100%{box-shadow:0 0 0 2.5px #46a909,0 0 8px 3px rgba(70,169,9,.65),0 0 20px 8px rgba(46,158,79,.34),inset 0 0 8px rgba(70,169,9,.4)}50%{box-shadow:0 0 0 2.5px #5fc428,0 0 16px 6px rgba(95,196,40,.95),0 0 42px 16px rgba(46,158,79,.6),inset 0 0 14px rgba(95,196,40,.6)}}
+/* belegt: Färbung kommt aus der Grafik (plan-2027-sales.svg, grau) —
+   kein Overlay, nur dezente Interaktion für «wer steht hier» */
+body[data-planmode="space"] .plan-hot.st-taken{background:transparent;box-shadow:none}
+body[data-planmode="space"] .plan-hot.st-taken:hover{background:rgba(90,102,117,.12);box-shadow:0 0 0 1px rgba(90,102,117,.5)}
+body[data-planmode="space"] .plan-hot.st-taken.sel{background:rgba(90,102,117,.16);box-shadow:0 0 0 1.5px #7a8591;animation:none}
+body[data-planmode="space"] .plan-hot.st-taken.sel::after{display:none}
+/* Filter: nicht passende Flächen verblassen, bleiben aber sichtbar */
+#plan.only-free .plan-hot:not(.st-free),#plan.only-big .plan-hot:not(.st-free),#plan.only-small .plan-hot:not(.st-free){opacity:.12;pointer-events:none}
+
+/* ---- Polygon-Hotspots (schräge Stände) ---- */
+.plan-pg{fill:rgba(47,101,160,0);stroke:rgba(47,101,160,.5);stroke-width:1.5;vector-effect:non-scaling-stroke;cursor:pointer;transition:fill .15s,stroke .15s}
+.plan-pg:hover{fill:rgba(47,101,160,.18);stroke:var(--brand);stroke-width:2.5}
+.plan-pg.sel{fill:rgba(47,101,160,.2);stroke:var(--brand);stroke-width:3}
+body[data-planmode="visitor"] .plan-pg.st-free{stroke:transparent}
+body[data-planmode="visitor"] .plan-pg.st-free:hover{fill:rgba(107,114,128,.1);stroke:rgba(107,114,128,.5);stroke-width:1.5}
+body[data-planmode="visitor"] .plan-pg.st-free.sel{fill:rgba(107,114,128,.14);stroke:#8b96a2;stroke-width:2;filter:drop-shadow(0 0 5px rgba(139,150,162,.6))}
+@keyframes pgPulseN{0%,100%{filter:drop-shadow(0 0 4px rgba(139,150,162,.7)) drop-shadow(0 0 10px rgba(139,150,162,.4))}50%{filter:drop-shadow(0 0 8px rgba(139,150,162,.95)) drop-shadow(0 0 20px rgba(139,150,162,.65))}}
+body[data-planmode="visitor"] .plan-pg.st-taken{fill:transparent;stroke:transparent}
+body[data-planmode="visitor"] .plan-pg.st-taken:hover{fill:rgba(47,101,160,.16);stroke:var(--brand);stroke-width:2}
+body[data-planmode="visitor"] .plan-pg.st-taken.sel{fill:rgba(47,101,160,.16);stroke:#2f65a0;stroke-width:2.5;filter:drop-shadow(0 0 6px rgba(47,101,160,.6))}
+body[data-planmode="space"] .plan-pg.st-free{fill:transparent;stroke:transparent}
+body[data-planmode="space"] .plan-pg.st-free:hover{fill:rgba(47,101,160,.16);stroke:var(--brand);stroke-width:2}
+body[data-planmode="space"] .plan-pg.st-free.sel{fill:rgba(47,101,160,.14);stroke:#2f65a0;stroke-width:2.5;animation:pgPulseB 2.2s ease-in-out infinite}
+body[data-planmode="space"] .plan-pg.st-free.z-halld:hover{fill:rgba(46,158,79,.18);stroke:#2e9e4f}
+body[data-planmode="space"] .plan-pg.st-free.z-halld.sel{fill:rgba(46,158,79,.14);stroke:#46a909;animation:pgPulseG 2.2s ease-in-out infinite}
+@keyframes pgPulseB{0%,100%{filter:drop-shadow(0 0 4px rgba(47,101,160,.8)) drop-shadow(0 0 12px rgba(47,101,160,.5))}50%{filter:drop-shadow(0 0 8px rgba(74,134,196,1)) drop-shadow(0 0 24px rgba(47,101,160,.8))}}
+@keyframes pgPulseG{0%,100%{filter:drop-shadow(0 0 4px rgba(70,169,9,.85)) drop-shadow(0 0 12px rgba(46,158,79,.55))}50%{filter:drop-shadow(0 0 8px rgba(95,196,40,1)) drop-shadow(0 0 24px rgba(46,158,79,.85))}}
+body[data-planmode="space"] .plan-pg.st-taken{fill:transparent;stroke:transparent}
+body[data-planmode="space"] .plan-pg.st-taken:hover{fill:rgba(90,102,117,.12);stroke:rgba(90,102,117,.5);stroke-width:1}
+body[data-planmode="space"] .plan-pg.st-taken.sel{fill:rgba(90,102,117,.16);stroke:#7a8591;stroke-width:1.5;filter:none;animation:none}
+#plan.only-free .plan-pg:not(.st-free){opacity:.12;pointer-events:none}
+.plan-pg.flash{animation:pgflash 1.1s ease}
+@keyframes pgflash{0%,100%{stroke:var(--swiss-red);stroke-width:2}50%{stroke:var(--swiss-red);stroke-width:5;fill:rgba(193,13,13,.2)}}
+
+/* ---- Karten-Pin auf dem gewählten Stand ---- */
+.plan-pin{position:absolute;z-index:14;width:30px;height:38px;transform:translate(-50%,-100%);pointer-events:none;display:none;color:var(--brand-dark)}
+.plan-pin.on{display:block;animation:pinDrop .45s cubic-bezier(.2,.8,.3,1),pinFloat 2.4s ease-in-out .45s infinite,pinGlow 2.4s ease-in-out .45s infinite}
+.plan-pin.green{color:#1f7a34}
+.plan-pin.grey{color:#5a6675}
+.plan-pin.grey.on{animation:pinDrop .45s cubic-bezier(.2,.8,.3,1);filter:drop-shadow(0 3px 5px rgba(15,35,60,.35))}
+.plan-pin svg{width:100%;height:100%;display:block}
+@keyframes pinDrop{0%{transform:translate(-50%,-100%) translateY(-22px);opacity:0}100%{transform:translate(-50%,-100%)}}
+@keyframes pinFloat{0%,100%{transform:translate(-50%,-100%)}50%{transform:translate(-50%,-100%) translateY(-6px)}}
+@keyframes pinGlow{0%,100%{filter:drop-shadow(0 3px 5px rgba(15,35,60,.35)) drop-shadow(0 0 3px currentColor)}50%{filter:drop-shadow(0 7px 10px rgba(15,35,60,.28)) drop-shadow(0 0 10px currentColor)}}
+
+.plan-hot.flash{animation:psflash 1.1s ease}
+@keyframes psflash{0%,100%{box-shadow:inset 0 0 0 2px var(--swiss-red)}50%{box-shadow:inset 0 0 0 5px var(--swiss-red);background:rgba(193,13,13,.2)}}
+
+/* ---- POI-Layer (Besucherplan) ---- */
+.plan-poi{position:absolute;transform:translate(-50%,-50%);z-index:12;display:none;align-items:center;gap:6px;pointer-events:none;white-space:nowrap}
+.plan-poi.on{display:flex}
+.plan-poi i{width:13px;height:13px;flex:none;background:var(--swiss-red);border:2px solid #fff;box-shadow:0 0 0 2px rgba(193,13,13,.35);animation:poiPulse 1.6s ease-in-out infinite}
+.plan-poi span{font-family:var(--font-mono);font-weight:700;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--swiss-red);padding:2px 5px}
+.plan-poi.k-food i,.plan-poi.k-food span{background:#cb6a15}
+.plan-poi.k-food i{box-shadow:0 0 0 2px rgba(203,106,21,.35)}
+.plan-poi.k-food span{color:#fff}
+@keyframes poiPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+
+/* ---- Overlay-UI auf der Karte ---- */
+.plan-ov,.plan-zoom,.plan-tip,.plan-mtabs,.plan-mlist,#c-show{display:none}
+.plan-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px}
+
+/* ---- Mobile ---- */
+@media(max-width:760px){
+  body.mz-mapfull,body.mz-sheet{overflow:hidden}
+  .plan-bleed{padding:0;margin:20px -20px 0;width:auto}
+  .plan-top{display:block;margin:0 20px 12px}
+  .plan-stats{padding:10px 0 0}
+  .plan-search{max-width:none;margin:0}
+  #ps-input{font-size:16px;padding:14px 12px}
+  #ps-clear{padding:0 16px;min-width:48px}
+  .ps-results{max-height:48vh;-webkit-overflow-scrolling:touch}
+  .ps-results li{padding:14px 16px;font-size:15px;min-height:48px;box-sizing:border-box}
+  .plan-chips{margin:0 20px 12px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .plan-chips::-webkit-scrollbar{display:none}
+  .plan-chips button{flex:none;min-height:44px}
+  .plan-mtabs{display:grid;grid-template-columns:1fr 1fr;margin:0 20px 12px;border:1px solid var(--line-strong)}
+  .plan-mtabs button{appearance:none;border:0;background:var(--bg);color:var(--muted);min-height:48px;padding:0 8px;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .plan-mtabs button+button{border-left:1px solid var(--line-strong)}
+  .plan-mtabs button.on{background:var(--brand-dark);color:#fff}
+  .plan-flex{display:block}
+  .plan-box{position:relative;overflow:hidden;padding:0;border-left:0;border-right:0;background:#f6f7f9;width:100%;box-sizing:border-box;aspect-ratio:1835.51/1602.87;touch-action:pan-y}
+  #plan{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+  .plan-box.full{position:fixed;inset:0;z-index:1200;height:auto!important;aspect-ratio:auto;border:0}
+  .plan-ov{display:flex;gap:6px;align-items:center;position:absolute;left:8px;right:8px;top:8px;z-index:30;pointer-events:none}
+  .plan-ov>*{pointer-events:auto}
+  .plan-zrow{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .plan-zrow::-webkit-scrollbar{display:none}
+  .plan-zbtn{appearance:none;flex:none;border:1px solid var(--line-strong);background:rgba(255,255,255,.94);color:var(--brand-dark);min-height:44px;padding:0 12px;font-family:var(--font-mono);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;cursor:pointer;box-shadow:0 2px 8px rgba(15,35,60,.14)}
+  .plan-zbtn:active{background:var(--brand);border-color:var(--brand);color:#fff}
+  .plan-fs{width:44px;padding:0;font-size:15px;line-height:1}
+  .plan-zoom{display:flex;flex-direction:column;gap:8px;position:absolute;right:10px;bottom:10px;z-index:30}
+  .plan-zoom button{width:44px;height:44px;border:1px solid var(--line-strong);background:rgba(255,255,255,.94);color:var(--brand-dark);font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 10px rgba(15,35,60,.18)}
+  .plan-zoom button:active{background:var(--brand);color:#fff}
+  #zreset{display:none}
+  .plan-tip{display:block;position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:29;background:rgba(15,35,60,.86);color:#fff;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;white-space:nowrap;pointer-events:none;transition:opacity .45s}
+  .plan-tip.gone{opacity:0}
+  .plan-poi span{font-size:8.5px}
+  .plan-legend{display:grid;grid-template-columns:1fr;gap:9px;padding:0 20px;font-size:11.5px;line-height:1.45;margin-top:16px}
+  .plan-legend span{align-items:flex-start}
+  .plan-sw{flex:none;margin-top:1px}
+  .plan-mlist{padding:0 20px}
+  #planroot.list-mode .plan-flex,#planroot.list-mode .plan-legend,#planroot.list-mode .plan-chips{display:none}
+  #planroot.list-mode .plan-mlist{display:block}
+  .ml-h{font-family:var(--font-mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:22px 0 8px;border-bottom:2px solid var(--line-strong)}
+  .ml-row{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-align:left;background:var(--bg);border:0;border-bottom:1px solid var(--line);padding:11px 2px;min-height:60px;cursor:pointer;font-family:var(--font-body)}
+  .ml-row:active{background:var(--brand-soft)}
+  .ml-id{flex:none;min-width:46px;text-align:center;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.04em;color:#fff;background:var(--brand);padding:6px 6px}
+  .ml-row.is-zone .ml-id{background:#cb6a15;color:#fff}
+  .ml-row.z-halld:not(.is-zone) .ml-id{background:#2e9e4f}
+  .ml-row.is-taken .ml-id{background:var(--brand-dark)}
+  .ml-tx{flex:1;min-width:0}
+  .ml-t{display:block;font-weight:700;font-size:15px;line-height:1.25;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ml-s{display:block;font-size:12.5px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ml-p{flex:none;font-family:var(--font-mono);font-weight:700;font-size:12px;color:var(--brand-dark);text-align:right}
+  #c-show{display:block;width:100%;box-sizing:border-box;margin-top:14px;min-height:48px;border:1px solid var(--brand-dark);background:var(--bg);color:var(--brand-dark);font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  #c-show:active{background:var(--brand-dark);color:#fff}
+}
+@media(max-width:760px) and (orientation:landscape){
+  .plan-box{aspect-ratio:auto;height:84vh!important}
+}

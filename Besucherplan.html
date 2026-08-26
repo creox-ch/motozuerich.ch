@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="mz-head.js"></script>
+<title>Besucherplan – MOTO-ZÜRICH 2027 | Halle 550 + StageOne</title>
+<meta name="description" content="Der Besucherplan der MOTO-ZÜRICH 2027: alle Aussteller, Eingänge, Kasse, Food Zone, Bars und die FMX-Show in Halle 550 und StageOne — mit Suche nach Marke oder Standnummer." />
+<link rel="canonical" href="https://motozuerich.ch/besucherplan" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MOTO-ZÜRICH" />
+<meta property="og:locale" content="de_CH" />
+<meta property="og:url" content="https://motozuerich.ch/besucherplan" />
+<meta property="og:title" content="Besucherplan – MOTO-ZÜRICH 2027" />
+<meta property="og:description" content="Alle Aussteller, Eingänge, Food Zone, Bars und die FMX-Show auf einer Karte." />
+<meta property="og:image" content="https://motozuerich.ch/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Besucherplan – MOTO-ZÜRICH 2027" />
+<meta name="twitter:description" content="Alle Aussteller, Eingänge, Food Zone, Bars und die FMX-Show auf einer Karte." />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og-image.png" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="motozuerich-page.css?v=10" />
+<link rel="stylesheet" href="mz-enhance.css?v=2" />
+<link rel="stylesheet" href="plan-shared.css?v=11" />
+<link rel="stylesheet" href="plan2027.css?v=3" />
+</head>
+<body data-page="besucherplan" data-planmode="visitor">
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2F65A0"/><rect x="30" y="30" width="40" height="40" fill="#FAF143"/><text x="50" y="86" font-family="sans-serif" font-weight="700" font-size="12" fill="#fff" text-anchor="middle">PLAN</text></svg></template>
+
+<section class="page-hero" data-ghost="MZ">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Besucher · Halle 550 + StageOne</div>
+    <h1 class="page-hero-title">Der <span class="hl-yellow">Besucherplan</span></h1>
+    <p class="page-hero-lead">
+      Wo steht welche Marke, wo gibt es Kaffee, wo läuft die <b>FMX-Show</b>?
+      Beide Hallen auf einer Karte — <b>Halle 550</b> mit Hall D oben, <b>StageOne</b> mit
+      Galerie unten, verbunden durch den Durchgang. Tippe auf einen Stand für Details.
+    </p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="section-label body-fade">Interaktive Karte · MOTO-ZÜRICH 2027</div>
+  <h2 class="section-title">Alle Aussteller<br /><span class="hl">auf einen Blick</span></h2>
+  <div class="plan-bleed body-fade" id="planroot" data-delay="140">
+    <div class="plan-mtabs" id="mtabs"><button type="button" class="on" data-mtab="map" data-en="Map" data-fr="Carte">Karte</button><button type="button" data-mtab="list" data-en="List" data-fr="Liste">Liste</button></div>
+    <div class="plan-top">
+      <div class="plan-search" id="plan-search">
+        <svg class="ps-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2"/></svg>
+        <input type="text" id="ps-input" autocomplete="off" placeholder="Marke oder Stand suchen …" data-en="Search brand or booth …" data-fr="Rechercher marque ou stand …" />
+        <button type="button" id="ps-clear" aria-label="Löschen" hidden>✕</button>
+        <ul class="ps-results" id="ps-results" hidden></ul>
+      </div>
+      <div class="plan-stats" id="plan-stats"></div>
+    </div>
+    <div class="plan-flex">
+      <div class="plan-box">
+        <div class="plan-inner" id="plan"><img src="assets/plan-2027-visitor.svg?v=1" alt="Besucherplan MOTO-ZÜRICH 2027: Halle 550 und StageOne" /></div>
+        <div class="plan-ov" id="planov"><div class="plan-zrow"><button type="button" class="plan-zbtn" data-zone="all" data-en="All" data-fr="Tout">Alle</button><button type="button" class="plan-zbtn" data-zone="halle">Halle 550</button><button type="button" class="plan-zbtn" data-zone="stage">StageOne</button><button type="button" class="plan-zbtn" data-zone="og" data-en="Gallery" data-fr="Galerie">Galerie</button></div><button type="button" class="plan-zbtn plan-fs" id="mfull" aria-label="Vollbild">⤢</button></div>
+        <div class="plan-zoom" id="zoomui"><button type="button" id="zin" aria-label="Vergrössern">+</button><button type="button" id="zout" aria-label="Verkleinern">−</button><button type="button" id="zreset" aria-label="Zurücksetzen">↺</button></div>
+        <div class="plan-tip" id="plantip" data-en="Drag · pinch to zoom" data-fr="Glisser · pincer pour zoomer">Ziehen · kneifen zum Zoomen</div>
+        <div class="plan-pop" id="pop">
+          <button class="plan-pop-close" id="pop-close" aria-label="Schliessen">✕</button>
+          <span class="pd-eyebrow">MOTO-ZÜRICH 2027</span>
+          <div class="plan-logobox" id="c-logobox" style="display:none;margin-top:10px"><img id="c-logo" alt="" /></div>
+          <h3 class="pd-name" id="c-name">–</h3>
+          <div class="pd-stripe" id="c-stripe"></div>
+          <div class="pd-loc" id="c-loc"></div>
+          <p class="plan-hint" id="c-hint"></p>
+          <div id="c-extra"></div>
+          <button type="button" id="c-show" data-en="Show on the map" data-fr="Afficher sur le plan" hidden>Auf der Karte zeigen</button>
+          <div class="plan-cta" id="c-cta" style="display:none"><a id="c-mail" href="#">Diesen Stand anfragen →</a></div>
+        </div>
+      </div>
+      <aside class="plan-detail" id="det">
+        <div id="det-body">
+          <span class="pd-eyebrow">MOTO-ZÜRICH 2027</span>
+          <div class="plan-logobox" id="d-logobox" style="display:none;margin-top:12px"><img id="d-logo" alt="" /></div>
+          <h3 class="pd-name" id="d-name"></h3>
+          <div class="pd-stripe" id="d-stripe"></div>
+          <div class="pd-loc" id="d-loc"></div>
+          <div id="d-rows"></div>
+          <p class="plan-hint" id="d-info"></p>
+          <div class="pd-links" id="d-links"></div>
+          <div class="pd-alt" id="d-alt" style="display:none">Fläche mieten? Alle freien Stände mit Massen und Preisen findest du im <a href="/standflaechen">Standflächen-Plan</a>.</div>
+          <div class="plan-cta" id="d-cta" style="display:none"><a id="d-mail" href="#">Diesen Stand anfragen →</a></div>
+        </div>
+      </aside>
+    </div>
+    <div class="plan-mlist" id="mlist"></div>
+    <div class="plan-legend body-fade" data-delay="160">
+      <span><i class="plan-sw" style="background:#bcd4ea;border-color:var(--brand)"></i><span data-en="Colourful — this exhibitor is in" data-fr="En couleur — exposant confirmé">Farbig — dieser Aussteller ist dabei</span></span>
+      <span><i class="plan-sw" style="background:#e4e8ed;border-color:#98a2ad"></i><span data-en="Grey — still waiting for its hero" data-fr="Gris — attend encore son héros">Grau — wartet noch auf seinen Helden</span></span>
+      <span><i class="plan-sw" style="background:#f7cc57;border-color:#cb6a15"></i><span data-en="Food &amp; bars" data-fr="Food &amp; bars">Food &amp; Bars</span></span>
+    </div>
+  </div>
+  <div class="plan-sheet-scrim" id="scrim"></div>
+</section>
+
+<section class="aussteller-strip">
+  <div class="aussteller-strip-inner">
+    <div class="aussteller-strip-text">Du willst <b>selbst ausstellen</b>?</div>
+    <a href="/standflaechen" class="aussteller-strip-btn">Freie Standflächen <span>→</span></a>
+  </div>
+</section>
+
+<script src="mz-chrome.js?v=4"></script>
+<script src="plan2027-data.js?v=3"></script>
+<script src="plan2027.js?v=4"></script>
+<script src="mz-i18n.js"></script>
+<script src="mz-page.js"></script>
+</body>
+</html>
