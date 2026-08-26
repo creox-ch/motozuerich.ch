@@ -15,8 +15,7 @@
     { label: 'Besucher', en: 'Visitors', fr: 'Visiteurs', children: [
       { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: 'FAQ' },
       { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: 'FAQ#parking' },
-      { id: 'besucherplan', label: 'Besucherplan', en: 'Visitor Map', fr: 'Plan visiteurs', href: 'Besucherplan' },
-      { id: 'gesamtplan', label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: 'Gesamtplan' }
+      { id: 'besucherplan', label: 'Besucherplan', en: 'Visitor Map', fr: 'Plan visiteurs', href: 'Besucherplan' }
     ]},
     { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: 'Programm', children: [
       { label: 'Programm 2027', en: 'Programme 2027', fr: 'Programme 2027', href: 'Programm' },
@@ -41,9 +40,9 @@
     { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: 'Medien' }
   ];
 
-  /* CTA "Aussteller werden" fuehrt auf den Hallenplan (Standflaechen + Preise),
+  /* CTA "Aussteller werden" fuehrt auf die Standflaechen-Seite (Flaechen + Preise),
      nicht direkt auf die Anfrage — die Anfrage steht im Menue und auf dem Plan. */
-  var AUSSTELLER_CTA = 'Gesamtplan';
+  var AUSSTELLER_CTA = 'Standflaechen';
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
   /* Ticketverkauf 2027 läuft noch nicht: Menü-CTA, Desktop-Header-CTA und Footer-Link sind aus.
      Zum Wiedereinschalten hier auf true setzen – und dasselbe Flag in mz-enhance.js
