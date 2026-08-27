@@ -10,7 +10,7 @@
   var MODE = document.body.getAttribute('data-planmode') === 'space' ? 'space' : 'visitor';
   var plan = document.getElementById('plan'), box = document.querySelector('.plan-box');
   var pop = document.getElementById('pop'), scrim = document.getElementById('scrim'), det = document.getElementById('det');
-  var S = DATA.stands, selEl = null, hotEls = {};
+  var S = DATA.stands, selEl = null, selId = null, hotEls = {};
   var hoverable = window.matchMedia('(hover:hover)').matches;
   function isMobile() { return window.matchMedia('(max-width:760px)').matches; }
   function t(de, en, fr) { var l = (localStorage.getItem('mz-lang') || 'de'); return l === 'en' ? en : l === 'fr' ? fr : de; }
@@ -19,7 +19,7 @@
   function row(k, v) { return '<div class="plan-row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; }
 
   var AREA = {
-    h550: 'Halle 550', halld: t('Hall D · FMX-Zone', 'Hall D · FMX zone', 'Hall D · zone FMX'),
+    h550: 'Halle 550', halld: 'Hall D · Adventure Camp',
     eg: t('StageOne · Erdgeschoss', 'StageOne · ground floor', 'StageOne · rez-de-chaussée'),
     og: t('StageOne · Galerie', 'StageOne · gallery', 'StageOne · galerie')
   };
@@ -113,6 +113,81 @@
     });
   }
 
+  /* ---------- Preis-Gate (Backend-Vorlage) ----------
+     Preise auf /standflaechen sind erst nach E-Mail-Bestätigung sichtbar.
+     BACKEND-HOOK: `requestAccess(email)` ist der einzige Punkt, den das
+     Backend ersetzen muss. Vertrag:
+       POST /api/price-access  Body {email: string}
+       Antwort {ok: true}  → Preise freischalten (z.B. nach Double-Opt-In
+       per Bestätigungslink kann der Link auf /standflaechen?priceok=1 zeigen —
+       der Query-Param wird unten ebenfalls akzeptiert).
+     Aktuell MOCK: jede plausible E-Mail schaltet sofort frei (kein Request). */
+  var GATE = (function () {
+    var KEY = 'mz27_price_email';
+    function unlocked() { return MODE !== 'space' || !!localStorage.getItem(KEY); }
+    function requestAccess(email, extra) {
+      extra = extra || {};
+      var body = {
+        email: email,
+        firma: extra.firma || '',
+        consent: true,
+        marketing_consent: !!extra.marketing_consent,
+        stand_id: extra.stand_id || null,
+        hp: extra.hp || '',
+        quelle: { page: 'standflaechen', lang: (document.documentElement.lang || 'de'), ref: document.referrer || '', ts: new Date().toISOString() }
+      };
+      return fetch('/api/price-access', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+      }).then(function (res) { return res.ok ? res.json() : { ok: false }; })
+        .catch(function () { return { ok: false }; });
+    }
+    function unlock(email, extra) {
+      return requestAccess(email, extra).then(function (r) {
+        if (r && r.ok) { try { localStorage.setItem(KEY, email); } catch (e) {} rerender(); }
+        return r;
+      });
+    }
+    var hooks = [];
+    function onChange(fn) { hooks.push(fn); }
+    function rerender() { hooks.forEach(function (f) { try { f(); } catch (e) {} }); }
+    /* Bestätigungslink-Variante: /standflaechen?priceok=1&email=… */
+    try {
+      var q = new URLSearchParams(location.search);
+      if (q.get('priceok') === '1') localStorage.setItem(KEY, q.get('email') || 'bestaetigt');
+    } catch (e) {}
+    return { unlocked: unlocked, unlock: unlock, onChange: onChange, requestAccess: requestAccess };
+  })();
+  window.MZ_PRICE_GATE = GATE;
+  function gateHtml(id) {
+    return '<div class="plan-gate" data-stand="' + (id || '') + '">' +
+      '<div class="plan-gate-t">' + t('Preise sind nach Eingabe deiner E-Mail sichtbar.', 'Prices are visible after entering your email.', 'Les prix sont visibles après saisie de votre e-mail.') + '</div>' +
+      '<input class="plan-gate-mail" type="email" autocomplete="email" placeholder="name@firma.ch" aria-label="E-Mail" />' +
+      '<input class="plan-gate-mail plan-gate-firma" type="text" autocomplete="organization" placeholder="' + t('Firma (optional)', 'Company (optional)', 'Entreprise (optionnel)') + '" aria-label="Firma" />' +
+      '<label class="plan-gate-mkt"><input type="checkbox" class="plan-gate-mktcb" /> ' + t('Infos &amp; Neuigkeiten per E-Mail (optional)', 'Updates by email (optional)', 'Infos par e-mail (optionnel)') + '</label>' +
+      '<input class="plan-gate-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />' +
+      '<button type="button" class="plan-gate-btn">' + t('Preis anzeigen', 'Show price', 'Afficher le prix') + '</button>' +
+      '<div class="plan-gate-consent">' + t('Mit dem Absenden stimmst du der Bearbeitung deiner Angaben zur Kontaktaufnahme zu. ', 'By submitting you agree to your data being processed so we can contact you. ', 'En envoyant, tu acceptes le traitement de tes données pour te recontacter. ') + '<a href="/datenschutz" target="_blank" rel="noopener">' + t('Datenschutz', 'Privacy', 'Confidentialité') + '</a></div>' +
+      '<div class="plan-gate-err" hidden>' + t('Bitte gültige E-Mail eingeben.', 'Please enter a valid email.', 'Veuillez saisir un e-mail valide.') + '</div></div>';
+  }
+  /* Gate-Klicks: in der Capture-Phase behandeln UND stoppen, damit der
+     Dokument-Listener das offene Sheet/Panel nicht schliesst */
+  document.addEventListener('click', function (ev) {
+    var g = ev.target.closest('.plan-gate'); if (!g) return;
+    ev.stopPropagation();
+    var b = ev.target.closest('.plan-gate-btn'); if (!b) return;
+    var inp = g.querySelector('.plan-gate-mail'), err = g.querySelector('.plan-gate-err');
+    var em = (inp.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { err.hidden = false; inp.focus(); return; }
+    err.hidden = true; b.disabled = true;
+    var firmaEl = g.querySelector('.plan-gate-firma'), mktEl = g.querySelector('.plan-gate-mktcb'), hpEl = g.querySelector('.plan-gate-hp');
+    GATE.unlock(em, {
+      firma: firmaEl ? (firmaEl.value || '').trim() : '',
+      marketing_consent: mktEl ? !!mktEl.checked : false,
+      hp: hpEl ? (hpEl.value || '') : '',
+      stand_id: g.getAttribute('data-stand') || null
+    }).then(function (r) { if (!r || !r.ok) { b.disabled = false; err.hidden = false; } });
+  }, true);
+
   /* ---------- Metadaten pro Stand ---------- */
   function meta(id) {
     var p = S[id], m = { id: id, area: AREA[p.z], col: COL[p.z], rows: '', priceHtml: '', info: '', links: null, logo: null, mail: false, st: p.st };
@@ -133,9 +208,9 @@
       m.title = MODE === 'space' ? t('Frei – verfügbar', 'Free – available', 'Libre – disponible') : t('Noch frei', 'Still available', 'Encore libre');
       if (MODE === 'space') {
         m.rows = (size ? row(t('Masse', 'Dimensions', 'Dimensions'), size) : '') + (m2 ? row(t('Fläche', 'Area', 'Surface'), m2) : '');
-        m.priceHtml = p.p
+        m.priceHtml = !GATE.unlocked() ? gateHtml(id) : (p.p
           ? '<div class="plan-price">CHF ' + fmt(p.p) + ' <small>' + t('exkl. MwSt.', 'excl. VAT', 'hors TVA') + '</small></div>'
-          : '<div class="plan-price" style="font-size:19px">' + t('Preis auf Anfrage', 'Price on request', 'Prix sur demande') + '</div>';
+          : '<div class="plan-price" style="font-size:19px">' + t('Preis auf Anfrage', 'Price on request', 'Prix sur demande') + '</div>');
         m.mail = true;
       } else {
         m.title = t('Wird noch vergeben', 'Coming soon', 'Bientôt attribué');
@@ -147,9 +222,28 @@
   }
 
   function logoInto(bx, img, logo) {
-    if (!logo) { bx.style.display = 'none'; img.classList.remove('ld'); img.removeAttribute('src'); return; }
+    var grid = bx.querySelector('.plan-logogrid');
+    if (!logo) { bx.style.display = 'none'; img.classList.remove('ld'); img.removeAttribute('src'); if (grid) grid.remove(); return; }
+    /* Массив = композиция: первый логотип во всю ширину, остальные —
+       сетка 2×2 одинаковых ячеек под ним (HTML, не склеенная картинка) */
+    if (Array.isArray(logo)) {
+      bx.style.display = 'block';
+      img.style.display = 'none'; img.classList.remove('ld'); img.removeAttribute('src');
+      if (!grid) { grid = document.createElement('div'); grid.className = 'plan-logogrid'; bx.appendChild(grid); }
+      grid.innerHTML = '<div class="plg-main"><img alt="" src="assets/logos/' + logo[0] + '"></div>' +
+        '<div class="plg-grid">' + logo.slice(1).map(function (f) {
+          return '<div class="plg-cell"><img alt="" src="assets/logos/' + f + '"></div>';
+        }).join('') + '</div>';
+      return;
+    }
+    if (grid) grid.remove();
+    img.style.display = '';
     bx.style.display = 'block'; img.classList.remove('ld');
-    img.onload = function () { img.classList.add('ld'); };
+    img.onload = function () {
+      img.classList.add('ld');
+      /* картинка целиком, строго в своей пропорции: рамка обнимает её по высоте */
+      bx.style.aspectRatio = 'auto';
+    };
     img.src = 'assets/logos/' + logo;
   }
   function setLoc(stripeEl, locEl, m) {
@@ -242,6 +336,7 @@
     pin.classList.remove('on'); void pin.offsetWidth; pin.classList.add('on');
   }
   function select(id, e) {
+    selId = id;
     if (selEl) selEl.classList.remove('sel');
     /* SVG-Polygone kennen classList ebenfalls — kein Sonderfall nötig */
     selEl = null;
@@ -253,6 +348,7 @@
   function close() {
     pop.classList.remove('open'); scrim.classList.remove('open');
     movePin(null);
+    selId = null;
     if (selEl) { selEl.classList.remove('sel'); selEl = null; }
   }
   el('pop-close').addEventListener('click', close);
@@ -330,10 +426,10 @@
   /* ---------- Mobile: Pan / Pinch / Zonen ---------- */
   var ASPECT = DATA.W / DATA.H;
   var MAP = (function () {
-    var scale = 1, tx = 0, ty = 0, fit = 1, MAX = 7;
+    var scale = 0.01, tx = 0, ty = 0, fit = 1, MAX = 7; /* стартовый scale < fit → первый refit ставит ровно fit (карта целиком, с воздухом) */
     function on() { return window.matchMedia('(max-width:760px)').matches; }
     function dm() { return { vw: box.clientWidth, vh: box.clientHeight, pw: plan.offsetWidth, ph: plan.offsetHeight }; }
-    function calcFit() { var m = dm(); fit = (m.ph && m.vh) ? Math.min(1, m.vh / m.ph) : 1; return fit; }
+    function calcFit() { var m = dm(); fit = (m.ph && m.vh) ? Math.min(m.vw / m.pw, m.vh / m.ph) * 0.92 : 1; return fit; }
     function clamp() {
       var m = dm(), w = m.pw * scale, h = m.ph * scale;
       tx = w <= m.vw ? (m.vw - w) / 2 : Math.min(0, Math.max(m.vw - w, tx));
@@ -343,9 +439,11 @@
       if (box.classList.contains('full')) { box.style.height = ''; box.style.aspectRatio = ''; return; }
       var pw = box.clientWidth; if (!pw) return;
       var ph = pw / ASPECT;
-      var base = Math.round(ph), tall = Math.round(Math.min(window.innerHeight * 0.62, ph * 2));
+      /* Karte deutlich höher als das natürliche Seitenverhältnis: füllt bis ~68vh,
+         der Plan wird auf die Boxhöhe skaliert (fit>1) und ist horizontal pannbar */
+      var base = Math.round(Math.min(window.innerHeight * 0.62, ph * 1.55));
       box.style.aspectRatio = 'auto';
-      box.style.height = ((scale > fit * 1.04) ? Math.max(base, tall) : base) + 'px';
+      box.style.height = base + 'px';
     }
     function apply() {
       if (!on()) { plan.style.transform = ''; plan.style.transition = ''; box.style.touchAction = ''; box.style.height = ''; box.style.aspectRatio = ''; return; }
@@ -375,6 +473,7 @@
     function rel(tc) { var r = box.getBoundingClientRect(); return { x: tc.clientX - r.left, y: tc.clientY - r.top }; }
     box.addEventListener('touchstart', function (e) {
       if (!on()) return;
+      if (e.target.closest && e.target.closest('.plan-pop')) return; /* тачи внутри шита = его скролл, не пан карты */
       moved = false; smooth(false);
       for (var i = 0; i < e.changedTouches.length; i++) { var tc = e.changedTouches[i]; pts[tc.identifier] = rel(tc); }
       var ids = Object.keys(pts);
@@ -383,6 +482,7 @@
     }, { passive: false });
     box.addEventListener('touchmove', function (e) {
       if (!on()) return;
+      if (e.target.closest && e.target.closest('.plan-pop')) return;
       for (var i = 0; i < e.changedTouches.length; i++) { var tc = e.changedTouches[i]; if (pts[tc.identifier]) pts[tc.identifier] = rel(tc); }
       var ids = Object.keys(pts), m = dm();
       if (ids.length === 2 && sd) {
@@ -403,6 +503,7 @@
       }
     }, { passive: false });
     box.addEventListener('touchend', function (e) {
+      if (e.target.closest && e.target.closest('.plan-pop')) return;
       var was = moved;
       for (var i = 0; i < e.changedTouches.length; i++) delete pts[e.changedTouches[i].identifier];
       var n = Object.keys(pts).length;
@@ -486,6 +587,7 @@
   }
   window.MZ_TABS = setTab;
   if (tabs) tabs.addEventListener('click', function (e) { var b = e.target.closest('button[data-mtab]'); if (b) setTab(b.getAttribute('data-mtab')); });
+  function buildList() {
   if (list) {
     var order = MODE === 'space'
       ? [['h550', 'Halle 550'], ['halld', AREA.halld], ['og', AREA.og], ['eg', AREA.eg]]
@@ -510,7 +612,7 @@
         else if (p.st === 'bar' || p.st === 'intern') { cls = ' is-zone'; sub = t('Gastro / Service', 'Catering / service', 'Gastro / service'); }
         else {
           sub = (p.m ? p.m + ' m' : '') + (p.m2 ? ' · ' + p.m2 + ' m²' : '');
-          right = MODE === 'space' ? (p.p ? 'CHF ' + fmt(p.p) : t('Anfrage', 'On request', 'Sur demande')) : '';
+          right = MODE === 'space' ? (!GATE.unlocked() ? '•••' : (p.p ? 'CHF ' + fmt(p.p) : t('Anfrage', 'On request', 'Sur demande'))) : '';
         }
         html += '<button type="button" class="ml-row' + cls + ' z-' + p.z + '" data-id="' + id + '"><span class="ml-id">' + id + '</span>' +
           '<span class="ml-tx"><span class="ml-t">' + m.title + '</span>' + (sub ? '<span class="ml-s">' + sub + '</span>' : '') + '</span>' +
@@ -518,7 +620,10 @@
       });
     });
     list.innerHTML = html;
-    list.addEventListener('click', function (e) {
+    list.setAttribute('data-built', '1');
+    if (!list.getAttribute('data-wired')) {
+      list.setAttribute('data-wired', '1');
+      list.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-id]'); if (!b) return;
       /* nicht bis zum Dokument-Listener durchlassen — der würde das gerade
          geöffnete Bottom-Sheet sofort wieder schliessen */
@@ -526,27 +631,43 @@
       var id = b.getAttribute('data-id');
       select(id, hotEls[id]);
     });
+    }
   }
+  }
+  buildList();
 
   /* ---------- Preistabelle (nur Standflächen) ---------- */
   var tb = el('price-rows');
+  function buildTable() {
   if (tb && MODE === 'space') {
+    var locked = !GATE.unlocked();
     var keys = Object.keys(S).filter(function (id) { return S[id].st === 'free'; })
       .sort(function (a, b) { return a.localeCompare(b, undefined, { numeric: true }); });
-    tb.innerHTML = keys.map(function (id) {
+    tb.innerHTML = (locked ? '<tr class="pt-gate"><td colspan="5">' + gateHtml() + '</td></tr>' : '') +
+      keys.map(function (id) {
       var p = S[id];
       return '<tr data-stand="' + id + '"><td class="pt-id">' + id + '</td>' +
         '<td><span class="pt-pill">' + t('Frei', 'Free', 'Libre') + '</span></td>' +
         '<td>' + (p.m ? p.m + ' m' : '—') + '</td>' +
         '<td>' + (p.m2 ? p.m2 + ' m²' : '—') + '</td>' +
-        '<td class="pt-price">' + (p.p ? 'CHF ' + fmt(p.p) : t('Auf Anfrage', 'On request', 'Sur demande')) + '</td></tr>';
+        '<td class="pt-price">' + (locked ? '•••' : (p.p ? 'CHF ' + fmt(p.p) : t('Auf Anfrage', 'On request', 'Sur demande'))) + '</td></tr>';
     }).join('');
-    tb.addEventListener('click', function (ev) {
+    if (!tb.getAttribute('data-wired')) {
+      tb.setAttribute('data-wired', '1');
+      tb.addEventListener('click', function (ev) {
       var tr = ev.target.closest('tr[data-stand]'); if (!tr) return;
       ev.stopPropagation();
       if (window.MZ_GOTO) window.MZ_GOTO(tr.getAttribute('data-stand'));
     });
+    }
   }
+  }
+  buildTable();
+  /* Nach Freischaltung alles neu zeichnen (Liste, Tabelle, offenes Panel) */
+  GATE.onChange(function () {
+    buildList(); buildTable();
+    if (selId) { if (isMobile()) fillSheet(selId); else if (det) fillDetail(selId); }
+  });
   var accBtn = el('acc-btn'), accBody = el('acc-body');
   if (accBtn && accBody) accBtn.addEventListener('click', function () {
     var exp = accBtn.getAttribute('aria-expanded') === 'true';

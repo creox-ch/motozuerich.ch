@@ -48,9 +48,17 @@
 /* логотип — единая рамка-плашка: во всю ширину, фиксированная высота, тонкая линия,
    логотип по центру; картинка проявляется ТОЛЬКО после загрузки нового файла —
    прежний логотип никогда не мелькает при переключении стендов */
-.plan-logobox{width:100%;aspect-ratio:1000/680;height:auto;box-sizing:border-box;padding:10px 14px;border:1px solid var(--line);background:#fff;margin:4px 0 14px}
-.plan-logobox img{display:block;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .18s}
+.plan-logobox{width:100%;aspect-ratio:1000/680;height:auto;box-sizing:border-box;padding:0;border:1px solid var(--line);background:#fff;margin:4px 0 14px}
+.plan-logobox img{display:block;width:100%;height:auto;opacity:0;transition:opacity .18s}
 .plan-logobox img.ld{opacity:1}
+/* композиция логотипов (напр. OFRAG): главный во всю ширину + сетка 2×2 одинаковых ячеек */
+.plan-logobox .plan-logogrid{display:flex;flex-direction:column;gap:10px;height:100%;justify-content:center}
+.plan-logogrid .plg-main{height:44%;display:flex;align-items:center;justify-content:center}
+.plan-logogrid img{opacity:1;transition:none}
+.plan-logogrid .plg-main img{width:70%;height:auto;max-height:100%;object-fit:contain}
+.plan-logogrid .plg-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;min-height:0}
+.plan-logogrid .plg-cell{display:flex;align-items:center;justify-content:center;min-height:0}
+.plan-logogrid .plg-cell img{width:92%;height:auto;max-height:100%;object-fit:contain}
 .plan-st{display:inline-block;font-family:var(--font-mono);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;margin-bottom:12px;color:#fff}
 .plan-st.free{background:var(--brand)}
 .plan-st.taken{background:var(--brand-dark)}
@@ -104,17 +112,19 @@
 
 /* ---- mobile bottom-sheet ---- */
 @media(max-width:760px){
-  .plan-pop{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;z-index:1300;padding:30px 18px calc(22px + env(safe-area-inset-bottom));border:0;border-top:2px solid var(--brand);box-shadow:0 -12px 40px rgba(15,35,60,.25);transform:translateY(100%);transition:transform .25s ease;display:block;visibility:hidden;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .plan-pop{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;z-index:1300;padding:30px 18px calc(22px + env(safe-area-inset-bottom));border:0;border-top:2px solid var(--brand);box-shadow:0 -12px 40px rgba(15,35,60,.25);transform:translateY(100%);transition:transform .25s ease;display:block;visibility:hidden;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
   .plan-pop::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:46px;height:4px;background:var(--line-strong)}
   .plan-pop-close{width:44px;height:44px;top:4px;right:4px;font-size:20px}
   .plan-pop .pd-name{font-size:26px}
-  .plan-pop .plan-logobox{max-width:210px}
+  .plan-pop .plan-logobox{max-width:280px}
   .plan-pop .plan-row{font-size:15px;padding:9px 0}
   .plan-pop .plan-cta a{padding:15px 16px;font-size:13px}
   .plan-pop .pd-link{padding:14px 13px;min-height:48px;box-sizing:border-box}
   .plan-pop.open{transform:translateY(0);visibility:visible}
   .plan-pop::after{display:none}
-  .plan-sheet-scrim.open{display:block;position:fixed;inset:0;z-index:1290;background:rgba(15,25,40,.4)}
+  .plan-sheet-scrim.open{display:block;position:fixed;inset:0;z-index:1290;background:rgba(15,25,40,.14)}
+  /* Vollbild-Karte: kein Abdunkeln — die Karte bleibt sichtbar, das Sheet liegt darauf */
+  body.mz-mapfull .plan-sheet-scrim.open{background:transparent}
   .plan-bleed{padding:0}
   .plan-box{border-left:0;border-right:0}
 }
