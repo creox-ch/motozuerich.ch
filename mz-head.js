@@ -1,4 +1,56 @@
 /* ============================================================
+   MOTO-ZÜRICH — Link-Resolver für Clean URLs.
+   Quell-Links zwischen Seiten sind wurzel-absolut und OHNE .html
+   (/programm, /faq, /mz2026 …) — passend zum Live-Hosting mit
+   Vercel cleanUrls. In lokalen Previews (Seiten-URL endet auf
+   .html) mappt dieser Shim Klicks zurück auf die .html-Dateien.
+   Neue Seite? CLEAN-Karte hier UND vercel.json ergänzen.
+   ============================================================ */
+(function () {
+  var CLEAN = {
+    '': 'MOTO-ZÜRICH 2027.html',
+    'faq': 'FAQ.html',
+    'gesamtplan': 'Gesamtplan.html',
+    'besucherplan': 'Besucherplan.html',
+    'standflaechen': 'Standflaechen.html',
+    'programm': 'Programm.html',
+    'aussteller-motozuerich-2026': 'Aussteller.html',
+    'aussteller': 'Aussteller.html',
+    'mz2026': 'Rueckblick-2026.html',
+    'team': 'Team.html',
+    'warum_motozurich': 'Warum.html',
+    'volunteers': 'Volunteers.html',
+    'creators': 'Creators.html',
+    'sound': 'Sound.html',
+    'medien': 'Medien.html',
+    'impressum': 'Impressum.html',
+    'agb': 'AGB.html',
+    'datenschutz': 'Datenschutz.html'
+  };
+  var isLocal = /\.html$/i.test(window.location.pathname) || window.location.protocol === 'file:';
+  /* mzHref('/programm#x') → im Preview 'Programm.html#x', live unverändert */
+  window.mzHref = function (href) {
+    if (!isLocal) return href;
+    var m = /^\/([^\/?#]*)([#?].*)?$/.exec(href || '');
+    if (!m) return href;
+    var file = CLEAN[m[1].toLowerCase()];
+    return file ? encodeURI(file) + (m[2] || '') : href;
+  };
+  if (!isLocal) return;
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target;
+    while (a && a.nodeType === 1 && a.tagName !== 'A') a = a.parentNode;
+    if (!a || a.nodeType !== 1 || a.tagName !== 'A' || a.target === '_blank') return;
+    var href = a.getAttribute('href') || '';
+    var mapped = window.mzHref(href);
+    if (mapped === href) return;
+    e.preventDefault();
+    window.location.href = mapped;
+  }, true);
+})();
+
+/* ============================================================
    MOTO-ZÜRICH — shared <head> tracking + consent manager.
    Loaded SYNCHRONOUSLY in <head> of EVERY page (home + subs) so
    nothing is missed (does NOT rely on mz-chrome.js, which skips
@@ -14,20 +66,6 @@
   var GA_ID = 'G-1MHSWJYZVN';
   var FB_ID = '1525171172005763';
   var STORE = 'mz-consent-v1';
-
-  /* ---- Vercel Web Analytics ----------------------------------------------
-     Cookiefreie Reichweitenmessung. Bewusst NICHT hinter dem Consent-Gate:
-     es werden keine Cookies gesetzt und keine Kennungen gespeichert, daher
-     ist keine Einwilligung erforderlich. GA4 und Meta-Pixel unten bleiben
-     einwilligungspflichtig.
-     Hier eingebaut (nicht im HTML), damit ein Design-Re-Export die Zeile
-     nicht entfernt. ---------------------------------------------------- */
-  try {
-    var _va = document.createElement('script');
-    _va.defer = true;
-    _va.src = '/_vercel/insights/script.js';
-    (document.head || document.documentElement).appendChild(_va);
-  } catch (e) {}
 
   /* ---- schema.org (Organization + Event) — Rich Results, auf jeder Seite ---- */
   try {
@@ -198,7 +236,7 @@
           '<p class="mzc-copy">Wir verwenden Cookies und Tracking-Technologien (Google Analytics 4, ' +
           'Meta-Pixel), um die Nutzung unserer Website zu analysieren und unsere Inhalte zu verbessern. ' +
           'Diese werden nur mit Ihrer Einwilligung geladen. Mehr dazu in der ' +
-          '<a href="datenschutz">Datenschutzerklärung</a>.</p>' +
+          '<a href="/datenschutz">Datenschutzerklärung</a>.</p>' +
         '</div>' +
         '<div class="mzc-actions">' +
           '<button type="button" class="mzc-btn mzc-settings" data-mzc="settings">Einstellungen</button>' +
@@ -354,7 +392,7 @@
     /* clicking the player (except play / close / seek-bar) opens the Sound page */
     ui.addEventListener('click', function (e) {
       if (e.target.closest('.mzmp-toggle, .mzmp-close, .mzmp-bar')) return;
-      window.location.href = 'Sound.html';
+      window.location.href = window.mzHref ? window.mzHref('/sound') : '/sound';
     });
   }
   function showUI() { buildUI(); if (ui) ui.classList.remove('mzmp-out'); ui.hidden = false; }

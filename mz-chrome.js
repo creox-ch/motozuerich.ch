@@ -13,40 +13,37 @@
   var nav = [
     { id: 'home', label: 'Home', en: 'Home', fr: 'Accueil', href: HOME },
     { label: 'Besucher', en: 'Visitors', fr: 'Visiteurs', children: [
-      { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: 'FAQ' },
-      { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: 'FAQ#parking' },
-      { id: 'besucherplan', label: 'Besucherplan', en: 'Visitor Map', fr: 'Plan visiteurs', href: 'Besucherplan' }
+      { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: '/faq' },
+      { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: '/faq#parking' },
+      { id: 'besucherplan', label: 'Besucherplan', en: 'Visitor Map', fr: 'Plan visiteurs', href: '/besucherplan' }
     ]},
-    { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: 'Programm', children: [
-      { label: 'Programm 2027', en: 'Programme 2027', fr: 'Programme 2027', href: 'Programm' },
-      { label: 'Live Arena',        href: 'Programm#live-arena' },
-      { label: 'Action Zone',       href: 'Programm#action-zone' },
+    { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: '/programm', children: [
+      { label: 'Programm 2027', en: 'Programme 2027', fr: 'Programme 2027', href: '/programm' },
+      { label: 'Live Arena',        href: '/programm#live-arena' },
+      { label: 'Action Zone',       href: '/programm#action-zone' },
       { label: 'Act vorschlagen', en: 'Suggest an Act', fr: 'Proposer un act', href: 'https://pyrus.com/form/2399268', ext: true }
     ]},
-    { id: 'aussteller', label: 'Aussteller', en: 'Exhibitors', fr: 'Exposants', href: 'Aussteller', children: [
-      { label: 'Aussteller werden', en: 'Become an Exhibitor', fr: 'Devenir exposant', href: 'Aussteller' },
-      { id: 'standflaechen', label: 'Standflächen 2027', en: 'Booth Spaces 2027', fr: 'Surfaces 2027', href: 'Standflaechen' },
+    { id: 'aussteller', label: 'Aussteller', en: 'Exhibitors', fr: 'Exposants', href: '/aussteller-motozuerich-2026', children: [
+      { label: 'Aussteller werden', en: 'Become an Exhibitor', fr: 'Devenir exposant', href: '/aussteller-motozuerich-2026' },
+      { id: 'standflaechen', label: 'Standflächen 2027', en: 'Booth Spaces 2027', fr: 'Surfaces 2027', href: '/standflaechen' },
       { label: 'Anfrage senden', en: 'Send Enquiry', fr: 'Envoyer une demande', href: 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027' }
     ]},
     { label: 'Über uns', en: 'About Us', fr: 'À propos', children: [
-      { id: 'rueckblick', label: 'MOTO-ZÜRICH 2026', href: 'Rueckblick-2026' },
-      { id: 'team',  label: 'Team',                  href: 'Team' },
-      { id: 'warum', label: 'Warum die MOTO-ZÜRICH', en: 'Why MOTO-ZÜRICH', fr: 'Pourquoi MOTO-ZÜRICH', href: 'Warum' },
-      { id: 'volunteers', label: 'Volunteers',        href: 'Volunteers' },
-      { id: 'creators', label: 'Creators',            href: 'Creators' },
-      { id: 'sound', label: 'Sounds der MOTO-ZÜRICH', en: 'Sounds of MOTO-ZÜRICH', fr: 'Les sons de MOTO-ZÜRICH', href: 'Sound' },
+      { id: 'rueckblick', label: 'MOTO-ZÜRICH 2026', href: '/mz2026' },
+      { id: 'team',  label: 'Team',                  href: '/team' },
+      { id: 'warum', label: 'Warum die MOTO-ZÜRICH', en: 'Why MOTO-ZÜRICH', fr: 'Pourquoi MOTO-ZÜRICH', href: '/warum_motozurich' },
+      { id: 'volunteers', label: 'Volunteers',        href: '/volunteers' },
+      { id: 'creators', label: 'Creators',            href: '/creators' },
+      { id: 'sound', label: 'Sounds der MOTO-ZÜRICH', en: 'Sounds of MOTO-ZÜRICH', fr: 'Les sons de MOTO-ZÜRICH', href: '/sound' },
       { label: 'Kontaktiere uns', en: 'Contact Us', fr: 'Contactez-nous', href: 'https://pyrus.com/form/2399268', ext: true }
     ]},
-    { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: 'Medien' }
+    { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: '/medien' }
   ];
 
-  /* CTA "Aussteller werden" fuehrt auf die Standflaechen-Seite (Flaechen + Preise),
-     nicht direkt auf die Anfrage — die Anfrage steht im Menue und auf dem Plan. */
-  var AUSSTELLER_CTA = 'Standflaechen';
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
   /* Ticketverkauf 2027 läuft noch nicht: Menü-CTA, Desktop-Header-CTA und Footer-Link sind aus.
      Zum Wiedereinschalten hier auf true setzen – und dasselbe Flag in mz-enhance.js
-     (Hero-Button + Sticky-Bar) sowie das <li class="nav-tickets-li"> in index.html. */
+     (Hero-Button + Sticky-Bar) sowie die zwei <li> in «MOTO-ZÜRICH 2027.html» (index.html im Repo). */
   var TICKETS_LIVE = false;
   var CONTACT_FORM = 'https://pyrus.com/form/2399268';
 
@@ -87,7 +84,7 @@
       '<button class="nav-mobile-toggle" aria-label="Menü" aria-expanded="false" onclick="window.mzNavToggle()">☰</button>' +
       '<nav id="mainNav"><ul>' + navItems +
         (TICKETS_LIVE ? '<li class="nav-tickets-li"><a href="' + TICKETS + '" target="_blank" rel="noopener" class="nav-cta nav-cta-tickets" data-en="Get Tickets →" data-fr="Billets →">Tickets sichern →</a></li>' : '') +
-        '<li><a href="' + AUSSTELLER_CTA + '" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
+        '<li><a href="/standflaechen" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
       '</ul></nav>' +
     '</div></header>';
 
@@ -111,8 +108,8 @@
           '<span class="pk-cell"><img src="assets/partners/Radio-Zurisee.svg" alt="Radio Zürisee" /></span>' +
           '<span class="pk-cell"><span class="partner-logo-text" title="Radio 1"><b>RADIO 1</b><small>FM 93.6</small></span></span>' +
           '<span class="pk-cell"><img src="assets/partners/Radio-Switzerland-Virgin.svg" alt="Virgin Radio Switzerland" /></span>' +
-          '<span class="pk-cell"><span class="partner-logo-text" title="moto-lifestyle.ch"><b>moto-lifestyle</b><small>.ch</small></span></span>' +
-          '<span class="pk-cell"><span class="partner-logo-text" title="Swiss Volunteers"><b>SWISS VOLUNTEERS</b><small>gaz energie</small></span></span>' +
+          '<span class="pk-cell"><img src="assets/partners/moto-lifestyle.png" alt="moto-lifestyle.ch" /></span>' +
+          '<span class="pk-cell"><img src="assets/partners/Swiss-Volunteers.svg" alt="Swiss Volunteers" /></span>' +
         '</div>' +
       '</div>' +
     '</div></section>';
@@ -132,28 +129,27 @@
         '</div>' +
       '</div>' +
       '<div class="footer-col"><h4 data-en="Visit" data-fr="Visite">Besuch</h4><ul>' +
-        '<li><a href="Programm" data-en="Programme" data-fr="Programme">Programm</a></li>' +
-        '<li><a href="Aussteller" data-en="Exhibitors" data-fr="Exposants">Aussteller</a></li>' +
-        '<li><a href="FAQ" data-en="Good to Know" data-fr="Bon à savoir">Gut zu Wissen</a></li>' +
+        '<li><a href="/programm" data-en="Programme" data-fr="Programme">Programm</a></li>' +
+        '<li><a href="/aussteller-motozuerich-2026" data-en="Exhibitors" data-fr="Exposants">Aussteller</a></li>' +
+        '<li><a href="/faq" data-en="Good to Know" data-fr="Bon à savoir">Gut zu Wissen</a></li>' +
         (TICKETS_LIVE ? '<li><a href="' + TICKETS + '" target="_blank" rel="noopener" data-en="Tickets" data-fr="Billets">Tickets</a></li>' : '') +
       '</ul></div>' +
       '<div class="footer-col"><h4 data-en="About Us" data-fr="À propos">Über uns</h4><ul>' +
-        '<li><a href="Rueckblick-2026">MOTO-ZÜRICH 2026</a></li>' +
-        '<li><a href="Team">Team</a></li>' +
-        '<li><a href="Warum" data-en="Why MOTO-ZÜRICH" data-fr="Pourquoi MOTO-ZÜRICH">Warum MOTO-ZÜRICH</a></li>' +
-        '<li><a href="Sound" data-en="Sounds" data-fr="Sons">Sounds</a></li>' +
-        '<li><a href="Medien" data-en="Media" data-fr="Médias">Medien</a></li>' +
+        '<li><a href="/mz2026">MOTO-ZÜRICH 2026</a></li>' +
+        '<li><a href="/team">Team</a></li>' +
+        '<li><a href="/warum_motozurich" data-en="Why MOTO-ZÜRICH" data-fr="Pourquoi MOTO-ZÜRICH">Warum MOTO-ZÜRICH</a></li>' +
+        '<li><a href="/sound" data-en="Sounds" data-fr="Sons">Sounds</a></li>' +
+        '<li><a href="/medien" data-en="Media" data-fr="Médias">Medien</a></li>' +
       '</ul>' +
-      '<a href="' + AUSSTELLER_CTA + '" class="footer-cta" data-en="Become an exhibitor <span>→</span>" data-fr="Devenir exposant <span>→</span>">Aussteller werden <span>→</span></a></div>' +
+      '<a href="/standflaechen" class="footer-cta" data-en="Become an exhibitor <span>→</span>" data-fr="Devenir exposant <span>→</span>">Aussteller werden <span>→</span></a></div>' +
       '<div class="footer-col"><h4 data-en="Contact" data-fr="Contact">Kontakt</h4><ul>' +
         '<li><a href="mailto:team@motozuerich.ch">team@motozuerich.ch</a></li>' +
         '<li><a href="mailto:help@motozuerich.ch">help@motozuerich.ch</a></li>' +
-        '<li><a href="Volunteers">Volunteers</a></li>' +
-        '<li><a href="Creators">Creators</a></li>' +
+        '<li><a href="/volunteers">Volunteers</a></li>' +
       '</ul></div>' +
     '</div>' +
     '<div class="footer-bottom">' +
-      '<div><a href="Impressum" data-en="Imprint" data-fr="Mentions légales">Impressum</a><a href="AGB" data-en="Terms" data-fr="CGV">AGB</a><a href="Datenschutz" data-en="Privacy" data-fr="Confidentialité">Datenschutz</a>' +
+      '<div><a href="/impressum" data-en="Imprint" data-fr="Mentions légales">Impressum</a><a href="/agb" data-en="Terms" data-fr="CGV">AGB</a><a href="/datenschutz" data-en="Privacy" data-fr="Confidentialité">Datenschutz</a>' +
         '<a href="#" onclick="if(window.mzOpenConsent){window.mzOpenConsent();}return false;" data-en="Cookie Settings" data-fr="Paramètres cookies">Cookie-Einstellungen</a></div>' +
       '<div data-en="© 2026 MOTO-ZÜRICH · Season Opener Switzerland" data-fr="© 2026 MOTO-ZÜRICH · Coup d&#39;envoi Suisse">© 2026 MOTO-ZÜRICH · Saisonstart Schweiz</div>' +
     '</div></footer>';

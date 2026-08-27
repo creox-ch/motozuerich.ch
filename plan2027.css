@@ -168,7 +168,7 @@ body[data-planmode="space"] .plan-pg.st-taken.sel{fill:rgba(90,102,117,.16);stro
   .plan-box{position:relative;overflow:hidden;padding:0;border-left:0;border-right:0;background:#f6f7f9;width:100%;box-sizing:border-box;aspect-ratio:1835.51/1602.87;touch-action:pan-y}
   #plan{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
   .plan-box.full{position:fixed;inset:0;z-index:1200;height:auto!important;aspect-ratio:auto;border:0}
-  .plan-ov{display:flex;gap:6px;align-items:center;position:absolute;left:8px;right:8px;top:8px;z-index:30;pointer-events:none}
+  .plan-ov{display:flex;justify-content:flex-end;position:absolute;right:8px;top:8px;z-index:30;pointer-events:none}
   .plan-ov>*{pointer-events:auto}
   .plan-zrow{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .plan-zrow::-webkit-scrollbar{display:none}
@@ -205,3 +205,22 @@ body[data-planmode="space"] .plan-pg.st-taken.sel{fill:rgba(90,102,117,.16);stro
 @media(max-width:760px) and (orientation:landscape){
   .plan-box{aspect-ratio:auto;height:84vh!important}
 }
+/* ---- Preis-Gate (E-Mail vor Preisanzeige) ---- */
+.plan-gate{margin-top:14px;padding:14px;border:1px solid var(--line-strong);background:#f6f7f9;display:flex;flex-direction:column;gap:8px}
+.plan-gate-t{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+.plan-gate-mail{border:1px solid var(--line-strong);background:#fff;padding:10px 12px;font:inherit;font-size:14px;min-height:44px;box-sizing:border-box;width:100%}
+.plan-gate-btn{appearance:none;border:0;background:var(--brand);color:#fff;font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;min-height:44px;padding:0 16px;cursor:pointer}
+.plan-gate-btn:hover{background:var(--brand-dark)}
+.plan-gate-btn:disabled{opacity:.6;cursor:default}
+.plan-gate-err{color:#c0392b;font-size:12.5px}
+.pt-gate td{padding:12px}
+.pt-gate .plan-gate{margin-top:0;flex-direction:row;flex-wrap:wrap;align-items:center}
+.pt-gate .plan-gate-t{flex:1 1 100%}
+.pt-gate .plan-gate-mail{flex:1 1 200px;width:auto}
+
+/* Preis-Gate: zusätzliche Felder (Firma optional, Marketing-Checkbox, impliziter Consent, Honeypot) */
+.plan-gate-mkt{display:flex;gap:6px;align-items:flex-start;font-size:12px;margin-top:4px;opacity:.85;text-align:left}
+.plan-gate-mkt input{margin-top:2px;flex:0 0 auto}
+.plan-gate-consent{font-size:11px;line-height:1.4;opacity:.7;margin-top:6px;text-align:left}
+.plan-gate-consent a{text-decoration:underline;color:inherit}
+.plan-gate-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none}
