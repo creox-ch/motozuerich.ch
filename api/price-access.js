@@ -30,13 +30,17 @@ module.exports = async (req, res) => {
     var url = process.env.SUPABASE_URL, key = process.env.SUPABASE_SERVICE_ROLE;
     if (!url || !key) { res.status(500).json({ ok: false, error: 'config' }); return; }
 
+    // quelle nur als flaches Objekt akzeptieren und in der Groesse begrenzen
+    var q = (b.quelle && typeof b.quelle === 'object' && !Array.isArray(b.quelle)) ? b.quelle : null;
+    if (q) { try { if (JSON.stringify(q).length > 2000) q = null; } catch (e) { q = null; } }
+
     var row = {
-      email: email,
-      firma: (b.firma || '').toString().trim() || null,
+      email: email.slice(0, 254),
+      firma: ((b.firma || '').toString().trim().slice(0, 200)) || null,
       consent: true,
       marketing_consent: !!b.marketing_consent,
       stand_id: b.stand_id ? b.stand_id.toString().slice(0, 32) : null,
-      quelle: (b.quelle && typeof b.quelle === 'object') ? b.quelle : null
+      quelle: q
     };
 
     // Upsert per E-Mail (braucht UNIQUE(email) auf der Tabelle).

@@ -40,7 +40,6 @@
     { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: '/medien' }
   ];
 
-  var AUSSTELLER_MAIL = 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027';
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
   /* Ticketverkauf 2027 läuft noch nicht: Menü-CTA, Desktop-Header-CTA und Footer-Link sind aus.
      Zum Wiedereinschalten hier auf true setzen – und dasselbe Flag in mz-enhance.js
