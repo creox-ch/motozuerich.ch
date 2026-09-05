@@ -10,6 +10,17 @@ Statische Website der MOTO-ZÜRICH (Saisonstart der Schweizer Motorradszene).
 - `i18n/dict-*.js` — Übersetzungen EN/FR pro Seite
 - `assets/` — Bilder, Logos, Sounds
 
+## Prüfung vor dem Push
+
+```
+node scripts/precheck.mjs
+```
+
+Prüft: Secrets, JS-Syntax (inkl. `api/price-access.js` — ein Fehler dort
+verliert die Preis-Gate-Leads stillschweigend), JSON-Dateien, interne Links
+(mit `cleanUrls` und den Rewrites aus `vercel.json`) sowie das Bildergewicht.
+Es ist die einzige Prüfung, die dieses Repo hat: Workflows gibt es hier keine.
+
 ## Deployment
 Reine statische Site — direkt kompatibel mit GitHub Pages:
 Settings → Pages → Branch `main`, Ordner `/ (root)`.
