@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { hasGA4, hasMetaPixel } from './helpers/visit';
+import { hasGA4 } from './helpers/visit';
 import { TRACKING_IDS } from './fixtures/content';
 
 /**
@@ -8,35 +8,45 @@ import { TRACKING_IDS } from './fixtures/content';
  */
 
 test.describe('[FN-1801..1805] Analytics scripts present on home page', () => {
+  // Der Site nutzt Google Consent Mode v2 (mz-head.js): GA4 (G-1MHSWJYZVN) UND
+  // Meta Pixel (1525171172005763) sind verdrahtet, laden aber erst nach Zustimmung.
+  // Entscheidung liegt in localStorage['mz-consent-v1'] = {analytics, marketing}.
+  // Wir setzen sie via addInitScript VOR den Seitenskripten, damit die Tags real laden
+  // — sonst sieht der Test (wie curl) nur den Pre-Consent-Zustand.
   test.beforeEach(async ({ page }) => {
-    // 'load' statt 'networkidle': die Startseite lädt ein grosses Hero-Video +
-    // consent-gated Ressourcen und erreicht networkidle nicht (30s-Timeout).
+    await page.addInitScript(() => {
+      try { localStorage.setItem('mz-consent-v1', JSON.stringify({ analytics: true, marketing: true })); } catch (e) {}
+    });
+    // 'load' statt 'networkidle': die Startseite lädt ein grosses Hero-Video und
+    // erreicht networkidle erst nach ~23s (30s-Timeout, flaky).
     await page.goto('/', { waitUntil: 'load' });
   });
 
-  test('[FN-1801] Google Analytics 4 / gtag (Consent Mode v2) is set up', async ({ page }) => {
-    // Der Site nutzt Google Consent Mode v2: gtag-Stub + dataLayer sind sofort da
-    // (consent default = denied), gtag.js lädt erst nach Cookie-Zustimmung.
-    // Wir prüfen die vorhandene Consent-Mode-Verdrahtung, nicht den geladenen gtag.js.
+  test('[FN-1801] GA4 (gtag) lädt nach Analytics-Zustimmung', async ({ page }) => {
+    // Consent-Mode-Verdrahtung ist immer da; nach Zustimmung lädt zusätzlich gtag.js.
     const found = await hasGA4(page);
-    expect(found, 'GA4/Consent-Mode setup (gtag stub + dataLayer) must be present').toBe(true);
+    expect(found, 'GA4/gtag setup must be present').toBe(true);
+    await page.waitForFunction(
+      () => Array.from(document.scripts).some(s => /googletagmanager\.com\/gtag\/js/.test(s.src)),
+      null, { timeout: 8000 }
+    ).catch(() => {});
+    const gtagJsLoaded = await page.evaluate(
+      () => Array.from(document.scripts).some(s => /googletagmanager\.com\/gtag\/js/.test(s.src))
+    );
+    expect(gtagJsLoaded, 'gtag.js should load after analytics consent').toBe(true);
   });
 
   test('[FN-1801] dataLayer is initialized', async ({ page }) => {
     const hasDataLayer = await page.evaluate(() => Array.isArray((window as any).dataLayer));
-    expect(hasDataLayer, 'window.dataLayer should be an array (initialized by GTM/GA4)').toBe(true);
+    expect(hasDataLayer, 'window.dataLayer should be an array (Consent Mode v2)').toBe(true);
   });
 
-  test('[FN-1803] Meta Pixel (fbq) — soft check (aktuell NICHT installiert)', async ({ page }) => {
-    // Stand 09.09.2026: die Site hat KEIN Meta Pixel (nur GA4 via Consent Mode).
-    // Ob ein Pixel gewünscht ist, ist eine offene Produktentscheidung — deshalb
-    // hier ein Soft-Check (Warnung statt Fail), damit die reale Lücke sichtbar,
-    // aber die Suite nicht rot ist. Bei Entscheid "Pixel einbauen" wieder hart machen.
-    const found = await hasMetaPixel(page);
-    if (!found) {
-      console.warn('⚠️ Kein Meta Pixel (fbq) auf der Startseite. Entscheiden: einbauen oder bewusst weglassen.');
-    }
-    expect(true).toBe(true);
+  test('[FN-1803] Meta Pixel (fbq) lädt nach Marketing-Zustimmung', async ({ page }) => {
+    // Pixel ist in mz-head.js verdrahtet (loadPixel/FB_ID) und lädt bei marketing-consent.
+    await page.waitForFunction(() => typeof (window as any).fbq === 'function', null, { timeout: 8000 })
+      .catch(() => {});
+    const fbqLoaded = await page.evaluate(() => typeof (window as any).fbq === 'function');
+    expect(fbqLoaded, 'Meta Pixel (fbq) must load after marketing consent').toBe(true);
   });
 
   test('[FN-1805] facebook-domain-verification meta tag is on home', async ({ page }) => {
