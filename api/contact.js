@@ -11,8 +11,14 @@
 var NOTIFY_TO = 'team@motozuerich.ch';
 var NOTIFY_FROM = 'MOTO-ZUERICH <leads@motozuerich.ch>';
 var MIN_FILL_MS = 2500;
+// n8n-Webhook (kein Secret, keine Auth) → Blatt «Helpdesk» der Tabelle «MOTO-ZÜRICH · Лиды».
+// Append-only, upsert per Spalte ID: erneutes Senden aktualisiert nur die Datenspalten,
+// die Team-Spalten (Status/Zuständig/Notiz) bleiben unberührt. Nicht kritisch — der Lead
+// liegt schon in mz_kontakt; ein Webhook-Fehler kippt die Anfrage nicht.
+var SHEETS_WEBHOOK = process.env.SHEETS_WEBHOOK_URL || 'https://creoxch.app.n8n.cloud/webhook/frankenplatz-sheets-sync';
 
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function flat(o) { if (!o) return ''; try { return Object.keys(o).map(function (k) { return k + ': ' + o[k]; }).join('; '); } catch (e) { return ''; } }
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') { res.status(405).json({ ok: false }); return; }
@@ -49,10 +55,12 @@ module.exports = async (req, res) => {
     if (!url || !key) { res.status(500).json({ ok: false, error: 'config' }); return; }
     var r = await fetch(url.replace(/\/$/, '') + '/rest/v1/mz_kontakt', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': key, 'Authorization': 'Bearer ' + key, 'Prefer': 'return=minimal' },
+      headers: { 'Content-Type': 'application/json', 'apikey': key, 'Authorization': 'Bearer ' + key, 'Prefer': 'return=representation' },
       body: JSON.stringify(row)
     });
     if (!r.ok) { res.status(502).json({ ok: false, error: 'db' }); return; }
+    var savedRow = null;
+    try { var saved = await r.json(); savedRow = Array.isArray(saved) ? saved[0] : saved; } catch (e) { savedRow = null; }
 
     // Benachrichtigung an team@ — nicht kritisch, der Lead ist schon gespeichert.
     var rk = process.env.RESEND_API_KEY;
@@ -93,6 +101,30 @@ module.exports = async (req, res) => {
           body: JSON.stringify({ from: NOTIFY_FROM, to: [NOTIFY_TO], reply_to: row.email, subject: subj, html: html })
         });
       } catch (e) { /* Mail-Fehler kippt die gespeicherte Anfrage nicht */ }
+    }
+
+    // Helpdesk-Blatt (Google Sheet) via n8n — nicht kritisch, Lead liegt schon in mz_kontakt.
+    if (savedRow && savedRow.id && SHEETS_WEBHOOK) {
+      try {
+        var hd = {
+          'ID': savedRow.id,
+          'Erhalten': savedRow.created_at || '',
+          'Kanal': row.form_key,
+          'Betreff': row.betreff || '',
+          'Name': row.name || '',
+          'E-Mail': row.email,
+          'Telefon': row.phone || '',
+          'Firma': row.firma || '',
+          'Nachricht': row.nachricht || '',
+          'Details': flat(details),
+          'Quelle': flat(quelle)
+        };
+        await fetch(SHEETS_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sheets: { 'MZ Helpdesk': [hd] } })
+        });
+      } catch (e) { /* Sheet-Fehler kippt die gespeicherte Anfrage nicht */ }
     }
 
     res.status(200).json({ ok: true });
