@@ -13,15 +13,17 @@
   var nav = [
     { id: 'home', label: 'Home', en: 'Home', fr: 'Accueil', href: HOME },
     { label: 'Besucher', en: 'Visitors', fr: 'Visiteurs', children: [
+      { id: 'tickets', label: 'Tickets', en: 'Tickets', fr: 'Billets', href: '/tickets' },
       { id: 'faq', label: 'Gut zu Wissen', en: 'Good to Know', fr: 'Bon à savoir', href: '/faq' },
       { label: 'Anreise & Parking', en: 'Getting There & Parking', fr: 'Accès & parking', href: '/faq#parking' },
-      { id: 'besucherplan', label: 'Besucherplan', en: 'Visitor Map', fr: 'Plan visiteurs', href: '/besucherplan' }
+      { id: 'besucherplan', label: 'Hallenplan', en: 'Floor Plan', fr: 'Plan des halles', href: '/besucherplan' }
     ]},
     { id: 'programm', label: 'Programm', en: 'Programme', fr: 'Programme', href: '/programm', children: [
       { label: 'Programm 2027', en: 'Programme 2027', fr: 'Programme 2027', href: '/programm' },
       { label: 'Live Arena',        href: '/programm#live-arena' },
       { label: 'Action Zone',       href: '/programm#action-zone' },
-      { label: 'Act vorschlagen', en: 'Suggest an Act', fr: 'Proposer un act', href: 'https://pyrus.com/form/2399268', ext: true }
+      { label: 'Adventure Camp',    href: '/programm#adventure-camp' },
+      { label: 'Act vorschlagen', en: 'Suggest an Act', fr: 'Proposer un act', href: '/kontakt' }
     ]},
     { id: 'aussteller', label: 'Aussteller', en: 'Exhibitors', fr: 'Exposants', href: '/aussteller-motozuerich-2026', children: [
       { label: 'Aussteller werden', en: 'Become an Exhibitor', fr: 'Devenir exposant', href: '/aussteller-motozuerich-2026' },
@@ -35,17 +37,19 @@
       { id: 'volunteers', label: 'Volunteers',        href: '/volunteers' },
       { id: 'creators', label: 'Creators',            href: '/creators' },
       { id: 'sound', label: 'Sounds der MOTO-ZÜRICH', en: 'Sounds of MOTO-ZÜRICH', fr: 'Les sons de MOTO-ZÜRICH', href: '/sound' },
-      { label: 'Kontaktiere uns', en: 'Contact Us', fr: 'Contactez-nous', href: 'https://pyrus.com/form/2399268', ext: true }
+      { id: 'kontakt', label: 'Kontaktiere uns', en: 'Contact Us', fr: 'Contactez-nous', href: '/kontakt' }
     ]},
     { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: '/medien' }
   ];
 
+  var AUSSTELLER_CTA = 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027'; /* «Aussteller werden»-CTA → Mail an Yves (Entscheid Ivanna 09.09) */
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
-  /* Ticketverkauf 2027 läuft noch nicht: Menü-CTA, Desktop-Header-CTA und Footer-Link sind aus.
+  /* Ticketverkauf 2027 läuft noch nicht: Menü-CTA und Desktop-Header-CTA sind aus; Menü «Besucher › Tickets»
+     und Footer-Link zeigen auf die Info-Seite /tickets (Verkaufsstart November 2026).
      Zum Wiedereinschalten hier auf true setzen – und dasselbe Flag in mz-enhance.js
      (Hero-Button + Sticky-Bar) sowie die zwei <li> in «MOTO-ZÜRICH 2027.html» (index.html im Repo). */
   var TICKETS_LIVE = false;
-  var CONTACT_FORM = 'https://pyrus.com/form/2399268';
+  var CONTACT_FORM = '/kontakt'; /* eigene Kundenanfrage-Seite (ersetzt Pyrus 2399268) */
 
   // emit data-en/data-fr only when a translation exists (DE is the captured base)
   function i18n(o, suffix) {
@@ -72,7 +76,7 @@
   }).join('');
 
   // build date bar track (3 repeats)
-  var seg = '<span>MOTO-ZÜRICH 2027</span><span data-en="February 19–21, 2027" data-fr="19–21 février 2027">19.–21. Februar 2027</span><span data-en="Getting bigger" data-fr="Voir plus grand">Wird grösser</span><span>Save the Date</span>';
+  var seg = '<span>MOTO-ZÜRICH 2027</span><span data-en="February 19–21, 2027" data-fr="19–21 février 2027">19.–21. Februar 2027</span><span>Save the Date</span>';
   var dateBar =
     '<div class="date-bar"><div class="date-bar-track">' + seg + seg + seg + '</div></div>';
 
@@ -84,7 +88,7 @@
       '<button class="nav-mobile-toggle" aria-label="Menü" aria-expanded="false" onclick="window.mzNavToggle()">☰</button>' +
       '<nav id="mainNav"><ul>' + navItems +
         (TICKETS_LIVE ? '<li class="nav-tickets-li"><a href="' + TICKETS + '" target="_blank" rel="noopener" class="nav-cta nav-cta-tickets" data-en="Get Tickets →" data-fr="Billets →">Tickets sichern →</a></li>' : '') +
-        '<li><a href="/standflaechen" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
+        '<li><a href="' + AUSSTELLER_CTA + '" class="nav-cta" data-en="Become an Exhibitor →" data-fr="Devenir exposant →">Aussteller werden →</a></li>' +
       '</ul></nav>' +
     '</div></header>';
 
@@ -92,24 +96,30 @@
     '<section class="partners-strip partners-cat"><div class="partners-cat-inner">' +
       '<div class="partner-group partner-group-lead">' +
         '<div class="partner-group-h" data-en="Presenting Partner" data-fr="Partenaire présentateur">Presenting Partner</div>' +
-        '<div class="partner-group-logos"><img src="assets/partners/Allianz.svg" alt="Allianz" /></div>' +
+        '<div class="partner-group-logos"><a href="https://www.allianz.ch" target="_blank" rel="noopener" aria-label="Allianz"><img src="assets/partners/Allianz.svg" alt="Allianz" /></a></div>' +
       '</div>' +
       '<div class="partner-group partner-group-lead">' +
         '<div class="partner-group-h" data-en="Co-Sponsor" data-fr="Co-sponsor">Co-Sponsor</div>' +
-        '<div class="partner-group-logos"><img src="assets/partners/MotoScout24.svg" alt="MotoScout24" /></div>' +
+        '<div class="partner-group-logos"><a href="https://www.motoscout24.ch" target="_blank" rel="noopener" aria-label="MotoScout24"><img src="assets/partners/MotoScout24.svg" alt="MotoScout24" /></a></div>' +
+      '</div>' +
+      '<div class="partner-group partner-group-lead partner-group-sv">' +
+        '<div class="partner-group-h" data-en="Partner" data-fr="Partenaire">Partner</div>' +
+        '<div class="partner-group-logos"><a href="https://www.swissvolunteers.ch" target="_blank" rel="noopener"><img src="assets/partners/Swiss-Volunteers.svg" alt="Swiss Volunteers" /></a></div>' +
       '</div>' +
       '<div class="partner-group partner-group-media">' +
         '<div class="partner-group-h" data-en="Media Partners" data-fr="Partenaires médias">Medienpartner</div>' +
         '<div class="partner-group-logos">' +
-          '<span class="pk-cell"><img src="assets/partners/blick-logo.svg" alt="Blick" /></span>' +
-          '<span class="pk-cell"><span class="partner-logo-text" title="1000PS.ch"><b>1000PS</b><small>.ch</small></span></span>' +
-          '<span class="pk-cell"><span class="partner-logo-text" title="Moto.ch"><b>Moto</b><small>.ch</small></span></span>' +
-          '<span class="pk-cell"><img src="assets/partners/Radio-Argovva.svg" alt="Radio Argovia" /></span>' +
-          '<span class="pk-cell"><img src="assets/partners/Radio-Zurisee.svg" alt="Radio Zürisee" /></span>' +
-          '<span class="pk-cell"><span class="partner-logo-text" title="Radio 1"><b>RADIO 1</b><small>FM 93.6</small></span></span>' +
-          '<span class="pk-cell"><img src="assets/partners/Radio-Switzerland-Virgin.svg" alt="Virgin Radio Switzerland" /></span>' +
-          '<span class="pk-cell"><img src="assets/partners/moto-lifestyle.png" alt="moto-lifestyle.ch" /></span>' +
-          '<span class="pk-cell"><img src="assets/partners/Swiss-Volunteers.svg" alt="Swiss Volunteers" /></span>' +
+          '<span class="pk-cell"><a href="https://www.blick.ch" target="_blank" rel="noopener" aria-label="Blick"><img src="assets/partners/blick-logo.svg" alt="Blick" /></a></span>' +
+          '<span class="pk-cell"><a href="https://www.1000ps.ch" target="_blank" rel="noopener" aria-label="1000PS.ch"><img src="assets/partners/1000ps.png" alt="1000PS.ch" /></a></span>' +
+          '<span class="pk-cell"><a href="https://www.moto.ch" target="_blank" rel="noopener" aria-label="Moto.ch"><img src="assets/partners/moto-ch.png" alt="Moto.ch" /></a></span>' +
+          '<span class="pk-cell"><a href="https://www.moto-lifestyle.ch" target="_blank" rel="noopener" aria-label="moto-lifestyle.ch"><img src="assets/partners/moto-lifestyle.png" alt="moto-lifestyle.ch" /></a></span>' +
+        '</div>' +
+        '<div class="partner-group-h partner-group-h-sub" data-en="Radio Partners" data-fr="Partenaires radio">Radiopartner</div>' +
+        '<div class="partner-group-logos partner-group-logos-radio">' +
+          '<span class="pk-cell"><a href="https://www.argovia.ch" target="_blank" rel="noopener" aria-label="Radio Argovia"><img src="assets/partners/Radio-Argovva.svg" alt="Radio Argovia" /></a></span>' +
+          '<span class="pk-cell"><a href="https://www.radiozuerisee.ch" target="_blank" rel="noopener" aria-label="Radio Zürisee"><img src="assets/partners/Radio-Zurisee.svg" alt="Radio Zürisee" /></a></span>' +
+          '<span class="pk-cell"><a href="https://www.radio1.ch" target="_blank" rel="noopener" aria-label="Radio 1 · FM 93.6"><img src="assets/partners/radio-1.png" alt="Radio 1 · FM 93.6" /></a></span>' +
+          '<span class="pk-cell"><a href="https://www.virginradio.ch" target="_blank" rel="noopener" aria-label="Virgin Radio Switzerland"><img src="assets/partners/Radio-Switzerland-Virgin.svg" alt="Virgin Radio Switzerland" /></a></span>' +
         '</div>' +
       '</div>' +
     '</div></section>';
@@ -117,39 +127,27 @@
   var footer =
     '<footer><div class="footer-inner">' +
       '<div class="footer-brand">' +
-        '<a href="' + HOME + '" class="footer-logo-link" aria-label="MOTO-ZÜRICH Home"><img class="footer-logo" src="assets/logo-moto-zuerich-white.svg" alt="MOTO-ZÜRICH" /></a>' +
         '<p class="footer-tagline" data-en="The independent season opener of the Swiss motorcycle scene.<br />Urban. Curated. Approachable." data-fr="Le coup d&#39;envoi indépendant de la scène moto suisse.<br />Urbain. Sélectif. Accessible.">Der unabhängige Saisonstart der Schweizer Motorradszene.<br />Urban. Kuratiert. Nahbar.</p>' +
         '<div class="footer-social" aria-label="Social Media">' +
-          '<a href="https://www.instagram.com/motozuerich" target="_blank" rel="noopener">IG</a>' +
-          '<a href="https://www.facebook.com/motozuerich" target="_blank" rel="noopener">FB</a>' +
-          '<a href="https://www.youtube.com/@motozuerich" target="_blank" rel="noopener">YT</a>' +
-          '<a href="https://www.linkedin.com/company/motozuerich" target="_blank" rel="noopener">LI</a>' +
-          '<a href="https://www.tiktok.com/@motozuerich" target="_blank" rel="noopener">TT</a>' +
-          '<a href="https://www.whatsapp.com/channel/0029VbAqa7tD38CIf5czGN2R" target="_blank" rel="noopener">WA</a>' +
+          '<a href="https://www.instagram.com/motozuerich" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#ic-instagram"></use></svg></a>' +
+          '<a href="https://www.facebook.com/motozuerich" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#ic-facebook"></use></svg></a>' +
+          '<a href="https://www.youtube.com/@motozuerich" target="_blank" rel="noopener" aria-label="YouTube"><svg aria-hidden="true"><use href="#ic-youtube"></use></svg></a>' +
+          '<a href="https://www.linkedin.com/company/motozuerich" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true"><use href="#ic-linkedin"></use></svg></a>' +
+          '<a href="https://www.tiktok.com/@motozuerich" target="_blank" rel="noopener" aria-label="TikTok"><svg aria-hidden="true"><use href="#ic-tiktok"></use></svg></a>' +
+          '<a href="https://www.whatsapp.com/channel/0029VbAqa7tD38CIf5czGN2R" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#ic-whatsapp"></use></svg></a>' +
         '</div>' +
       '</div>' +
-      '<div class="footer-col"><h4 data-en="Visit" data-fr="Visite">Besuch</h4><ul>' +
-        '<li><a href="/programm" data-en="Programme" data-fr="Programme">Programm</a></li>' +
-        '<li><a href="/aussteller-motozuerich-2026" data-en="Exhibitors" data-fr="Exposants">Aussteller</a></li>' +
-        '<li><a href="/faq" data-en="Good to Know" data-fr="Bon à savoir">Gut zu Wissen</a></li>' +
-        (TICKETS_LIVE ? '<li><a href="' + TICKETS + '" target="_blank" rel="noopener" data-en="Tickets" data-fr="Billets">Tickets</a></li>' : '') +
-      '</ul></div>' +
-      '<div class="footer-col"><h4 data-en="About Us" data-fr="À propos">Über uns</h4><ul>' +
-        '<li><a href="/mz2026">MOTO-ZÜRICH 2026</a></li>' +
-        '<li><a href="/team">Team</a></li>' +
-        '<li><a href="/warum_motozurich" data-en="Why MOTO-ZÜRICH" data-fr="Pourquoi MOTO-ZÜRICH">Warum MOTO-ZÜRICH</a></li>' +
-        '<li><a href="/sound" data-en="Sounds" data-fr="Sons">Sounds</a></li>' +
-        '<li><a href="/medien" data-en="Media" data-fr="Médias">Medien</a></li>' +
-      '</ul>' +
-      '<a href="/standflaechen" class="footer-cta" data-en="Become an exhibitor <span>→</span>" data-fr="Devenir exposant <span>→</span>">Aussteller werden <span>→</span></a></div>' +
-      '<div class="footer-col"><h4 data-en="Contact" data-fr="Contact">Kontakt</h4><ul>' +
-        '<li><a href="mailto:team@motozuerich.ch">team@motozuerich.ch</a></li>' +
-        '<li><a href="mailto:help@motozuerich.ch">help@motozuerich.ch</a></li>' +
-        '<li><a href="/volunteers">Volunteers</a></li>' +
-      '</ul></div>' +
+      '<div class="footer-mark">' +
+        '<a href="' + HOME + '" class="footer-logo-link" aria-label="MOTO-ZÜRICH Home"><img class="footer-logo" src="assets/logo-moto-zuerich-white.svg" alt="MOTO-ZÜRICH" /></a>' +
+        '<div class="footer-date" data-en="February 19–21<br />2027" data-fr="19–21 février<br />2027">19.–21. Februar<br />2027</div>' +
+      '</div>' +
+      '<div class="footer-actions">' +
+        '<a href="' + AUSSTELLER_CTA + '" class="footer-cta" data-en="Become an exhibitor <span>→</span>" data-fr="Devenir exposant <span>→</span>">Aussteller werden <span>→</span></a>' +
+        '<a href="/kontakt" class="footer-cta footer-cta-ghost" data-en="Contact us <span>→</span>" data-fr="Contactez-nous <span>→</span>">Kontaktiere uns <span>→</span></a>' +
+      '</div>' +
     '</div>' +
     '<div class="footer-bottom">' +
-      '<div><a href="/impressum" data-en="Imprint" data-fr="Mentions légales">Impressum</a><a href="/agb" data-en="Terms" data-fr="CGV">AGB</a><a href="/datenschutz" data-en="Privacy" data-fr="Confidentialité">Datenschutz</a>' +
+      '<div><a href="/impressum" data-en="Imprint" data-fr="Mentions légales">Impressum</a><a href="/datenschutz" data-en="Privacy" data-fr="Confidentialité">Datenschutz</a><a href="/agb" data-en="Terms" data-fr="CGV">AGB</a>' +
         '<a href="#" onclick="if(window.mzOpenConsent){window.mzOpenConsent();}return false;" data-en="Cookie Settings" data-fr="Paramètres cookies">Cookie-Einstellungen</a></div>' +
       '<div data-en="© 2026 MOTO-ZÜRICH · Season Opener Switzerland" data-fr="© 2026 MOTO-ZÜRICH · Coup d&#39;envoi Suisse">© 2026 MOTO-ZÜRICH · Saisonstart Schweiz</div>' +
     '</div></footer>';
@@ -190,4 +188,14 @@
     /* tapping a real link closes the menu */
     if (isMobile && e.target.closest('a') && this.classList.contains('open')) window.mzNavToggle();
   });
+
+  /* Social-Icons: ein SVG-Sprite (assets/social-icons.svg) für alle Seiten, einmal geladen.
+     Die Footer-Links referenzieren die Symbole per <use href="#ic-…">. */
+  if (!document.getElementById('mz-social-sprite')) {
+    fetch('assets/social-icons.svg').then(function (r) { return r.ok ? r.text() : ''; }).then(function (svg) {
+      if (!svg || document.getElementById('mz-social-sprite')) return;
+      var d = document.createElement('div'); d.id = 'mz-social-sprite'; d.setAttribute('aria-hidden', 'true'); d.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+      d.innerHTML = svg; document.body.appendChild(d);
+    }).catch(function () {});
+  }
 })();

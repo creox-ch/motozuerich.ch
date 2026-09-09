@@ -10,7 +10,9 @@
   var CLEAN = {
     '': 'MOTO-ZÜRICH 2027.html',
     'faq': 'FAQ.html',
-    'gesamtplan': 'Gesamtplan.html',
+    'tickets': 'Tickets.html',
+    'kontakt': 'Kontakt.html',
+    'gesamtplan': 'Besucherplan.html', /* Legacy-URL → Besucherplan (Vercel: 301) */
     'besucherplan': 'Besucherplan.html',
     'standflaechen': 'Standflaechen.html',
     'programm': 'Programm.html',

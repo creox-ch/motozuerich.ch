@@ -20,7 +20,6 @@ export const PAGES: PageDef[] = [
   { fn: 'FN-001', path: '/',                              name: 'Home',         titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
   { fn: 'FN-002', path: '/faq',                           name: 'FAQ',          titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
   { fn: 'FN-003', path: '/programm',                      name: 'Programm',     titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
-  { fn: 'FN-004', path: '/party',                         name: 'Party',        titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
   { fn: 'FN-005', path: '/aussteller-motozuerich-2026',   name: 'Aussteller',   titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
   { fn: 'FN-006', path: '/mz2026',                        name: 'MZ2026',       titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
   { fn: 'FN-007', path: '/team',                          name: 'Team',         titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
@@ -32,11 +31,10 @@ export const PAGES: PageDef[] = [
   { fn: 'FN-013', path: '/datenschutz',                   name: 'Datenschutz',  titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
   { fn: 'FN-014', path: '/volunteers',                    name: 'Volunteers',   titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
   { fn: 'FN-015', path: '/creators',                      name: 'Creators',     titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
+  { fn: 'FN-021', path: '/kontakt',                       name: 'Kontakt',      titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
+  { fn: 'FN-022', path: '/tickets',                       name: 'Tickets',      titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
 ];
 
-/** Form sub-pages — these may be embedded forms with less standard chrome. */
-export const FORM_PAGES: PageDef[] = [
-  { fn: 'FN-016', path: '/media_form',     name: 'Media Form',    titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
-  { fn: 'FN-017', path: '/creators_form',  name: 'Creators Form', titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
-  { fn: 'FN-018', path: '/blogger_form',   name: 'Blogger Form',  titleContains: 'MOTO-ZÜRICH', hasGlobalChrome: true },
-];
+/** Form sub-pages. Alte externe Formular-Seiten (media_form/creators_form/blogger_form)
+ * wurden Sept. 2026 durch die einheitliche Kundenanfrage /kontakt ersetzt (läuft über PAGES). */
+export const FORM_PAGES: PageDef[] = [];

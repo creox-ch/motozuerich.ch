@@ -1,11 +1,15 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/gesamtplan", "destination": "/besucherplan", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/faq",                         "destination": "/FAQ" },
+    { "source": "/tickets",                     "destination": "/Tickets" },
+    { "source": "/kontakt",                     "destination": "/Kontakt" },
     { "source": "/programm",                    "destination": "/Programm" },
     { "source": "/aussteller-motozuerich-2026", "destination": "/Aussteller" },
-    { "source": "/gesamtplan",                  "destination": "/Gesamtplan" },
     { "source": "/besucherplan",                "destination": "/Besucherplan" },
     { "source": "/standflaechen",               "destination": "/Standflaechen" },
     { "source": "/team",                        "destination": "/Team" },

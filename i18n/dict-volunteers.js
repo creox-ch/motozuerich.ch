@@ -2,6 +2,7 @@
 window.MZ_DICT = Object.assign(window.MZ_DICT || {}, {
 "Mach mit · Crew 2027": ["Join in · Crew 2027", "Participe · Crew 2027"],
 "Werde": ["Become a", "Deviens"],
+"In Partnerschaft mit": ["In partnership with", "En partenariat avec"],
 "Volunteer": ["volunteer", "bénévole"],
 "Wir suchen motivierte Helfer, die Teil der MOTO-ZÜRICH Crew werden möchten. Dich erwarten ein": ["We're looking for motivated helpers who want to become part of the MOTO-ZÜRICH crew. What awaits you is an", "Nous cherchons des bénévoles motivés qui veulent rejoindre la crew MOTO-ZÜRICH. T'attendent un"],
 "actiongeladenes Event": ["action-packed event", "événement plein d'action"],

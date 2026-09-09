@@ -42,8 +42,10 @@ test.describe('Smoke: critical infrastructure files exist', () => {
     const r = await request.get(`${baseURL}/sitemap.xml`);
     expect(r.status(), 'sitemap.xml should return 200').toBe(200);
     const body = await r.text();
-    // Должны быть упомянуты как минимум главная и пара ключевых страниц
-    expect(body).toContain(baseURL!);
+    // baseURL-unabhängig: die Sitemap listet immer die Produktions-URLs → auf Schlüssel-Pfade prüfen
+    expect(body).toContain('<urlset');
+    expect(body).toContain('/programm');
+    expect(body).toContain('/kontakt');
   });
 
   test('[FN-1703] favicon is reachable', async ({ request, baseURL }) => {
