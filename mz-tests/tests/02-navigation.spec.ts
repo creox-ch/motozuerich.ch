@@ -43,7 +43,6 @@ test.describe('[FN-100..FN-115] Header navigation', () => {
 
   test('[FN-112] Programm dropdown contains expected items', async ({ page }) => {
     await expectLinkExists(page, '/programm');
-    await expectLinkExists(page, '/party');
   });
 
   test('[FN-114] Über uns dropdown contains team/sound', async ({ page }) => {

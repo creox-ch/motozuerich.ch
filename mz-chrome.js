@@ -42,7 +42,7 @@
     { id: 'medien', label: 'Medien', en: 'Media', fr: 'Médias', href: '/medien' }
   ];
 
-  var AUSSTELLER_CTA = 'mailto:yves@motozuerich.ch?subject=Aussteller-Anfrage%20MOTO-Z%C3%9CRICH%202027'; /* «Aussteller werden»-CTA → Mail an Yves (Entscheid Ivanna 09.09) */
+  var AUSSTELLER_CTA = '/standflaechen'; /* «Aussteller werden»-CTA → Standflächen-Plan (Entscheid Ivanna 09.09, war mailto) */
   var TICKETS = 'https://motozuerich.shop.bookinea.app/de';
   /* Ticketverkauf 2027 läuft noch nicht: Menü-CTA und Desktop-Header-CTA sind aus; Menü «Besucher › Tickets»
      und Footer-Link zeigen auf die Info-Seite /tickets (Verkaufsstart November 2026).
