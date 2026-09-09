@@ -10,7 +10,7 @@
    ============================================================ */
 (function () {
   if (document.getElementById('mz-ask-fab')) return;
-  var ENDPOINT = window.MZ_ASK_ENDPOINT || 'https://slswiss-tickets.vercel.app/api/forms';
+  var ENDPOINT = window.MZ_ASK_ENDPOINT || '/api/contact';
   var START = Date.now();
   var MAIL = 'team@motozuerich.ch';
   var FORM = '/kontakt';
@@ -173,7 +173,7 @@
     var btn = form.querySelector('.mz-ask-send'); btn.disabled = true;
     function finish(html) { form.hidden = true; done.innerHTML = html; done.hidden = false; }
     if (ENDPOINT) {
-      var sub = { source: 'motozuerich', form_key: 'ask', email: m, consent: true, source_url: location.href, hp: (form.querySelector('#mz-ask-hp') || {}).value || '', elapsed_ms: Date.now() - START, payload: { Frage: q, Seite: payload.page, Sprache: payload.lang } };
+      var sub = { form_key: 'ask', email: m, consent: true, nachricht: q, details: { Seite: payload.page, Sprache: payload.lang }, quelle: { source_url: location.href }, hp: (form.querySelector('#mz-ask-hp') || {}).value || '', elapsed_ms: Date.now() - START };
       fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(sub) })
         .then(function (r) { return r.ok ? r.json() : { ok: false }; })
         .then(function (d) { if (d && d.ok) finish('<p>' + t('ok') + '</p>'); else { btn.disabled = false; err.textContent = t('okMail'); err.hidden = false; mailFallback(payload); } })

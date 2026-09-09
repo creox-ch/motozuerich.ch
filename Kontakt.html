@@ -186,7 +186,7 @@ body[data-page="kontakt"] section.block{padding:84px 32px}
    BACKEND-HOOK: window.MZ_CONTACT_ENDPOINT (POST multipart/form-data, alle Felder + Anhänge).
    Ohne Endpoint: mailto an MAIL mit Textzusammenfassung (ohne Anhänge). */
 (function () {
-  var ENDPOINT = window.MZ_CONTACT_ENDPOINT || 'https://slswiss-tickets.vercel.app/api/forms';
+  var ENDPOINT = window.MZ_CONTACT_ENDPOINT || '/api/contact';
   var START = Date.now();
   var MAIL = 'team@motozuerich.ch';
   var SUBJECTS = ['Ich möchte Aussteller werden', 'Partnerschaft / Sponsoring', 'Medien-Akkreditierung', 'Tickets & Eintritt', 'Zusammenarbeit / Marketing', 'Ich möchte Volunteer werden', 'Ich möchte Gastro-Partner werden', 'Sonstiges / Ich bin mir nicht sicher'];
@@ -264,24 +264,25 @@ body[data-page="kontakt"] section.block{padding:84px 32px}
     function unlock() { btn.disabled = false; form.querySelectorAll('input,textarea').forEach(function (i) { i.disabled = false; }); }
     var THANKS = '<p>Wir haben deine Anfrage erhalten und antworten in der Regel <b>innerhalb von 2–3 Werktagen</b> während der Geschäftszeiten.</p>';
     if (ENDPOINT) {
-      /* Plattform-Backend /api/forms erwartet JSON (kein multipart, keine Datei-Anhänge – v1) */
-      var pl = {};
-      if (subAnswer) pl['Zusatzfrage'] = subAnswer;
+      /* Eigenes MZ-Backend /api/contact (same-origin) → mz_kontakt + Mail an team@ */
+      var details = {};
+      if (subAnswer) details['Zusatzfrage'] = subAnswer;
       if (mediaWrap.classList.contains('open')) {
-        pl['Medium'] = el('kf-outlet').value.trim();
-        pl['Personen'] = people + ' – ' + Array.prototype.map.call(part.querySelectorAll('input'), function (i) { return i.value.trim(); }).join(', ');
-        if (el('kf-link').value.trim()) pl['Link'] = el('kf-link').value.trim();
-        if (el('kf-portfolio').value.trim()) pl['Portfolio'] = el('kf-portfolio').value.trim();
+        details['Medium'] = el('kf-outlet').value.trim();
+        details['Personen'] = people + ' – ' + Array.prototype.map.call(part.querySelectorAll('input'), function (i) { return i.value.trim(); }).join(', ');
+        if (el('kf-link').value.trim()) details['Link'] = el('kf-link').value.trim();
+        if (el('kf-portfolio').value.trim()) details['Portfolio'] = el('kf-portfolio').value.trim();
       }
-      if (el('kf-desc').value.trim()) pl['Beschreibung'] = el('kf-desc').value.trim();
-      if (el('kf-company').value.trim()) pl['Firma'] = el('kf-company').value.trim();
       var payloadJson = {
-        source: 'motozuerich', form_key: 'kontakt', role: subject,
+        form_key: 'kontakt', betreff: subject,
         name: el('kf-name').value.trim(), email: el('kf-mail').value.trim(),
         phone: el('kf-phone').value.trim() ? '+41 ' + el('kf-phone').value.trim() : '',
-        consent: true, source_url: location.href,
-        hp: (el('kf-hp') && el('kf-hp').value) || '', elapsed_ms: Date.now() - START,
-        payload: pl
+        firma: el('kf-company').value.trim(),
+        consent: true,
+        nachricht: el('kf-desc').value.trim(),
+        details: details,
+        quelle: { source_url: location.href, lang: (document.documentElement.lang || 'de') },
+        hp: (el('kf-hp') && el('kf-hp').value) || '', elapsed_ms: Date.now() - START
       };
       fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payloadJson) })
         .then(function (r) { return r.ok ? r.json() : { ok: false }; })
