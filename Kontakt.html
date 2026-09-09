@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- ===== Tracking & cookie-consent (shared, loaded in <head> of every page) ===== -->
+<script src="mz-head.js"></script>
+<!-- ===== SEO: canonical + social share ===== -->
+<link rel="canonical" href="https://motozuerich.ch/kontakt" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MOTO-ZÜRICH" />
+<meta property="og:locale" content="de_CH" />
+<meta property="og:url" content="https://motozuerich.ch/kontakt" />
+<meta property="og:title" content="Kontakt – MOTO-ZÜRICH 2027 | Kundenanfrage" />
+<meta property="og:description" content="Fragen zu Tickets, Programm, Partnerschaft, Medien-Akkreditierung oder Volunteering? Schreib uns – deine Anfrage landet direkt bei der richtigen Stelle." />
+<meta property="og:image" content="https://motozuerich.ch/assets/og/home.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="MOTO-ZÜRICH 2027 – Kontakt" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Kontakt – MOTO-ZÜRICH 2027 | Kundenanfrage" />
+<meta name="twitter:description" content="Fragen zu Tickets, Programm, Partnerschaft, Medien-Akkreditierung oder Volunteering? Schreib uns." />
+<meta name="twitter:image" content="https://motozuerich.ch/assets/og/home.jpg" />
+<!-- ===== Favicon ===== -->
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Kontakt – MOTO-ZÜRICH 2027 | Kundenanfrage</title>
+<meta name="description" content="Fragen zu Tickets, Programm, Partnerschaft, Medien-Akkreditierung oder Volunteering? Schreib uns – deine Anfrage landet direkt bei der richtigen Stelle." />
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="motozuerich-page.css?v=28" />
+<link rel="stylesheet" href="mz-enhance.css?v=2" />
+<style>
+body[data-page="kontakt"] section.block{padding:84px 32px}
+.page-hero-lead a{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.kf{max-width:760px;margin-top:8px}
+.kf-step{border:0;padding:0;margin:0 0 44px;min-width:0}
+.kf-step legend{display:flex;align-items:center;gap:12px;padding:0;margin:0 0 18px;font-family:var(--font-display);font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.01em;color:var(--brand-dark)}
+.kf-idx{flex:none;width:28px;height:28px;display:inline-grid;place-items:center;background:var(--night);color:#fff;font-family:var(--font-mono);font-size:12px;font-weight:700}
+.kf-req{color:var(--swiss-red);font-weight:400}
+.kf-options{display:flex;flex-direction:column;border:1px solid var(--line-strong);background:var(--bg)}
+.kf-opt{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer;position:relative;transition:background .12s}
+.kf-opt:last-child{border-bottom:0}
+.kf-opt:hover{background:var(--bg-alt)}
+.kf-opt input{position:absolute;opacity:0;width:1px;height:1px}
+.kf-mark{flex:none;width:18px;height:18px;margin-top:2px;border:1.5px solid var(--brand-dark);border-radius:50%;position:relative;background:var(--bg);transition:border-color .12s}
+.kf-mark::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--brand);transform:scale(0);transition:transform .12s}
+.kf-opt input:checked~.kf-mark{border-color:var(--brand)}
+.kf-opt input:checked~.kf-mark::after{transform:scale(1)}
+.kf-opt input:focus-visible~.kf-mark{outline:2px solid var(--brand);outline-offset:2px}
+.kf-opt.on{background:var(--brand-soft)}
+.kf-opt-l{font-family:var(--font-body);font-size:15px;line-height:1.4;color:var(--fg)}
+.kf-cond{display:none}.kf-cond.open{display:block}
+.kf-field{margin-bottom:22px}
+.kf-label{display:block;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.kf input[type=text],.kf input[type=email],.kf input[type=tel],.kf textarea{display:block;width:100%;box-sizing:border-box;border:1px solid var(--line-strong);background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;padding:12px 13px;min-height:46px}
+.kf input::placeholder,.kf textarea::placeholder{color:#a0a7b1}
+.kf input:focus,.kf textarea:focus{outline:2px solid var(--brand);outline-offset:-1px}
+.kf textarea{min-height:130px;resize:vertical;line-height:1.5}
+.kf-phone{display:flex}
+.kf-prefix{display:flex;align-items:center;gap:8px;border:1px solid var(--line-strong);border-right:0;padding:0 12px;background:var(--bg-alt);font-family:var(--font-mono);font-size:14px;font-weight:700;white-space:nowrap}
+.kf-prefix svg{width:14px;height:14px;display:block}
+.kf-phone input{flex:1;min-width:0}
+.kf-upload{border:1px dashed var(--line-strong);background:var(--bg);padding:16px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:var(--font-body);font-size:14.5px;color:var(--brand-dark);font-weight:600;transition:border-color .12s,background .12s}
+.kf-upload:hover{border-color:var(--brand);background:var(--brand-soft)}
+.kf-upload input{display:none}
+.kf-upload svg{flex:none;width:20px;height:20px}
+.kf-upload span{white-space:nowrap}
+.kf-files{margin-top:8px;font-family:var(--font-body);font-size:13px;color:var(--muted)}
+.kf-files div{padding:2px 0}
+.kf-part input{margin-bottom:8px}
+.kf-consent{display:flex;align-items:flex-start;gap:12px;font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--fg);cursor:pointer;margin-top:8px}
+.kf-consent input{margin:3px 0 0;width:18px;height:18px;flex:none;accent-color:var(--brand);cursor:pointer}
+.kf-consent a{color:var(--brand);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.kf-err{margin-top:18px;padding:12px 14px;border:1px solid var(--swiss-red);color:var(--swiss-red);font-family:var(--font-body);font-size:14px}
+/* Feldzustände: error / disabled */
+.kf-field.is-error input,.kf-field.is-error textarea{border-color:var(--swiss-red);outline:2px solid var(--swiss-red);outline-offset:-1px}
+.kf-options.is-error{border-color:var(--swiss-red);box-shadow:inset 0 0 0 1px var(--swiss-red)}
+.kf-consent.is-error{outline:2px solid var(--swiss-red);outline-offset:6px}
+.kf input:disabled,.kf textarea:disabled{background:var(--bg-alt);color:var(--muted);cursor:not-allowed}
+.kf-btn:disabled{opacity:.6;cursor:default;transform:none !important;box-shadow:none !important}
+/* Erfolgs-Screen */
+.kf-done{max-width:760px;border:1px solid var(--line-strong);background:var(--bg);padding:34px 32px}
+.kf-done-ico{width:56px;height:56px;background:var(--adventure-green);color:#fff;display:grid;place-items:center;margin-bottom:18px}
+.kf-done-ico svg{width:28px;height:28px}
+.kf-done-eyebrow{display:block;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kf-done h3{font-family:var(--font-display);font-weight:700;font-size:clamp(26px,3vw,34px);line-height:1.05;text-transform:uppercase;color:var(--brand-dark);margin:8px 0 14px}
+.kf-done p{margin:0 0 10px;font-family:var(--font-body);font-size:16px;line-height:1.6;color:var(--fg)}
+.kf-done p a{color:var(--brand);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.kf-done-meta{display:flex;gap:14px;align-items:baseline;margin-top:18px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--font-body);font-size:14px}
+.kf-done-meta .k{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.kf-done-meta .v{font-weight:700;color:var(--brand-dark)}
+.kf-done-links{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px}
+.kf-done-links a{white-space:nowrap;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand-dark);text-decoration:none}
+.kf-done-links a:hover{text-decoration:underline;text-underline-offset:3px}
+.kf-submit{margin-top:40px;padding-top:26px;border-top:3px solid var(--night);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.kf-note{margin:0;font-family:var(--font-body);font-size:13px;line-height:1.5;color:var(--muted);max-width:320px}
+.kf-btn{border:0;cursor:pointer;margin-top:0 !important}
+@media(max-width:600px){body[data-page="kontakt"] section.block{padding:56px 20px}.kf-step legend{font-size:18px}.kf-submit{flex-direction:column;align-items:stretch}.kf-btn{justify-content:center}.kf input[type=text],.kf input[type=email],.kf input[type=tel],.kf textarea{font-size:16px}.kf-done{padding:24px 20px}.kf-opt{padding:13px 14px}}
+</style>
+</head>
+<body data-page="kontakt">
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2F65A0"/><path d="M22 30h56v34H44l-14 12V64h-8z" fill="#FAF143"/></svg></template>
+
+<section class="page-hero" data-ghost="KONTAKT">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Kontakt · MOTO-ZÜRICH 2027</div>
+    <h1 class="page-hero-title">Kunden<span class="hl-yellow">anfrage</span></h1>
+    <p class="page-hero-lead">
+      Wähle aus, worum es bei deinem Anliegen geht – so landet deine Nachricht direkt bei der richtigen Stelle.
+      Du willst ausstellen? Freie Flächen, Masse und Preise findest du im <a href="/standflaechen">Standflächen-Plan</a>.
+    </p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="section-label body-fade">Kontaktformular</div>
+  <h2 class="section-title">Schreib <span class="hl">uns</span></h2>
+
+  <form class="kf body-fade" id="kf" data-delay="80" novalidate>
+    <fieldset class="kf-step">
+      <legend><span class="kf-idx">1</span>Betreff deiner Anfrage <span class="kf-req">*</span></legend>
+      <div class="kf-options" id="kf-subjects" role="radiogroup" aria-required="true"></div>
+    </fieldset>
+
+    <div class="kf-cond" id="kf-sub-wrap">
+      <fieldset class="kf-step">
+        <legend><span class="kf-idx">2</span><span id="kf-sub-title">Weitere Angaben</span> <span class="kf-req">*</span></legend>
+        <div class="kf-options" id="kf-sub-list" role="radiogroup"></div>
+      </fieldset>
+    </div>
+
+    <div class="kf-cond" id="kf-media-wrap">
+      <fieldset class="kf-step">
+        <legend><span class="kf-idx">2</span>Medien-Akkreditierung <span class="kf-req">*</span></legend>
+        <div class="kf-field"><label class="kf-label" for="kf-outlet">Von welchem Medium bist du? <span class="kf-req">*</span></label><input type="text" id="kf-outlet" name="media-outlet" placeholder="z. B. Motorrad News, XY-Magazin" /></div>
+        <div class="kf-field"><span class="kf-label">Anzahl Personen <span class="kf-req">*</span></span><div class="kf-options" id="kf-count" role="radiogroup"></div></div>
+        <div class="kf-field kf-part" id="kf-part"></div>
+        <div class="kf-field"><label class="kf-label" for="kf-link">Link(s) zu deinem Medium</label><input type="text" id="kf-link" name="media-link" placeholder="https://…" /></div>
+        <div class="kf-field"><label class="kf-label" for="kf-portfolio">Portfolio / Referenzmaterial</label><input type="text" id="kf-portfolio" name="media-portfolio" placeholder="Link zu Portfolio, Artikeln, bisherigen Beiträgen …" /></div>
+      </fieldset>
+    </div>
+
+    <fieldset class="kf-step">
+      <legend><span class="kf-idx">3</span>Details</legend>
+      <div class="kf-field"><label class="kf-label" for="kf-desc">Beschreibung</label><textarea id="kf-desc" name="description" placeholder="Beschreib deine Anfrage möglichst genau …"></textarea></div>
+      <input type="text" id="kf-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+    </fieldset>
+
+    <fieldset class="kf-step">
+      <legend><span class="kf-idx">4</span>Kontakt</legend>
+      <div class="kf-field"><label class="kf-label" for="kf-name">Vor- und Nachname <span class="kf-req">*</span></label><input type="text" id="kf-name" name="fullname" placeholder="Max Muster" autocomplete="name" required /></div>
+      <div class="kf-field"><label class="kf-label" for="kf-company">Firma <span class="kf-req" id="kf-company-req">*</span></label><input type="text" id="kf-company" name="company" placeholder="Firmenname" autocomplete="organization" /></div>
+      <div class="kf-field"><label class="kf-label" for="kf-mail">E-Mail-Adresse <span class="kf-req">*</span></label><input type="email" id="kf-mail" name="email" placeholder="name@firma.ch" autocomplete="email" required /></div>
+      <div class="kf-field"><label class="kf-label" for="kf-phone">Telefonnummer</label><div class="kf-phone"><span class="kf-prefix"><svg viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" fill="#C10D0D"/><rect x="6.5" y="3" width="3" height="10" fill="#fff"/><rect x="3" y="6.5" width="10" height="3" fill="#fff"/></svg>+41</span><input type="tel" id="kf-phone" name="phone" placeholder="79 123 45 67" autocomplete="tel-national" /></div></div>
+    </fieldset>
+
+    <label class="kf-consent"><input type="checkbox" id="kf-consent" name="consent" /><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung dieser Anfrage verarbeitet werden (<a href="/datenschutz">Datenschutz</a>). <span class="kf-req">*</span></span></label>
+
+    <div class="kf-err" id="kf-err" hidden></div>
+
+    <div class="kf-submit">
+      <p class="kf-note">Wir antworten in der Regel innerhalb von 2–3 Werktagen während der Geschäftszeiten.</p>
+      <button type="submit" class="feedback-cta kf-btn" id="kf-send">Anfrage senden</button>
+    </div>
+  </form>
+
+  <div class="kf-done" id="kf-done" hidden>
+    <div class="kf-done-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <span class="kf-done-eyebrow">Anfrage gesendet</span>
+    <h3>Danke, <span id="kf-done-name"></span>!</h3>
+    <div id="kf-done-text"></div>
+    <div class="kf-done-meta"><span class="k">Betreff</span><span class="v" id="kf-done-subject"></span></div>
+    <div class="kf-done-links"><a href="/faq">Gut zu Wissen →</a><a href="/programm">Programm 2027 →</a><a href="/">Zur Startseite →</a></div>
+  </div>
+</section>
+
+<script src="mz-chrome.js?v=17"></script>
+<script src="mz-i18n.js"></script>
+<script src="mz-page.js"></script>
+<script>
+/* Kundenanfrage — Betreff → optionale Zusatzfrage → Details → Kontakt.
+   BACKEND-HOOK: window.MZ_CONTACT_ENDPOINT (POST multipart/form-data, alle Felder + Anhänge).
+   Ohne Endpoint: mailto an MAIL mit Textzusammenfassung (ohne Anhänge). */
+(function () {
+  var ENDPOINT = window.MZ_CONTACT_ENDPOINT || 'https://slswiss-tickets.vercel.app/api/forms';
+  var START = Date.now();
+  var MAIL = 'team@motozuerich.ch';
+  var SUBJECTS = ['Ich möchte Aussteller werden', 'Partnerschaft / Sponsoring', 'Medien-Akkreditierung', 'Tickets & Eintritt', 'Zusammenarbeit / Marketing', 'Ich möchte Volunteer werden', 'Ich möchte Gastro-Partner werden', 'Sonstiges / Ich bin mir nicht sicher'];
+  /* Zusatzfragen pro Betreff — Optionen vor Livegang fachlich prüfen */
+  var SUB = {
+    'Zusammenarbeit / Marketing': { t: 'Um welche Art von Marketinganfrage geht es?', o: ['Kooperation / Co-Marketing', 'Influencer / Creator Zusammenarbeit', 'Werbefläche vor Ort', 'Andere Anfrage'] },
+    'Ich möchte Aussteller werden': { t: 'Wobei können wir dir als Aussteller helfen?', o: ['Zugang Ausstellerportal', 'Standfrage', 'Rechnung / Zahlung', 'Technik / Mietmaterial', 'Andere Anfrage'] },
+    'Ich möchte Volunteer werden': { t: 'Worum geht es bei deiner Volunteer-Anfrage?', o: ['Anmeldung als Volunteer', 'Frage zum Einsatzplan', 'Frage zur Vergütung', 'Andere Anfrage'] },
+    'Partnerschaft / Sponsoring': { t: 'Welche Art von Partnerschaft interessiert dich?', o: ['Sponsoring-Paket anfragen', 'Medienpartnerschaft', 'Sonstige Zusammenarbeit'] },
+    'Ich möchte Gastro-Partner werden': { t: 'Worum geht es bei deiner Gastro-Anfrage?', o: ['Standplatz Gastro anfragen', 'Strom- / Wasseranschluss', 'Andere Anfrage'] }
+  };
+  var NO_COMPANY = ['Tickets & Eintritt', 'Ich möchte Volunteer werden', 'Sonstiges / Ich bin mir nicht sicher'];
+  var el = function (id) { return document.getElementById(id); };
+  var subjects = el('kf-subjects'), subWrap = el('kf-sub-wrap'), subList = el('kf-sub-list'), subTitle = el('kf-sub-title');
+  var mediaWrap = el('kf-media-wrap'), count = el('kf-count'), part = el('kf-part');
+  var subject = '', subAnswer = '', people = 0;
+
+  function opt(name, value, group, onPick) {
+    var l = document.createElement('label'); l.className = 'kf-opt';
+    l.innerHTML = '<input type="radio" name="' + name + '" /><span class="kf-mark"></span><span class="kf-opt-l"></span>';
+    l.querySelector('input').value = value; l.querySelector('.kf-opt-l').textContent = value;
+    l.querySelector('input').addEventListener('change', function () {
+      group.querySelectorAll('.kf-opt').forEach(function (o) { o.classList.remove('on'); });
+      l.classList.add('on'); onPick(value);
+    });
+    group.appendChild(l);
+  }
+  SUBJECTS.forEach(function (s) { opt('subject', s, subjects, onSubject); });
+  ['1 Person', '2 Personen', '3 Personen', '4 Personen'].forEach(function (c) { opt('media-count', c, count, function (v) { people = parseInt(v, 10); renderPart(); }); });
+
+  function renderPart() {
+    part.innerHTML = '';
+    if (!people) return;
+    var lab = document.createElement('span'); lab.className = 'kf-label';
+    lab.innerHTML = (people > 1 ? 'Teilnehmer:innen (Namen)' : 'Teilnehmer:in (Name)') + ' <span class="kf-req">*</span>'; part.appendChild(lab);
+    for (var i = 1; i <= people; i++) { var inp = document.createElement('input'); inp.type = 'text'; inp.name = 'participant-' + i; inp.placeholder = 'Name Teilnehmer:in ' + i; part.appendChild(inp); }
+  }
+  function onSubject(s) {
+    subject = s; subAnswer = '';
+    var needCompany = NO_COMPANY.indexOf(s) < 0;
+    el('kf-company-req').style.display = needCompany ? '' : 'none';
+    if (s === 'Medien-Akkreditierung') { subWrap.classList.remove('open'); mediaWrap.classList.add('open'); return; }
+    mediaWrap.classList.remove('open');
+    subList.innerHTML = '';
+    var c = SUB[s];
+    if (!c) { subWrap.classList.remove('open'); return; }
+    subTitle.textContent = c.t;
+    c.o.forEach(function (o) { opt('subquestion', o, subList, function (v) { subAnswer = v; }); });
+    subWrap.classList.add('open');
+  }
+
+  var form = el('kf'), err = el('kf-err'), done = el('kf-done');
+  function mark(x) { var c = x && x.closest && x.closest('.kf-field, .kf-options, .kf-consent'); if (c) c.classList.add('is-error'); }
+  function fail(msg, focus, markEl) { err.textContent = msg; err.hidden = false; mark(markEl || focus); if (focus) focus.focus(); var y = err.getBoundingClientRect().top + window.scrollY - 140; window.scrollTo({ top: y, behavior: 'smooth' }); }
+  form.addEventListener('input', function (e) { var c = e.target.closest('.is-error'); if (c) c.classList.remove('is-error'); });
+  form.addEventListener('change', function (e) { var c = e.target.closest('.is-error'); if (c) c.classList.remove('is-error'); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); err.hidden = true; form.querySelectorAll('.is-error').forEach(function (c) { c.classList.remove('is-error'); });
+    if (!subject) return fail('Bitte wähle den Betreff deiner Anfrage.', null, subjects);
+    if (subWrap.classList.contains('open') && !subAnswer) return fail('Bitte beantworte die Zusatzfrage (Schritt 2).', null, subList);
+    if (mediaWrap.classList.contains('open')) {
+      if (!el('kf-outlet').value.trim()) return fail('Bitte gib dein Medium an.', el('kf-outlet'));
+      if (!people) return fail('Bitte wähle die Anzahl Personen.', null, count);
+      var empty = Array.prototype.filter.call(part.querySelectorAll('input'), function (i) { return !i.value.trim(); });
+      if (empty.length) return fail('Bitte gib alle Teilnehmer:innen-Namen an.', empty[0]);
+    }
+    if (!el('kf-name').value.trim()) return fail('Bitte gib deinen Vor- und Nachnamen an.', el('kf-name'));
+    if (NO_COMPANY.indexOf(subject) < 0 && !el('kf-company').value.trim()) return fail('Bitte gib deine Firma an.', el('kf-company'));
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el('kf-mail').value.trim())) return fail('Bitte gib eine gültige E-Mail-Adresse an.', el('kf-mail'));
+    if (!el('kf-consent').checked) return fail('Bitte bestätige die Einwilligung zur Datenverarbeitung.', null, el('kf-consent'));
+
+    var fd = new FormData(form); fd.set('subject', subject); if (subAnswer) fd.set('subquestion', subAnswer); fd.set('page', location.href);
+    var btn = el('kf-send'); btn.disabled = true; form.querySelectorAll('input,textarea').forEach(function (i) { i.disabled = true; });
+    function finish(html) { form.hidden = true; el('kf-done-name').textContent = el('kf-name').value.trim().split(' ')[0] || ''; el('kf-done-subject').textContent = subject + (subAnswer ? ' · ' + subAnswer : ''); el('kf-done-text').innerHTML = html; done.hidden = false; var y = done.getBoundingClientRect().top + window.scrollY - 140; window.scrollTo({ top: y, behavior: 'smooth' }); }
+    function unlock() { btn.disabled = false; form.querySelectorAll('input,textarea').forEach(function (i) { i.disabled = false; }); }
+    var THANKS = '<p>Wir haben deine Anfrage erhalten und antworten in der Regel <b>innerhalb von 2–3 Werktagen</b> während der Geschäftszeiten.</p>';
+    if (ENDPOINT) {
+      /* Plattform-Backend /api/forms erwartet JSON (kein multipart, keine Datei-Anhänge – v1) */
+      var pl = {};
+      if (subAnswer) pl['Zusatzfrage'] = subAnswer;
+      if (mediaWrap.classList.contains('open')) {
+        pl['Medium'] = el('kf-outlet').value.trim();
+        pl['Personen'] = people + ' – ' + Array.prototype.map.call(part.querySelectorAll('input'), function (i) { return i.value.trim(); }).join(', ');
+        if (el('kf-link').value.trim()) pl['Link'] = el('kf-link').value.trim();
+        if (el('kf-portfolio').value.trim()) pl['Portfolio'] = el('kf-portfolio').value.trim();
+      }
+      if (el('kf-desc').value.trim()) pl['Beschreibung'] = el('kf-desc').value.trim();
+      if (el('kf-company').value.trim()) pl['Firma'] = el('kf-company').value.trim();
+      var payloadJson = {
+        source: 'motozuerich', form_key: 'kontakt', role: subject,
+        name: el('kf-name').value.trim(), email: el('kf-mail').value.trim(),
+        phone: el('kf-phone').value.trim() ? '+41 ' + el('kf-phone').value.trim() : '',
+        consent: true, source_url: location.href,
+        hp: (el('kf-hp') && el('kf-hp').value) || '', elapsed_ms: Date.now() - START,
+        payload: pl
+      };
+      fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payloadJson) })
+        .then(function (r) { return r.ok ? r.json() : { ok: false }; })
+        .then(function (d) { if (d && d.ok) finish(THANKS); else { unlock(); fail('Senden fehlgeschlagen – bitte versuch es noch einmal oder schreib an ' + MAIL + '.'); } })
+        .catch(function () { unlock(); fail('Senden fehlgeschlagen – bitte versuch es noch einmal oder schreib an ' + MAIL + '.'); });
+    } else {
+      var lines = ['Betreff: ' + subject]; if (subAnswer) lines.push('Zusatz: ' + subAnswer);
+      if (mediaWrap.classList.contains('open')) { lines.push('Medium: ' + el('kf-outlet').value.trim(), 'Personen: ' + people + ' – ' + Array.prototype.map.call(part.querySelectorAll('input'), function (i) { return i.value.trim(); }).join(', '), 'Link: ' + el('kf-link').value.trim(), 'Portfolio: ' + el('kf-portfolio').value.trim()); }
+      lines.push('', el('kf-desc').value.trim(), '', '—', el('kf-name').value.trim(), el('kf-company').value.trim(), el('kf-mail').value.trim(), el('kf-phone').value.trim() ? '+41 ' + el('kf-phone').value.trim() : '');
+      window.location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent('Kundenanfrage – ' + subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+      finish('<p><b>Dein E-Mail-Programm öffnet sich</b> mit deiner Anfrage – bitte dort absenden. Anhänge kannst du der E-Mail direkt beilegen.</p><p>Falls sich nichts öffnet: schreib uns an <a href="mailto:' + MAIL + '">' + MAIL + '</a>.</p>');
+    }
+  });
+})();
+</script>
+</body>
+</html>

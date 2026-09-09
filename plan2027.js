@@ -71,6 +71,67 @@
     plan.appendChild(e);
   });
 
+  /* ---------- Statische Karten-Labels (DATA.labels) ----------
+     FMX-Zone: Titel + Pilot:innen. Inline-SVG im Plan-Koordinatensystem → skaliert mit der
+     Karte, nutzt die Webfonts der Seite. Zeilen (row) werden nach Textbreite zentriert. */
+  (function labelLayer() {
+    var defs = (DATA.labels || []).filter(function (l) { return !l.mode || l.mode === 'all' || l.mode === MODE; });
+    if (!defs.length) return;
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + DATA.W + ' ' + DATA.H);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('class', 'plan-lbl');
+    function txt(x, y, s, cls, op, anchor) {
+      var e = document.createElementNS(NS, 'text');
+      e.setAttribute('x', x); e.setAttribute('y', y); e.setAttribute('class', cls);
+      e.setAttribute('dominant-baseline', 'central');
+      if (anchor) e.setAttribute('text-anchor', anchor);
+      if (op != null) e.setAttribute('fill-opacity', op);
+      e.textContent = s; return e;
+    }
+    var rows = [];
+    defs.forEach(function (l) {
+      if (l.row) {
+        var g = document.createElementNS(NS, 'g'), items = [];
+        l.row.forEach(function (it) {
+          var ig = document.createElementNS(NS, 'g'), w = 0, tx = null;
+          if (it.sep) {
+            var ln = document.createElementNS(NS, 'line');
+            ln.setAttribute('x1', 0); ln.setAttribute('x2', 0); ln.setAttribute('y1', -8); ln.setAttribute('y2', 8);
+            ln.setAttribute('stroke', l.sep || '#e8a400'); ln.setAttribute('stroke-width', 1.5); ig.appendChild(ln); w = 1.5;
+          } else {
+            tx = txt(0, 0, t(it.t, it.en || it.t, it.fr || it.t), l.cls || 'lbl-mono', it.op);
+            ig.appendChild(tx);
+          }
+          g.appendChild(ig); items.push({ g: ig, tx: tx, w: w });
+        });
+        svg.appendChild(g); rows.push({ items: items, cx: l.cx, cy: l.cy, gap: l.gap || 14 });
+      } else {
+        svg.appendChild(txt(l.x, l.y, t(l.t, l.en || l.t, l.fr || l.t), l.cls || 'lbl-title', l.op, l.anchor));
+      }
+    });
+    plan.appendChild(svg);
+    var tries = 0;
+    function layout() {
+      var zero = false;
+      rows.forEach(function (r) {
+        var total = 0;
+        r.items.forEach(function (it) { if (it.tx) { it.w = it.tx.getComputedTextLength(); if (!it.w) zero = true; } total += it.w; });
+        total += r.gap * (r.items.length - 1);
+        var x = r.cx - total / 2;
+        r.items.forEach(function (it) { it.g.setAttribute('transform', 'translate(' + x + ' ' + r.cy + ')'); x += it.w + r.gap; });
+      });
+      if (zero && tries++ < 20) setTimeout(layout, 150);
+    }
+    layout();
+    if (document.fonts) {
+      if (document.fonts.ready) document.fonts.ready.then(layout);
+      if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', layout);
+    }
+    window.addEventListener('load', layout);
+  })();
+
   /* ---------- POI-Layer (nur Besucherplan) ---------- */
   var POIG = {
     ways: { de: 'Ein- & Ausgänge', en: 'Entrances & exits', fr: 'Entrées & sorties', k: ['in', 'out', 'kasse', 'pass'] },
@@ -125,48 +186,39 @@
   var GATE = (function () {
     var KEY = 'mz27_price_email';
     function unlocked() { return MODE !== 'space' || !!localStorage.getItem(KEY); }
-    function requestAccess(email, extra) {
-      extra = extra || {};
-      var body = {
-        email: email,
-        firma: extra.firma || '',
-        consent: true,
-        marketing_consent: !!extra.marketing_consent,
-        stand_id: extra.stand_id || null,
-        hp: extra.hp || '',
-        quelle: { page: 'standflaechen', lang: (document.documentElement.lang || 'de'), ref: document.referrer || '', ts: new Date().toISOString() }
-      };
+    function requestAccess(email) {
+      /* LIVE-Backend (PR #5): Lead → mz_preis_interesse. NICHT wieder auf Mock (Promise.resolve) zuruecksetzen! */
+      var body = { email: email, consent: true, quelle: { page: 'standflaechen', lang: (document.documentElement.lang || 'de'), ref: document.referrer || '', ts: new Date().toISOString() } };
       return fetch('/api/price-access', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
       }).then(function (res) { return res.ok ? res.json() : { ok: false }; })
         .catch(function () { return { ok: false }; });
     }
-    function unlock(email, extra) {
-      return requestAccess(email, extra).then(function (r) {
-        if (r && r.ok) { try { localStorage.setItem(KEY, email); } catch (e) {} rerender(); }
+    function unlock(email) {
+      return requestAccess(email).then(function (r) {
+        if (r.ok) { try { localStorage.setItem(KEY, email); } catch (e) {} rerender(); }
         return r;
       });
     }
     var hooks = [];
     function onChange(fn) { hooks.push(fn); }
     function rerender() { hooks.forEach(function (f) { try { f(); } catch (e) {} }); }
-    /* Bestätigungslink-Variante: /standflaechen?priceok=1&email=… */
+    /* Bestätigungslink-Variante: /standflaechen?priceok=1&email=… · Test/QA: ?pricereset=1 sperrt wieder */
     try {
       var q = new URLSearchParams(location.search);
+      if (q.get('pricereset') === '1') localStorage.removeItem(KEY);
       if (q.get('priceok') === '1') localStorage.setItem(KEY, q.get('email') || 'bestaetigt');
     } catch (e) {}
     return { unlocked: unlocked, unlock: unlock, onChange: onChange, requestAccess: requestAccess };
   })();
   window.MZ_PRICE_GATE = GATE;
-  function gateHtml(id) {
-    return '<div class="plan-gate" data-stand="' + (id || '') + '">' +
-      '<div class="plan-gate-t">' + t('Preise sind nach Eingabe deiner E-Mail sichtbar.', 'Prices are visible after entering your email.', 'Les prix sont visibles après saisie de votre e-mail.') + '</div>' +
+  function gateHtml() {
+    /* Zustand «Preis gesperrt»: maskierter Preis + Schloss, E-Mail schaltet frei */
+    return '<div class="plan-price plan-price-locked" aria-hidden="true">CHF <span class="pl-mask">–’–––</span> <small>' + t('exkl. MwSt.', 'excl. VAT', 'hors TVA') + '</small></div>' +
+      '<div class="plan-gate">' +
+      '<div class="plan-gate-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>' + t('Preis & Standdetails nach Anmeldung', 'Price & booth details after sign-up', 'Prix & détails du stand après inscription') + '</span></div>' +
       '<input class="plan-gate-mail" type="email" autocomplete="email" placeholder="name@firma.ch" aria-label="E-Mail" />' +
-      '<input class="plan-gate-mail plan-gate-firma" type="text" autocomplete="organization" placeholder="' + t('Firma (optional)', 'Company (optional)', 'Entreprise (optionnel)') + '" aria-label="Firma" />' +
-      '<label class="plan-gate-mkt"><input type="checkbox" class="plan-gate-mktcb" /> ' + t('Infos &amp; Neuigkeiten per E-Mail (optional)', 'Updates by email (optional)', 'Infos par e-mail (optionnel)') + '</label>' +
-      '<input class="plan-gate-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />' +
       '<button type="button" class="plan-gate-btn">' + t('Preis anzeigen', 'Show price', 'Afficher le prix') + '</button>' +
-      '<div class="plan-gate-consent">' + t('Mit dem Absenden stimmst du der Bearbeitung deiner Angaben zur Kontaktaufnahme zu. ', 'By submitting you agree to your data being processed so we can contact you. ', 'En envoyant, tu acceptes le traitement de tes données pour te recontacter. ') + '<a href="/datenschutz" target="_blank" rel="noopener">' + t('Datenschutz', 'Privacy', 'Confidentialité') + '</a></div>' +
       '<div class="plan-gate-err" hidden>' + t('Bitte gültige E-Mail eingeben.', 'Please enter a valid email.', 'Veuillez saisir un e-mail valide.') + '</div></div>';
   }
   /* Gate-Klicks: in der Capture-Phase behandeln UND stoppen, damit der
@@ -179,18 +231,48 @@
     var em = (inp.value || '').trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { err.hidden = false; inp.focus(); return; }
     err.hidden = true; b.disabled = true;
-    var firmaEl = g.querySelector('.plan-gate-firma'), mktEl = g.querySelector('.plan-gate-mktcb'), hpEl = g.querySelector('.plan-gate-hp');
-    GATE.unlock(em, {
-      firma: firmaEl ? (firmaEl.value || '').trim() : '',
-      marketing_consent: mktEl ? !!mktEl.checked : false,
-      hp: hpEl ? (hpEl.value || '') : '',
-      stand_id: g.getAttribute('data-stand') || null
-    }).then(function (r) { if (!r || !r.ok) { b.disabled = false; err.hidden = false; } });
+    GATE.unlock(em);
+  }, true);
+
+  /* ---------- Stand-Karte (nur Verkaufsplan, freie Flächen) ----------
+     Leistungen + Ausbau-Hinweis je Zone aus DATA.zoneInfo, Anfrage mit Wunschfläche
+     + Kommentar → mailto (Aussteller-Anfragen bleiben bewusst per E-Mail). */
+  function standCardHtml(id, p) {
+    var ZI = DATA.zoneInfo || {}, Z = ZI[p.z] || ZI[(p.z === 'eg' || p.z === 'og') ? 'stage' : p.z];
+    if (!Z) return '';
+    var cur = p.m2 || null, sizes = (Z.sizes || []).slice();
+    if (cur && sizes.indexOf(cur) < 0) { sizes.push(cur); sizes.sort(function (a, b) { return a - b; }); }
+    var NG = t('auf Anfrage, keine Garantie', 'on request, no guarantee', 'sur demande, sans garantie');
+    var opts = sizes.map(function (s) {
+      var isCur = s === cur;
+      return '<option value="' + s + ' m²"' + (isCur ? ' selected' : '') + '>' + s + ' m² ' + (isCur ? t('(aktuell gewählt)', '(currently selected)', '(sélection actuelle)') : '– ' + NG) + '</option>';
+    }).join('') + '<option value="' + t('Andere Grösse / individuell', 'Other size / individual', 'Autre taille / individuel') + '">' + t('Andere Grösse / individuell', 'Other size / individual', 'Autre taille / individuel') + ' – ' + NG + '</option>';
+    var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+    var CROSS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+    var incl = (Z.incl || []).map(function (s) { return '<li>' + CHECK + s + '</li>'; }).join('') + (Z.excl || []).map(function (s) { return '<li class="no">' + CROSS + s + '</li>'; }).join('');
+    return (DATA.ausbau ? '<p class="sk-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>' + t('Standardausbau der Fläche mit unserem Partner: ca. ', 'Standard fit-out of the space with our partner: approx. ', 'Aménagement standard de la surface avec notre partenaire : env. ') + DATA.ausbau + ' ' + t('(Richtwert, unverbindlich, nicht im Standpreis enthalten)', '(guide value, non-binding, not included in the booth price)', '(valeur indicative, sans engagement, non comprise dans le prix)') + '</span></p>' : '') +
+      (incl ? '<div class="sk-incl"><div class="sk-t">' + t('Im Standpreis enthalten', 'Included in the booth price', 'Inclus dans le prix du stand') + '</div><ul>' + incl + '</ul></div>' : '') +
+      '<form class="sk-form" data-stand="' + id + '" data-zone="' + AREA[p.z] + '">' +
+        '<div class="sk-t">' + t('Anfrage für diesen Stand', 'Enquiry for this booth', 'Demande pour ce stand') + '</div>' +
+        '<label>' + t('Fläche wählen', 'Choose size', 'Choisir la surface') + '<select name="size">' + opts + '</select></label>' +
+        '<p class="sk-hint">' + t('Andere Flächen als die aktuell gewählte sind Wunschgrössen – abhängig von Verfügbarkeit, ohne Zusagegarantie.', 'Sizes other than the selected one are requests – subject to availability, without guarantee.', 'Les autres surfaces sont des souhaits – selon disponibilité, sans garantie.') + '</p>' +
+        '<label>' + t('Dein Kommentar – was genau wünschst du?', 'Your comment – what exactly do you need?', 'Ton commentaire – que souhaites-tu exactement ?') + '<textarea name="comment" rows="3" placeholder="' + (Z.ph || '') + '"></textarea></label>' +
+        '<button type="submit" class="sk-cta">' + t('Anfragen →', 'Enquire →', 'Demander →') + '</button>' +
+      '</form>';
+  }
+  document.addEventListener('click', function (ev) { if (ev.target.closest && ev.target.closest('.sk-form')) ev.stopPropagation(); }, true);
+  document.addEventListener('submit', function (ev) {
+    var f = ev.target.closest && ev.target.closest('.sk-form'); if (!f) return;
+    ev.preventDefault(); ev.stopPropagation();
+    var id = f.getAttribute('data-stand'), zone = f.getAttribute('data-zone');
+    var size = f.querySelector('select').value, c = (f.querySelector('textarea').value || '').trim();
+    var body = 'Stand ' + id + ' · ' + zone + '\n' + t('Gewünschte Fläche', 'Requested size', 'Surface souhaitée') + ': ' + size + (c ? '\n\n' + t('Kommentar', 'Comment', 'Commentaire') + ':\n' + c : '') + '\n\n—\n' + location.href;
+    window.location.href = 'mailto:yves@motozuerich.ch?subject=' + encodeURIComponent('Standanfrage MOTO-ZÜRICH 2027 – Stand ' + id) + '&body=' + encodeURIComponent(body);
   }, true);
 
   /* ---------- Metadaten pro Stand ---------- */
   function meta(id) {
-    var p = S[id], m = { id: id, area: AREA[p.z], col: COL[p.z], rows: '', priceHtml: '', info: '', links: null, logo: null, mail: false, st: p.st };
+    var p = S[id], m = { id: id, area: AREA[p.z], col: COL[p.z], rows: '', priceHtml: '', extra: '', info: '', links: null, logo: null, mail: false, st: p.st };
     var size = (p.m ? p.m + ' m' : null), m2 = p.m2 ? p.m2 + ' m²' : null;
     if (p.st === 'taken') {
       m.title = p.n; m.logo = p.lg || null;
@@ -207,11 +289,14 @@
     } else {
       m.title = MODE === 'space' ? t('Frei – verfügbar', 'Free – available', 'Libre – disponible') : t('Noch frei', 'Still available', 'Encore libre');
       if (MODE === 'space') {
-        m.rows = (size ? row(t('Masse', 'Dimensions', 'Dimensions'), size) : '') + (m2 ? row(t('Fläche', 'Area', 'Surface'), m2) : '');
-        m.priceHtml = !GATE.unlocked() ? gateHtml(id) : (p.p
+        /* Stand-Karte: Fläche gross, Masse klein; darunter Preis (Gate), Ausbau-Hinweis, Leistungen, Anfrage-Formular */
+        m.rows = (m2 ? '<div class="sk-fact"><span class="k">' + t('Fläche', 'Area', 'Surface') + '</span><span class="v">' + p.m2 + '<small>m²</small></span></div>' : '') + (size ? row(t('Masse', 'Dimensions', 'Dimensions'), size) : '');
+        m.priceHtml = !GATE.unlocked() ? gateHtml() : (p.p
           ? '<div class="plan-price">CHF ' + fmt(p.p) + ' <small>' + t('exkl. MwSt.', 'excl. VAT', 'hors TVA') + '</small></div>'
           : '<div class="plan-price" style="font-size:19px">' + t('Preis auf Anfrage', 'Price on request', 'Prix sur demande') + '</div>');
-        m.mail = true;
+        /* Stand-Karte (Leistungen + Anfrage) öffnet sich erst NACH dem Preis-Gate (E-Mail) */
+        m.extra = GATE.unlocked() ? standCardHtml(id, p) : '';
+        m.mail = GATE.unlocked() && !m.extra;
       } else {
         m.title = t('Wird noch vergeben', 'Coming soon', 'Bientôt attribué');
         m.col = '#8b96a2';
@@ -249,8 +334,9 @@
   function setLoc(stripeEl, locEl, m) {
     stripeEl.style.background = m.col;
     locEl.textContent = 'Stand ' + m.id + ' · ' + m.area;
-    locEl.style.background = m.col;
-    locEl.style.color = '#fff';
+    var yellow = m.col === 'var(--brand)' && !/^(eg|og)$/.test(S[m.id].z); /* nur Halle 550 gelb; StageOne bleibt blau */
+    locEl.style.background = yellow ? 'var(--action-yellow, #FAF143)' : m.col;
+    locEl.style.color = yellow ? '#141414' : '#fff';
   }
   function mailHref(id) {
     return 'mailto:yves@motozuerich.ch?subject=' + encodeURIComponent('Standanfrage MOTO-ZÜRICH 2027 – Stand ' + id);
@@ -280,7 +366,7 @@
     logoInto(el('d-logobox'), el('d-logo'), m.logo);
     el('d-name').textContent = m.title;
     setLoc(el('d-stripe'), el('d-loc'), m);
-    el('d-rows').innerHTML = m.rows + m.priceHtml;
+    el('d-rows').innerHTML = m.rows + m.priceHtml + m.extra;
     el('d-info').textContent = m.info || '';
     el('d-links').innerHTML = m.links ? linksHtml(m.links) : '';
     var cta = el('d-cta'); cta.style.display = m.mail ? 'block' : 'none';
@@ -299,7 +385,7 @@
     setLoc(el('c-stripe'), el('c-loc'), m);
     el('c-hint').textContent = m.info || '';
     var lh = m.links ? linksHtml(m.links) : '';
-    el('c-extra').innerHTML = m.rows + m.priceHtml + (lh ? '<div class="pd-links" style="margin-top:14px">' + lh + '</div>' : '');
+    el('c-extra').innerHTML = m.rows + m.priceHtml + m.extra + (lh ? '<div class="pd-links" style="margin-top:14px">' + lh + '</div>' : '');
     var cta = el('c-cta'); cta.style.display = m.mail ? 'block' : 'none';
     if (m.mail) el('c-mail').href = mailHref(id);
     var sh = el('c-show'); if (sh) { sh.hidden = false; sh.setAttribute('data-id', id); }
