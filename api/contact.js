@@ -59,19 +59,34 @@ module.exports = async (req, res) => {
     if (rk) {
       try {
         var subj = row.form_key === 'ask' ? 'Frage über motozuerich.ch' : ('Kundenanfrage – ' + (row.betreff || ''));
+        var F = "'Public Sans',-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif";
+        var O = "'Oswald','Arial Narrow',Arial,sans-serif";
         var rows = '';
-        var addRow = function (k, v) { if (v) rows += '<tr><td style="padding:3px 12px 3px 0;color:#666;vertical-align:top">' + esc(k) + '</td><td><b>' + esc(v) + '</b></td></tr>'; };
+        var addRow = function (k, v) { if (v) rows += '<tr>'
+          + '<td style="padding:9px 16px 9px 0;border-bottom:1px solid #ece8e0;color:#6f6b62;font-size:11px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;vertical-align:top">' + esc(k) + '</td>'
+          + '<td style="padding:9px 0;border-bottom:1px solid #ece8e0;font-size:14px;font-weight:600;color:#17181c">' + esc(v) + '</td></tr>'; };
         addRow('Betreff', row.betreff);
         addRow('Name', row.name);
         addRow('Firma', row.firma);
         addRow('E-Mail', row.email);
         addRow('Telefon', row.phone);
         if (details) Object.keys(details).forEach(function (k) { addRow(k, details[k]); });
-        var msg = row.nachricht ? '<p style="white-space:pre-wrap;margin:14px 0;font-size:14px">' + esc(row.nachricht) + '</p>' : '';
-        var html = '<div style="font-family:system-ui,Arial,sans-serif;color:#111">'
-          + '<h2 style="margin:0 0 10px;font-size:18px">' + esc(subj) + '</h2>'
-          + '<table style="border-collapse:collapse;font-size:14px">' + rows + '</table>' + msg
-          + '<p style="color:#999;font-size:12px;margin-top:16px">motozuerich.ch · Kundenanfrage-Formular</p></div>';
+        var msg = row.nachricht ? '<tr><td colspan="2" style="padding:18px 0 2px"><div style="border:1px solid #b9b3a6;border-left:4px solid #c8391f;background:#faf8f4;padding:14px 16px;font-size:14px;line-height:1.55;color:#17181c;white-space:pre-wrap">' + esc(row.nachricht) + '</div></td></tr>' : '';
+        var html = '<!doctype html><html><head><meta charset="utf-8"><meta name="color-scheme" content="light">'
+          + '<style>@import url(\'https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap\');</style></head>'
+          + '<body style="margin:0;background:#faf8f4;font-family:' + F + '">'
+          + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf8f4"><tr><td align="center" style="padding:26px 12px">'
+          + '<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="width:560px;max-width:560px;background:#ffffff;border:1px solid #dedad2">'
+          + '<tr><td style="padding:18px 28px;border-bottom:3px solid #17181c">'
+          +   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'
+          +     '<td style="font-family:' + O + ';font-weight:700;font-size:20px;letter-spacing:.02em;text-transform:uppercase;color:#17181c">MOTO<span style="color:#c8391f">—</span>ZÜRICH</td>'
+          +     '<td align="right" style="font-family:' + F + ';font-size:11px;color:#6f6b62;letter-spacing:.08em;text-transform:uppercase">Neue Anfrage</td>'
+          +   '</tr></table>'
+          + '</td></tr>'
+          + '<tr><td style="padding:24px 28px 6px"><div style="font-family:' + O + ';font-weight:600;font-size:22px;line-height:1.2;color:#17181c">' + esc(subj) + '</div></td></tr>'
+          + '<tr><td style="padding:10px 28px 20px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">' + rows + msg + '</table></td></tr>'
+          + '<tr><td style="padding:16px 28px 20px;border-top:1px solid #dedad2;background:#faf8f4"><div style="font-family:' + F + ';font-size:12px;color:#a6a196;line-height:1.5">Automatische Benachrichtigung · motozuerich.ch/kontakt · Antwort geht direkt an <b style="color:#8f2914">' + esc(row.email) + '</b></div></td></tr>'
+          + '</table></td></tr></table></body></html>';
         await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + rk, 'Content-Type': 'application/json' },
