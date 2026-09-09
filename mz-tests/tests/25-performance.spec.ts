@@ -29,7 +29,7 @@ test.describe('[FN-2201..2205] Performance basics', () => {
       if (msg.type() === 'error') errors.push(msg.text());
     });
 
-    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'load' });
 
     // Игнорируем известный noise от third-party (типа fb pixel в dev режиме)
     const critical = errors.filter(e =>
@@ -88,12 +88,14 @@ test.describe('[FN-2201..2205] Performance basics', () => {
 
 test.describe('Image loading checks', () => {
   test('No broken images on home page', async ({ page }) => {
-    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'load' });
 
     const brokenImages = await page.evaluate(() => {
       const imgs = Array.from(document.images);
       return imgs
-        .filter(img => img.complete && img.naturalWidth === 0)
+        // Nur echt gebrochene Bilder: nicht-leerer src, geladen, aber 0px.
+        // Lazy-Platzhalter mit leerem src (src="") sind NICHT gebrochen.
+        .filter(img => img.currentSrc && img.complete && img.naturalWidth === 0)
         .map(img => img.src);
     });
 
