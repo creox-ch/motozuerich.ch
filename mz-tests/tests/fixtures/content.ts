@@ -37,9 +37,9 @@ export const SOCIAL_URLS = {
   whatsapp:  'https://www.whatsapp.com/channel/0029VbAqa7tD38CIf5czGN2R',
   facebook:  'https://www.facebook.com/motozuerich',
   youtube:   'https://www.youtube.com/@motozuerich',
-  instagram: 'https://www.instagram.com/motozuerich/',
+  instagram: 'https://www.instagram.com/motozuerich',
   linkedin:  'https://www.linkedin.com/company/motozuerich',
-  tiktok:    'https://tiktok.me/motozuerich',
+  tiktok:    'https://www.tiktok.com/@motozuerich',
 } as const;
 
 /** Tracking IDs that must be re-implemented on new platform. */

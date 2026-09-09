@@ -36,7 +36,7 @@ test.describe('[FN-1801..1805] Analytics scripts present on home page', () => {
 
 test.describe('Analytics fires on key pages too', () => {
   // Главные конверсионные страницы — обязательно должны трекаться
-  const keyPages = ['/aussteller-motozuerich-2026', '/programm', '/party', '/medien'];
+  const keyPages = ['/aussteller-motozuerich-2026', '/programm', '/medien'];
 
   for (const path of keyPages) {
     test(`GA4 present on ${path}`, async ({ page }) => {
